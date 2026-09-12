@@ -1,0 +1,1684 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aula de Cálculo Diferencial · Edición enriquecida</title>
+<script>
+MathJax = {
+  tex: { inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+<style>
+:root{--ink:#203025;--paper:#f5fbf3;--panel:#fff;--purple:#8C368D;--purple-soft:#f6e9f6;--orange:#F59C00;--orange-soft:#fdf1da;--green:#3BAA34;--green-soft:#e9f6e7;--magenta:#CE027F;--magenta-soft:#fbe7f2;--line:#cfe4cf;--muted:#526457;--ok:#247a25;--bad:#b4235a}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);background:var(--paper);font:16px/1.55 Georgia,serif}
+header{padding:1.8rem max(1rem,calc((100% - 1180px)/2));background:linear-gradient(120deg,#e5f5e2,#f2faed);border-bottom:4px solid var(--green)}
+h1,h2,h3,button,select,nav{font-family:Trebuchet MS,Arial,sans-serif}
+h1{font-size:clamp(2rem,5vw,4rem);line-height:1.05;max-width:750px;margin:.2rem 0 1rem;color:var(--purple)}
+header p{max-width:720px;font-size:1.1rem}
+.signature{font:700 .9rem Trebuchet MS,Arial,sans-serif;color:var(--green);margin-top:1.2rem}
+.top-bar{display:flex;flex-wrap:wrap;align-items:center;gap:1rem 2rem;margin-top:1.2rem;padding:.8rem 1rem;background:rgba(255,255,255,.7);border-radius:8px;border:1px solid var(--line)}
+.top-bar label{display:flex;align-items:center;gap:.5rem;font-weight:600;font-family:Trebuchet MS,Arial,sans-serif;font-size:.95rem}
+.top-bar input{font:inherit;padding:.4rem .7rem;border:1px solid #9bc89a;border-radius:4px;min-width:180px}
+.top-bar .btn-report{background:var(--purple);color:#fff;border:0;border-radius:4px;padding:.5rem 1rem;cursor:pointer;font-weight:bold;font-family:Trebuchet MS,Arial,sans-serif;font-size:.9rem;margin-left:auto}
+.top-bar .btn-report:hover{background:#6e2b6e}
+.layout{max-width:1180px;margin:1.5rem auto;display:grid;grid-template-columns:260px 1fr;gap:1.5rem;padding:0 1rem}
+aside{position:sticky;top:1rem;align-self:start;background:var(--green);color:white;padding:1rem;border-radius:8px}
+aside h2{font-size:1rem;margin:.2rem 0 1rem}
+nav button{display:block;width:100%;text-align:left;background:transparent;color:#f4fff2;border:0;border-bottom:1px solid #8dc98a;padding:.65rem .4rem;cursor:pointer;font-size:.9rem;transition:.15s}
+nav button.active,nav button:hover{color:white;background:var(--purple)}
+nav button.locked{opacity:.6;cursor:not-allowed}nav button.locked::after{content:' 🔒';font-size:.8rem}
+nav button.unlocked::after{content:' 🔓';font-size:.8rem}
+main{min-width:0}.eyebrow{font:700 .78rem Trebuchet MS,Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--magenta)}
+.lesson-head{border-bottom:2px solid var(--green);padding-bottom:1rem}
+.lesson-head h2{font-size:2rem;margin:.2rem 0;color:var(--green)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin:1rem 0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:1rem}
+.card h3{margin-top:0;color:var(--green);font-size:1.1rem}
+.activity{border-left:5px solid var(--orange)}
+label{display:block;margin:.65rem 0}
+input,select,textarea{font:inherit;padding:.5rem;border:1px solid #9bc89a;border-radius:4px;max-width:100%}
+button.action{background:var(--orange);color:#382300;border:0;border-radius:4px;padding:.6rem .9rem;cursor:pointer;font-weight:bold}
+button.action:hover{background:#d88700}
+.feedback{font-weight:bold;margin-top:.7rem}.ok{color:var(--ok)}.bad{color:var(--bad)}
+table{border-collapse:collapse;width:100%;margin:.8rem 0;background:white}
+th,td{border:1px solid var(--line);padding:.45rem;text-align:center}
+th{background:#e5f5e2;color:var(--green)}
+.formula{background:#f2faed;padding:.7rem;font-family:monospace;overflow:auto}
+.notebook{background:#f4fbf1;border-left-color:var(--green)}
+.hidden{display:none}
+.progress{font:700 .9rem Trebuchet MS,Arial,sans-serif;color:#f4fff2;margin-top:1rem}
+footer{max-width:1180px;margin:2rem auto;padding:1rem;color:var(--muted);border-top:1px solid var(--line)}
+/* ===== NUEVOS COMPONENTES (estructura tipo Sesión 10, colores del aula) ===== */
+.hilo{background:#fff;border:1px dashed var(--green);border-left:6px solid var(--green);padding:.7rem 1rem;border-radius:8px;font-style:italic;margin:.7rem 0}
+.pills{display:flex;gap:.4rem;flex-wrap:wrap;margin:.5rem 0}
+.pill{font:700 .7rem Trebuchet MS,Arial,sans-serif;letter-spacing:.06em;text-transform:uppercase;padding:.28rem .7rem;border-radius:999px;border:1.5px solid}
+.pill.p{color:var(--purple);border-color:var(--purple);background:var(--purple-soft)}
+.pill.g{color:var(--ok);border-color:var(--green);background:var(--green-soft)}
+.pill.m{color:var(--magenta);border-color:var(--magenta);background:var(--magenta-soft)}
+.pill.o{color:#8a5a00;border-color:var(--orange);background:var(--orange-soft)}
+.subnav{display:flex;gap:.5rem;flex-wrap:wrap;margin:1.1rem 0 0}
+.subnav a{font:600 .9rem Trebuchet MS,Arial,sans-serif;padding:.45rem 1rem;border-radius:999px;border:1.5px solid var(--line);background:#fff;color:var(--ink);text-decoration:none}
+.subnav a:hover{border-color:var(--purple);background:var(--purple-soft)}
+.sec{border-top:1px solid var(--line);padding:1.4rem 0 .3rem;margin-top:1.2rem}
+.sec-no{font:700 1.35rem Trebuchet MS,Arial,sans-serif;color:var(--magenta)}
+.sec h3{color:var(--purple);font-size:1.35rem;margin:.2rem 0 .7rem}
+.sec p{max-width:74ch}
+.def{background:var(--green-soft);border:1px solid var(--green);border-left:6px solid var(--green);border-radius:0 8px 8px 0;padding:.85rem 1.1rem;margin:1rem 0;max-width:76ch}
+.def b.tagd{font:700 .72rem Trebuchet MS,Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--ok);display:block;margin-bottom:.25rem}
+.ex{background:var(--orange-soft);border:1px solid var(--orange);border-left:6px solid var(--orange);border-radius:0 8px 8px 0;padding:.85rem 1.1rem;margin:1rem 0;max-width:76ch}
+.ex b.tagd{font:700 .72rem Trebuchet MS,Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#8a5a00;display:block;margin-bottom:.25rem}
+.ggb{background:var(--purple-soft);border:1px dashed var(--purple);border-left:6px solid var(--purple);border-radius:0 8px 8px 0;padding:.75rem 1rem;margin:1rem 0;max-width:76ch}
+.demo{background:#fff;border:1px solid var(--line);border-left:6px solid var(--green);border-radius:0 8px 8px 0;padding:.7rem 1rem;margin:1rem 0;max-width:76ch}
+.dline{display:grid;grid-template-columns:2.1rem 1fr 13.5rem;gap:.6rem;align-items:baseline;padding:.35rem 0;border-bottom:1px dashed var(--line)}
+.dline:last-child{border-bottom:none}
+.dline .n{font:700 .95rem Trebuchet MS,Arial,sans-serif;color:var(--magenta);text-align:right}
+.dline .m{font-size:1.02rem}
+.dline .j{font:600 .7rem Trebuchet MS,Arial,sans-serif;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.dline.fin .n{border-bottom:2.5px solid var(--green)}
+.tag{display:inline-block;font:700 .66rem Trebuchet MS,Arial,sans-serif;letter-spacing:.06em;text-transform:uppercase;padding:.18rem .55rem;border-radius:999px;border:1px solid;margin-right:.3rem}
+.tag.g{color:var(--ok);border-color:var(--green);background:var(--green-soft)}
+.tag.o{color:#8a5a00;border-color:var(--orange);background:var(--orange-soft)}
+.tag.m{color:var(--magenta);border-color:var(--magenta);background:var(--magenta-soft)}
+.labex{border-top:1px solid var(--line);padding:1rem 0}
+.labex .q{font-weight:600}
+.qz-q{border-top:1px solid var(--line);padding:1rem 0}
+.qz-q .qt{font-weight:600;margin-bottom:.4rem}
+.qz-opt{display:block;width:100%;text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:8px;padding:.55rem .8rem;margin:.35rem 0;cursor:pointer;font:15px Georgia,serif;color:var(--ink);line-height:1.4}
+.qz-opt:hover{border-color:var(--purple)}
+.qz-opt.sel{border-color:var(--purple);background:var(--purple-soft)}
+.qz-opt.ok{border-color:var(--green);background:var(--green-soft)}
+.qz-opt.bad{border-color:var(--magenta);background:var(--magenta-soft)}
+.qz-opt.lock{cursor:default}
+.explain{margin:.5rem 0 0;font-size:.9rem;color:var(--muted);border-left:4px solid var(--orange);padding:.45rem .8rem;background:var(--orange-soft)}
+.qz-res{font:700 1.15rem Trebuchet MS,Arial,sans-serif;color:var(--green);margin-top:.8rem}
+.pill-flag{display:inline-flex;align-items:center;gap:.4rem;font:700 .74rem Trebuchet MS,Arial,sans-serif;color:#8a5a00;background:var(--orange-soft);border:1.5px solid var(--orange);border-radius:999px;padding:.3rem .8rem;margin:.4rem 0}
+.rub-row{display:grid;grid-template-columns:1fr 40% 4.2rem;gap:.8rem;align-items:center;border-top:1px solid var(--line);padding:.55rem .2rem}
+.rub-row .rn{font-weight:600;font-size:.95rem}
+.rub-bar{height:10px;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:#fff}
+.rub-bar>div{height:100%;background:var(--green)}
+.rub-pct{text-align:right;font:700 1rem Trebuchet MS,Arial,sans-serif;color:var(--purple)}
+.chip{display:inline-block;font:700 .7rem Trebuchet MS,Arial,sans-serif;color:var(--purple);background:#fff;border:1px solid var(--purple);border-radius:999px;padding:.15rem .6rem;margin:0 .3rem .3rem 0}
+.vidlist li{margin:.3rem 0}
+.chk{display:flex;align-items:flex-start;gap:.6rem;border:1.5px solid var(--line);border-radius:8px;background:#fff;padding:.55rem .8rem;margin:.4rem 0;cursor:pointer;font-size:.95rem}
+.chk:hover{border-color:var(--green)}
+.chk input{margin-top:.25rem;width:15px;height:15px;accent-color:var(--green)}
+.chk.done{background:var(--green-soft);border-color:var(--green)}
+.status-b{font:700 .7rem Trebuchet MS,Arial,sans-serif;border-radius:999px;padding:.2rem .6rem}
+.status-b.done{color:var(--ok);background:var(--green-soft);border:1px solid var(--green)}
+.status-b.pend{color:var(--muted);background:#fff;border:1px solid var(--line)}
+.res-row{display:grid;grid-template-columns:1fr auto auto auto 5rem;gap:.6rem;align-items:center;border-top:1px solid var(--line);padding:.55rem .2rem;font-size:.92rem}
+.res-row .st{justify-self:end}
+.res-row .pt{justify-self:end;font:700 .95rem Trebuchet MS,Arial,sans-serif;color:var(--purple)}
+.res-total{display:flex;justify-content:space-between;align-items:baseline;border-top:2px solid var(--green);padding-top:.8rem;margin-top:.4rem}
+.res-total strong{font:700 1.7rem Trebuchet MS,Arial,sans-serif;color:var(--green)}
+/* modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:999}
+.modal-box{background:white;border-radius:12px;padding:2rem;max-width:400px;width:90%;box-shadow:0 10px 40px rgba(0,0,0,.3)}
+.modal-box h3{margin-top:0;color:var(--purple)}
+.modal-box input{width:100%;padding:.7rem;margin:.8rem 0}
+.modal-box .btn-group{display:flex;gap:.5rem;justify-content:flex-end}
+.modal-box .btn-group button{padding:.5rem 1.2rem;border:0;border-radius:4px;cursor:pointer;font-weight:bold;font-family:Trebuchet MS,Arial,sans-serif}
+.modal-box .btn-group .btn-cancel{background:#e0e0e0;color:#333}
+.modal-box .btn-group .btn-unlock{background:var(--green);color:white}
+.modal-box .btn-unlock:hover{background:#2d8a2d}
+.modal-box .error-msg{color:var(--bad);font-weight:bold;margin-top:.5rem}
+/* reporte */
+.report-container{background:white;padding:2rem;border-radius:8px;border:2px solid var(--green);margin:1rem 0}
+.report-container h2{color:var(--purple);border-bottom:2px solid var(--green);padding-bottom:.5rem}
+.report-container .student-info{font-weight:bold;margin:.5rem 0 1.5rem}
+.report-container .report-item{border-bottom:1px solid var(--line);padding:.5rem 0;font-size:.93rem}
+.report-container .status-ok{color:var(--ok)}.report-container .status-bad{color:var(--bad)}
+.report-actions{display:flex;gap:1rem;margin:1rem 0;flex-wrap:wrap}
+.report-actions button{padding:.6rem 1.5rem;border:0;border-radius:4px;cursor:pointer;font-weight:bold;font-family:Trebuchet MS,Arial,sans-serif}
+.report-actions .btn-print{background:var(--green);color:white}
+.report-actions .btn-close{background:#e0e0e0;color:#333}
+@media(max-width:760px){.layout{display:block}aside{position:static;margin-bottom:1rem}.grid{grid-template-columns:1fr}.lesson-head h2{font-size:1.5rem}.top-bar{flex-direction:column;align-items:stretch}.top-bar .btn-report{margin-left:0}.dline{grid-template-columns:1.8rem 1fr}.dline .j{grid-column:2}.res-row{grid-template-columns:1fr auto}}
+@media print{.no-print{display:none!important}aside{display:none!important}.layout{display:block!important;padding:0!important;margin:0!important}.top-bar{display:none!important}body{background:white!important}header{padding:1rem!important}.card{border:1px solid #ccc!important;break-inside:avoid}.report-container{border:1px solid #ccc!important;padding:1rem!important}.modal-overlay{display:none!important}.subnav{display:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+    <div class="eyebrow">UNITI · LPID · 3er cuatrimestre</div>
+    <h1>Aula de Cálculo Diferencial</h1>
+    <p>Interpreta el cambio, modela fenómenos y optimiza recursos. Cada sesión integra teoría con demostraciones paso a paso, laboratorio interactivo, diagnóstico exprés y actividades de cierre, siguiendo la planeación SUBAC-01-26.</p>
+    <p class="signature">Diseñado para la clase por Dr. J. Adrián Cerda</p>
+    <div class="top-bar no-print">
+        <label>👤 Tu nombre: <input type="text" id="studentName" placeholder="Escribe tu nombre completo" style="min-width:200px;"></label>
+        <button class="btn-report" id="btnOpenReport">📄 Generar evidencia</button>
+    </div>
+</header>
+
+<div class="layout">
+    <aside class="no-print">
+        <h2>Ruta de aprendizaje</h2>
+        <nav id="nav"></nav>
+        <p class="progress" id="progress"></p>
+    </aside>
+    <main id="app"></main>
+</div>
+
+<footer>
+    Recurso local para clase. Las actividades no envían datos a internet. <strong>En cada sesión, escribe en tu cuaderno la actividad o actividades propuestas y la solución o soluciones de los ejercicios.</strong>
+    <br><br>
+    <span class="no-print" style="font-size:.9rem;color:var(--purple);">🔒 Las sesiones bloqueadas requieren la clave que el profesor proporciona en clase. Cada sesión incluye: Teoría · Laboratorio · Diagnóstico · Actividades.</span>
+</footer>
+
+<div id="passwordModal" class="modal-overlay" style="display:none;">
+    <div class="modal-box">
+        <h3>🔒 Sesión bloqueada</h3>
+        <p>Ingresa la clave proporcionada por el profesor para desbloquear esta sesión.</p>
+        <input type="password" id="passwordInput" placeholder="Clave de la sesión" autocomplete="off">
+        <div id="passwordError" class="error-msg" style="display:none;">Clave incorrecta. Intenta de nuevo.</div>
+        <div class="btn-group">
+            <button class="btn-cancel" onclick="closePasswordModal()">Cancelar</button>
+            <button class="btn-unlock" onclick="tryUnlock()">Desbloquear</button>
+        </div>
+    </div>
+</div>
+
+<div id="reportModal" class="modal-overlay" style="display:none;">
+    <div class="modal-box" style="max-width:760px;max-height:90vh;overflow-y:auto;">
+        <div id="reportContent"></div>
+        <div class="report-actions" style="margin-top:1rem;">
+            <button class="btn-print" onclick="window.print()">🖨️ Imprimir / PDF</button>
+            <button class="btn-print" style="background:var(--purple);" onclick="downloadPNG()">⬇️ Descargar PNG</button>
+            <button class="btn-close" onclick="closeReport()">Cerrar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ========================================================================
+//  CONFIGURACIÓN DEL PROFESOR — CLAVES POR SESIÓN
+// ========================================================================
+const SESSION_PASSWORDS = {'1':'clase1','2':'clase2','3':'clase3','4':'clase4','5':'clase5','6':'clase6','7':'clase7','8':'clase8','9':'clase9','10':'clase10','11':'clase11','12':'clase12'};
+const EXAM_LOCKED = false;
+
+// ========================================================================
+//  DATOS DE SESIONES (alineados a SUBAC-01-26)
+//  Cada sesión: teoría con recibo · laboratorio · diagnóstico · actividades
+// ========================================================================
+const SESSIONS = [
+
+{ id:'1', t:'Concepto de Función, Dominio y Rango',
+  met:'Aprendizaje Colaborativo · GeoGebra',
+  hilo:'Si a cada causa le corresponde un único efecto, ¿cómo convertimos esa idea en una regla precisa y a qué rostros toma esa regla cuando es lo más simple posible?',
+  exp:'Identifica dominio y rango de funciones elementales a partir de su gráfica o regla.',
+  saber:'Definición formal de función \\( f:A\\to B \\), prueba de la recta vertical, dominio y rango.',
+  vids:[['¿Qué es un acuífero?','que es un acuifero'],['Cómo graficar funciones en GeoGebra','como graficar funciones en geogebra online'],['Funciones desde cero','funciones desde cero']],
+  ggb:'Grafica \\( y=x^2 \\) y \\( x=y^2 \\) en la misma vista; traza líneas verticales con el comando Recta y verifica cuál pasa la prueba.',
+  theory:[
+    {n:'1.1', h:'Una función es una regla sin ambigüedad', b:`
+      <p>Cuando se extrae agua del acuífero de Aguascalientes, el nivel del pozo depende de cuánta agua salió: a cada causa le corresponde <em>un solo</em> efecto. Esa idea, dicha con precisión, es una función.</p>
+      <div class="def"><b class="tagd">Definición</b>Una <strong>función</strong> \\( f:A\\to B \\) asigna a <u>cada</u> elemento de \\( A \\) exactamente <u>un</u> elemento de \\( B \\). El conjunto \\( A \\) es el <strong>dominio</strong> (entradas válidas); el <strong>rango</strong> es el conjunto de salidas que efectivamente se alcanzan.</div>
+      <div class="ex"><b class="tagd">Ejemplo · acuífero</b>Si \\( x \\) son litros extraídos y \\( N(x) \\) el nivel resultante, cada valor de \\( x \\) produce <em>un único</em> nivel: la relación es función. En cambio, si a una misma extracción pudieran corresponder dos niveles distintos (por lluvia reciente, por bombeo simultáneo), la relación dejaría de ser función.</div>`},
+    {n:'1.2', h:'Dominio: qué puede entrar', b:`
+      <p>El dominio se lee de la regla: basta preguntar <em>¿qué valores rompen la fórmula?</em> Dos sospechosos clásicos: dividir entre cero y raíces pares de negativos.</p>
+      <div class="ex"><b class="tagd">Ejemplos con recibo</b>
+      <div class="demo">
+        <div class="dline"><span class="n">1.</span><span class="m">\\( f(x)=\\dfrac{1}{x-2} \\)</span><span class="j">regla dada</span></div>
+        <div class="dline"><span class="n">2.</span><span class="m">Exigir \\( x-2\\neq 0 \\)</span><span class="j">el denominador no puede ser 0</span></div>
+        <div class="dline fin"><span class="n">3.</span><span class="m">Dominio: \\( \\mathbb{R}\\setminus\\{2\\} \\)</span><span class="j">conclusión</span></div>
+      </div>
+      <div class="demo">
+        <div class="dline"><span class="n">1.</span><span class="m">\\( g(x)=\\sqrt{x-3} \\)</span><span class="j">regla dada</span></div>
+        <div class="dline"><span class="n">2.</span><span class="m">Exigir \\( x-3\\ge 0 \\)</span><span class="j">raíz par de negativo no existe en \\( \\mathbb{R} \\)</span></div>
+        <div class="dline fin"><span class="n">3.</span><span class="m">Dominio: \\( [3,\\infty) \\)</span><span class="j">conclusión</span></div>
+      </div></div>`},
+    {n:'1.3', h:'La prueba de la recta vertical', b:`
+      <p>Una gráfica es función si <strong>toda línea vertical la corta a lo más una vez</strong>. Si una vertical toca dos puntos, significa que una misma entrada tiene dos salidas — y eso está prohibido por la definición.</p>
+      <div class="ex"><b class="tagd">Confronte</b>\\( y=x^2 \\) <em>sí</em> es función: cualquier vertical la corta una vez. \\( x=y^2 \\) <em>no</em> lo es: la vertical \\( x=4 \\) corta en \\( y=2 \\) y en \\( y=-2 \\). Misma parábola, distinta orientación — y exactamente la diferencia entre regla y no-regla.</div>`}
+  ],
+  lab:[
+    {q:'La relación entre litros extraídos de un acuífero y el nivel del agua, ¿cumple la definición de función?',
+     o:['Sí: a cada extracción le corresponde un único nivel','No: el nivel puede variar por otros factores','Solo si la extracción es constante'], a:0,
+     w:'La definición exige que a cada entrada (extracción) corresponda una única salida (nivel). Que el nivel cambie con el tiempo por otras causas corresponde a otra variable, no rompe la correspondencia.'},
+    {q:'El dominio de \\( f(x)=\\dfrac{1}{x-2} \\) es:',
+     o:['\\( \\mathbb{R}\\setminus\\{2\\} \\)','\\( \\mathbb{R} \\)','\\( \\mathbb{R}\\setminus\\{0\\} \\)'], a:0,
+     w:'Solo \\( x=2 \\) anula el denominador. El cero del denominador es la única exclusión; por eso \\( 0 \\) sí pertenece al dominio.'},
+    {q:'¿Cuál de estas relaciones NO es función?',
+     o:['\\( y=x^2 \\)','\\( x=y^2 \\)','\\( y=2x+1 \\)'], a:1,
+     w:'En \\( x=y^2 \\), la entrada \\( x=4 \\) produce \\( y=2 \\) y \\( y=-2 \\): dos salidas, falla la prueba de la recta vertical.'}
+  ],
+  quiz:[
+    {q:'Una función es una relación donde…', o:['cada entrada tiene una única salida','cada salida tiene una única entrada','cualquier correspondencia entre dos conjuntos vale'], a:0,
+     e:'La condición es sobre las entradas: cada una con exactamente una salida. Lo contrario (cada salida una entrada) describe funciones uno-a-uno, un caso especial.'},
+    {q:'El dominio de \\( f(x)=\\sqrt{x} \\) es:', o:['\\( [0,\\infty) \\)','\\( (-\\infty,\\infty) \\)','\\( (0,\\infty) \\)'], a:0,
+     e:'La raíz cuadrada admite el cero (\\( \\sqrt{0}=0 \\)) pero no negativos: dominio \\( [0,\\infty) \\), con corchete en 0.'},
+    {q:'\\( f(x)=2x+3 \\) es una función…', o:['lineal','cuadrática','exponencial'], a:0,
+     e:'La variable está a la primera potencia con razón constante: lineal, de la forma \\( y=mx+b \\) con \\( m=2,\\; b=3 \\).'},
+    {q:'En GeoGebra, para verificar si una gráfica es función trazas…', o:['líneas verticales y cuentas intersecciones','líneas horizontales','círculos cada vez más grandes'], a:0,
+     e:'La prueba de la recta vertical: si alguna vertical corta dos veces, una entrada tiene dos salidas y no es función.'}
+  ],
+  ticket:{ ctx:'El bombeo del pozo se modela con \\( h(x)=\\dfrac{1}{\\sqrt{x-3}} \\), con \\( x \\) en metros de profundidad. Determina su dominio en tres pasos.',
+    steps:[
+      ['¿Qué exige la raíz cuadrada?',['\\( x-3\\ge 0 \\)','\\( x-3\\neq 0 \\)','\\( x>0 \\)'],0],
+      ['¿Qué exige además el denominador?',['\\( x-3\\neq 0 \\), es decir \\( x\\neq 3 \\)','\\( x>3 \\) es irrelevante','Ninguna condición extra'],0],
+      ['Dominio final de \\( h \\):',['\\( (3,\\infty) \\)','\\( [3,\\infty) \\)','\\( \\mathbb{R}\\setminus\\{3\\} \\)'],0]
+    ],
+    phrase:'En una frase: ¿por qué el 3 queda fuera del dominio?' },
+  taller:['Define función, dominio y rango con sus palabras y un ejemplo del acuífero local.','Construya en equipo una tabla de valores de una función lineal y determine su dominio y rango (plumada, en el cuaderno).','Encuentren una situación de su comunidad que SÍ sea función y otra que NO; justifiquen con la prueba de la recta vertical.'],
+  rub:[['Laboratorio (3 ejercicios)',40],['Diagnóstico exprés',20],['Ticket de tres pasos',20],['Taller y cuaderno (Hacer/Ser)',20]],
+  inst:'Lista de cotejo (definición y clasificación de funciones)'
+},
+
+{ id:'2', t:'Funciones Lineales, Polinomiales y Operaciones',
+  met:'Aprendizaje Basado en Problemas (ABPr) · GeoGebra',
+  hilo:'¿Qué sucede cuando combinamos dos reglas de dependencia en una sola, y cómo modelamos con ellas las relaciones más simples de nuestro entorno?',
+  exp:'Calcula la suma y composición de funciones y determina el dominio resultante.',
+  saber:'Forma \\( y=mx+b \\), pendiente como tasa de cambio; polinomios; suma, producto y composición de funciones.',
+  vids:[['Operaciones con funciones usando GeoGebra','operaciones con funciones usando geogebra']],
+  ggb:'Grafica \\( f(x)=150+2x \\); desliza la pendiente y la ordenada al origen con dos deslizadores y describe el efecto de cada uno.',
+  theory:[
+    {n:'2.1', h:'La lineal: la regla de la tarifa', b:`
+      <p>Todo servicio con cargo fijo más costo por unidad es una recta. La <strong>pendiente</strong> \\( m \\) es la tasa de cambio: cuánto sube la salida por cada unidad de entrada.</p>
+      <div class="def"><b class="tagd">Definición</b>Una función <strong>lineal</strong> tiene la forma \\( f(x)=mx+b \\): \\( m \\) es la pendiente (cambio por unidad) y \\( b \\) la ordenada al origen (valor inicial).</div>
+      <div class="ex"><b class="tagd">Ejemplo · plan de datos</b>\\( C(x)=150+2x \\): el cargo fijo es \\( 150 \\) pesos y cada GB adicional cuesta \\( 2 \\). La pendiente \\( m=2 \\) responde la pregunta operativa: <em>¿cuánto más pago si consumo uno más?</em></div>`},
+    {n:'2.2', h:'Polinomios: potencias encadenadas', b:`
+      <p>Un polinomio suma términos \\( a_nx^n \\). Cada término puede representar un comportamiento distinto del fenómeno: crecimiento, desgaste, ajuste.</p>
+      <div class="ex"><b class="tagd">Ejemplo · depreciación</b>El valor de un equipo de cómputo: \\( V(t)=12000-800t \\) pesos, con \\( t \\) en años. Es lineal, pero si el desgaste acelera: \\( V(t)=12000-800t+50t^2 \\). Evaluamos \\( V(4)=12000-3200+800=9600 \\): cada término aporta su parte.</div>`},
+    {n:'2.3', h:'Combinar funciones: suma y composición', b:`
+      <div class="def"><b class="tagd">Definición</b>\\( (f+g)(x)=f(x)+g(x) \\) — se evalúan ambas y se suman. La <strong>composición</strong> \\( (f\\circ g)(x)=f(g(x)) \\) aplica primero \\( g \\) y luego \\( f \\): la salida de una entra a la otra. El dominio de \\( f\\circ g \\) son los \\( x \\) del dominio de \\( g \\) tales que \\( g(x) \\) pertenezca al dominio de \\( f \\).</div>
+      <div class="ex"><b class="tagd">Demostración con recibo</b>
+      <div class="demo">
+        <div class="dline"><span class="n">1.</span><span class="m">\\( f(x)=x+1,\\quad g(x)=x^2 \\)</span><span class="j">datos</span></div>
+        <div class="dline"><span class="n">2.</span><span class="m">\\( (f\\circ g)(x)=f\\big(g(x)\\big)=x^2+1 \\)</span><span class="j">sustituir \\( g \\) en \\( f \\)</span></div>
+        <div class="dline fin"><span class="n">3.</span><span class="m">\\( (g\\circ f)(x)=g\\big(f(x)\\big)=(x+1)^2 \\)</span><span class="j">sustituir \\( f \\) en \\( g \\)</span></div>
+      </div>
+      Obsérvese: \\( x^2+1\\neq(x+1)^2 \\). <strong>El orden de la composición importa</strong> — a diferencia de la suma.</div>`}
+  ],
+  lab:[
+    {q:'En \\( C(x)=150+2x \\) (plan de datos), ¿qué representa la pendiente?',
+     o:['El costo fijo mensual','El costo por GB adicional','El número de GB consumidos'], a:1,
+     w:'La pendiente mide el cambio de C por unidad de x: aquí, 2 pesos por cada GB extra. El costo fijo es la ordenada \\( b=150 \\).'},
+    {q:'Si \\( f(x)=2x+1 \\) y \\( g(x)=x-3 \\), entonces \\( (f+g)(x)= \\)',
+     o:['\\( 3x-2 \\)','\\( 2x-5 \\)','\\( 3x-4 \\)'], a:0,
+     w:'\\( (2x+1)+(x-3)=3x-2 \\): se suman coeficientes de \\( x \\) por un lado y constantes por otro.'},
+    {q:'Con \\( f(x)=x^2 \\) y \\( g(x)=x+1 \\), la composición \\( f(g(x)) \\) es:',
+     o:['\\( (x+1)^2 \\)','\\( x^2+1 \\)','\\( x^2+x \\)'], a:0,
+     w:'Primero actúa \\( g \\): \\( x\\mapsto x+1 \\); luego \\( f \\) eleva al cuadrado: \\( (x+1)^2 \\).'}
+  ],
+  quiz:[
+    {q:'La pendiente de una recta indica:', o:['La inclinación / tasa de cambio por unidad','La intersección con el eje y','El dominio de la función'], a:0,
+     e:'\\( m=\\dfrac{\\Delta y}{\\Delta x} \\): cuánto cambia la salida por cada unidad de entrada. La intersección es \\( b \\).'},
+    {q:'\\( (f\\circ g)(x) \\) significa:', o:['Aplicar primero \\( g \\) y a su resultado aplicarle \\( f \\)','Aplicar primero \\( f \\) y luego \\( g \\)','Multiplicar \\( f\\cdot g \\)'], a:0,
+     e:'\\( (f\\circ g)(x)=f(g(x)) \\): la salida de \\( g \\) es la entrada de \\( f \\). Se lee «f compuesta de g».'},
+    {q:'El dominio de \\( f+g \\) es:', o:['La intersección de los dominios de \\( f \\) y \\( g \\)','La unión de ambos dominios','Siempre \\( \\mathbb{R} \\)'], a:0,
+     e:'Para evaluar la suma se necesita que AMBAS fórmulas existan en \\( x \\): por eso intersección.'},
+    {q:'La función \\( y=-0.5x+10 \\) es:', o:['Decreciente: por cada unidad de x, y baja 0.5','Creciente con pendiente suave','Constante'], a:0,
+     e:'Pendiente negativa ⇒ al crecer \\( x \\), \\( y \\) disminuye. Aquí \\( |m|=0.5 \\) unidades de \\( y \\) por unidad de \\( x \\).'}
+  ],
+  ticket:{ ctx:'Un producto cuesta \\( p(x)=8x \\) pesos por \\( x \\) unidades y el IVA agrega un 16%. Modela el costo total con impuesto en tres pasos.',
+    steps:[
+      ['Costo antes de impuestos:',['\\( p(x)=8x \\)','\\( p(x)=8+x \\)','\\( p(x)=1.16x \\)'],0],
+      ['Componer con el factor del IVA:',['\\( T(x)=1.16\\cdot p(x) \\)','\\( T(x)=p(x)+16 \\)','\\( T(x)=16p(x) \\)'],0],
+      ['Forma final y pendiente:',['\\( T(x)=9.28x \\): cada unidad cuesta \\$9.28 con impuesto','\\( T(x)=8x+1.16 \\)','\\( T(x)=24x \\)'],0]
+    ],
+    phrase:'¿Qué representa la pendiente 9.28 en el contexto de la venta?' },
+  taller:['Definan suma y composición de funciones con un ejemplo propio cada una.','Dados \\( f(x)=3x-2 \\) y \\( g(x)=x^2 \\), calculen \\( f+g \\), \\( f\\circ g \\) y \\( g\\circ f \\), indicando el dominio resultante.','Modeleen el costo total de un producto de su comunidad con impuesto usando composición; expliquen qué representa la pendiente.'],
+  rub:[['Laboratorio (3 ejercicios)',40],['Diagnóstico exprés',20],['Ticket de tres pasos',20],['Taller y cuaderno (Hacer/Ser)',20]],
+  inst:'Rúbrica de coevaluación (operaciones y modelación lineal)'
+},
+
+{ id:'3', t:'Funciones Exponenciales y Logarítmicas',
+  met:'Aprendizaje Colaborativo · calculadora científica',
+  hilo:'¿Cómo modelamos el crecimiento que se multiplica a sí mismo y cómo revertimos matemáticamente ese proceso para tomar decisiones informadas?',
+  exp:'Modela fenómenos de crecimiento o decrecimiento acelerado y resuelve ecuaciones exponenciales.',
+  saber:'\\( f(x)=a^x \\) y sus propiedades; el logaritmo como inversa; propiedades de logaritmos; despeje del tiempo.',
+  vids:[['Crecimiento logístico y exponencial','crecimiento logistico y exponencial'],['Tasa de crecimiento logarítmico','tasa de crecimiento logaritmico']],
+  ggb:'Grafica \\( 2^x \\) y \\( \\log_2 x \\) sobre los mismos ejes: la simetría respecto a la recta \\( y=x \\) evidencia que son inversas.',
+  theory:[
+    {n:'3.1', h:'Exponencial: crecer multiplicándose', b:`
+      <p>En una lineal se suma lo mismo cada paso; en una exponencial se <strong>multiplica</strong> por la base. Esa diferencia, pequeña al inicio, se vuelve abismal con el tiempo.</p>
+      <div class="def"><b class="tagd">Definición</b>\\( f(x)=a^x \\) con \\( a>0,\\; a\\neq 1 \\): la variable está en el <em>exponente</em>. Con \\( a>1 \\) crece; con \\( 0<a<1 \\) decrece.</div>
+      <div class="ex"><b class="tagd">Ejemplo · ahorro</b>\\( \\$1000 \\) al 5% anual compuesto: \\( A(t)=1000(1.05)^t \\). En \\( t=10 \\): \\( A(10)=1000(1.05)^{10}\\approx 1628.89 \\). En \\( t=40 \\): \\( \\approx 7040 \\) — el interés genera interés.</div>`},
+    {n:'3.2', h:'El logaritmo: la operación que «revierte»', b:`
+      <div class="def"><b class="tagd">Definición</b>\\( \\log_a N=x \\iff a^x=N \\). El logaritmo responde: <em>¿a qué exponente debo elevar \\( a \\) para obtener \\( N \\)?</em> Propiedades: \\( \\log(ab)=\\log a+\\log b \\), \\( \\log a^n=n\\log a \\).</div>
+      <div class="ex"><b class="tagd">Ejemplo</b>\\( \\log_2 8=3 \\) porque \\( 2^3=8 \\). \\( \\log_2 32=5 \\) porque \\( 2^5=32 \\). La calculadora da \\( \\ln \\) (base \\( e \\)) y \\( \\log \\) (base 10); para otra base: \\( \\log_a N=\\ln N/\\ln a \\).</div>`},
+    {n:'3.3', h:'Despejar el tiempo: el uso decisivo', b:`
+      <div class="ex"><b class="tagd">Demostración con recibo · ¿cuándo se duplica al 5%?</b>
+      <div class="demo">
+        <div class="dline"><span class="n">1.</span><span class="m">\\( 1000(1.05)^t=2000 \\)</span><span class="j">meta: duplicar</span></div>
+        <div class="dline"><span class="n">2.</span><span class="m">\\( (1.05)^t=2 \\)</span><span class="j">dividir entre 1000</span></div>
+        <div class="dline"><span class="n">3.</span><span class="m">\\( t\\,\\ln 1.05=\\ln 2 \\)</span><span class="j">aplicar \\( \\ln \\) y propiedad de potencias</span></div>
+        <div class="dline fin"><span class="n">4.</span><span class="m">\\( t=\\dfrac{\\ln 2}{\\ln 1.05}\\approx 14.2 \\) años</span><span class="j">despejar \\( t \\)</span></div>
+      </div>
+      Sin logaritmos, la incógnita atrapada en el exponente sería inalcanzable con álgebra elemental.</div>`}
+  ],
+  lab:[
+    {q:'\\( 2^0 = \\)', o:['\\( 1 \\)','\\( 0 \\)','\\( 2 \\)'], a:0,
+     w:'Toda base positiva elevada a 0 vale 1: es el punto de partida de la gráfica exponencial.'},
+    {q:'\\( \\log_2 8 = \\)', o:['\\( 3 \\)','\\( 4 \\)','\\( 2 \\)'], a:0,
+     w:'\\( 2^3=8 \\), por definición de logaritmo la respuesta es 3.'},
+    {q:'Con interés del 5% anual, ¿en cuánto tiempo se duplica un capital?',
+     o:['≈ 14 años','≈ 7 años','≈ 20 años'], a:0,
+     w:'\\( t=\\ln 2/\\ln 1.05\\approx 14.2 \\). Verifícalo: \\( (1.05)^{14}\\approx 1.98 \\), casi el doble.'}
+  ],
+  quiz:[
+    {q:'Lo que distingue a una exponencial de una polinomial es que…', o:['la variable está en el exponente: crece multiplicándose','crece sumando un término fijo','tiene asíntotas verticales'], a:0,
+     e:'En \\( a^x \\) cada paso multiplica por \\( a \\); en un polinomio, las potencias crecen pero el argumento del cambio es la suma de términos.'},
+    {q:'La inversa de \\( f(x)=e^x \\) es:', o:['\\( \\ln(x) \\)','\\( \\log_{10}(x) \\)','\\( \\sqrt{x} \\)'], a:0,
+     e:'\\( \\ln \\) es logaritmo base \\( e \\): \\( \\ln(e^x)=x \\) y \\( e^{\\ln x}=x \\).'},
+    {q:'\\( \\log(ab) \\) equivale a:', o:['\\( \\log a+\\log b \\)','\\( \\log a\\cdot\\log b \\)','\\( \\log a-\\log b \\)'], a:0,
+     e:'El logaritmo convierte multiplicaciones en sumas: por eso «linealiza» cálculos con órdenes de magnitud grandes.'},
+    {q:'Si \\( 2^t=10 \\), entonces \\( t= \\)', o:['\\( \\dfrac{\\ln 10}{\\ln 2} \\)','\\( 10/2 \\)','\\( \\ln 10\\cdot\\ln 2 \\)'], a:0,
+     e:'Aplicando \\( \\ln \\) y la propiedad \\( \\ln 2^t=t\\ln 2 \\), se despeja \\( t=\\ln 10/\\ln 2\\approx 3.32 \\).'}
+  ],
+  ticket:{ ctx:'Alerta comunitaria: cada persona que recibe el mensaje lo reenvía a 3 personas por hora. Si empieza con 1 mensaje, \\( N(t)=3^t \\) mensajes después de \\( t \\) horas.',
+    steps:[
+      ['Modelo correcto del conteo:',['\\( N(t)=3^t \\)','\\( N(t)=t^3 \\)','\\( N(t)=3t \\)'],0],
+      ['¿En cuánto tiempo \\( N=81 \\)?',['\\( t=\\log_3 81=4 \\) horas','\\( t=81/3=27 \\) horas','\\( t=3^4=81 \\) horas'],0],
+      ['Si inicia con 5 mensajes, el modelo es:',['\\( N(t)=5\\cdot 3^t \\)','\\( N(t)=15^t \\)','\\( N(t)=3\\cdot 5^t \\)'],0]
+    ],
+    phrase:'¿Por qué el logaritmo es la herramienta correcta para responder «¿cuándo?» en este fenómeno?' },
+  taller:['Definan función exponencial y logarítmica, y enuncien tres propiedades de los logaritmos.','Construyan una tabla de \\( 2^x \\) y \\( \\log_2 x \\) para \\( x=1..8 \\) y describan la relación inversa.','Calculen el tiempo de duplicación de una inversión real (tasa que conozcan) y expliquen el papel del logaritmo en la decisión.'],
+  rub:[['Laboratorio (3 ejercicios)',40],['Diagnóstico exprés',20],['Ticket de tres pasos',20],['Taller y cuaderno (Hacer/Ser)',20]],
+  inst:'Lista de cotejo (modelado exponencial y logarítmico)'
+},
+
+{ id:'4', t:'Funciones Trigonométricas: Razones, Ángulos y Gráficas',
+  met:'Aprendizaje Colaborativo + GeoGebra',
+  hilo:'¿Cómo describimos con precisión la inclinación de lo que se apoya en un ángulo y la forma de lo que gira o se repite cíclicamente en nuestro entorno?',
+  exp:'Identifica amplitud, periodo y desfase en funciones trigonométricas.',
+  saber:'Razones \\( \\sen,\\cos,\\tan \\); gráficas senoidales; amplitud, periodo \\( 2\\pi/b \\) y desfase.',
+  vids:[['Funciones trigonométricas','funciones trigonometricas 1']],
+  ggb:'Grafica \\( a\\sen(bx+c) \\) con deslizadores para \\( a,b,c \\): conecta cada parámetro con amplitud, periodo y desfase.',
+  theory:[
+    {n:'4.1', h:'Las razones: triángulos que miden el mundo', b:`
+      <div class="def"><b class="tagd">Definición</b>En un triángulo rectángulo con ángulo \\( \\theta \\): \\( \\sen\\theta=\\dfrac{opuesto}{hipotenusa} \\), \\( \\cos\\theta=\\dfrac{adyacente}{hipotenusa} \\), \\( \\tan\\theta=\\dfrac{opuesto}{adyacente} \\).</div>
+      <div class="ex"><b class="tagd">Ejemplo · panel solar</b>Para fijar el ángulo de elevación del sol sobre un panel, se mide la altura \\( h \\) de la sombra y la longitud \\( L \\): \\( \\tan\\theta=h/L \\). La razón convierte dos longitudes medibles en un ángulo — sin medir el ángulo directamente.</div>`},
+    {n:'4.2', h:'Amplitud y periodo: el ritmo de la gráfica', b:`
+      <div class="def"><b class="tagd">Definición</b>Para \\( f(x)=a\\sen(bx+c)+d \\): la <strong>amplitud</strong> es \\( |a| \\), el <strong>periodo</strong> es \\( 2\\pi/|b| \\), el <strong>desfase</strong> es \\( -c/b \\) y \\( d \\) sube o baja la curva completa.</div>
+      <div class="ex"><b class="tagd">Ejemplos</b>\\( \\sen(2x) \\): periodo \\( 2\\pi/2=\\pi \\) — oscila el doble de rápido. \\( \\cos(3x) \\): periodo \\( 2\\pi/3 \\). \\( 5\\sen(x) \\): amplitud 5. En general, \\( b \\) comprime horizontalmente y \\( a \\) estira verticalmente.</div>`},
+    {n:'4.3', h:'Modelar la temperatura anual', b:`
+      <div class="ex"><b class="tagd">Demostración con recibo</b>
+      <div class="demo">
+        <div class="dline"><span class="n">1.</span><span class="m">\\( T(t)=20+10\\sen\\!\\left(\\dfrac{2\\pi}{365}t\\right) \\)</span><span class="j">modelo en °C, \\( t \\) en días</span></div>
+        <div class="dline"><span class="n">2.</span><span class="m">Media \\( =20 \\), amplitud \\( =10 \\)</span><span class="j">identificar \\( d \\) y \\( a \\)</span></div>
+        <div class="dline"><span class="n">3.</span><span class="m">Periodo \\( =2\\pi/(2\\pi/365)=365 \\)</span><span class="j">ciclo completo anual</span></div>
+        <div class="dline fin"><span class="n">4.</span><span class="m">\\( T(91)=20+10\\sen(\\pi/2)=30 \\)</span><span class="j">evaluar al día 91</span></div>
+      </div>
+      El modelo predice un máximo de 30 °C cerca del día 91 — coherente con un fenómeno estacional que se repite cada 365 días.</div>`}
+  ],
+  lab:[
+    {q:'\\( \\sen(\\pi/2) = \\)', o:['\\( 1 \\)','\\( 0 \\)','\\( -1 \\)'], a:0,
+     w:'\\( \\pi/2 \\) rad = 90°: el seno alcanza su máximo, 1. Es el punto más alto de la curva.'},
+    {q:'El periodo de \\( \\cos(3x) \\) es:', o:['\\( 2\\pi/3 \\)','\\( 2\\pi \\)','\\( \\pi/3 \\)'], a:0,
+     w:'Periodo \\( =2\\pi/b \\) con \\( b=3 \\): \\( 2\\pi/3 \\). La curva completa 3 ciclos en \\( [0,2\\pi] \\).'},
+    {q:'En \\( T(t)=20+10\\sen\\left(\\frac{2\\pi}{365}t\\right) \\), la amplitud es:',
+     o:['10 (rango aproximado 10 a 30 °C)','20','365'], a:0,
+     w:'La amplitud es el coeficiente \\( a=10 \\): la temperatura oscila 10 °C alrededor de la media 20.'}
+  ],
+  quiz:[
+    {q:'En un triángulo rectángulo, \\( \\sen\\theta = \\)', o:['cateto opuesto / hipotenusa','cateto adyacente / hipotenusa','cateto opuesto / cateto adyacente'], a:0,
+     e:'SOH-CAH-TOA: Seno=Op/Hip, Coseno=Ady/Hip, Tangente=Op/Ady.'},
+    {q:'El periodo de \\( \\sen x \\) es:', o:['\\( 2\\pi \\)','\\( \\pi \\)','\\( 1 \\)'], a:0,
+     e:'El seno tarda \\( 2\\pi \\) rad en repetirse: un ciclo completo de la rueda.'},
+    {q:'La temperatura promedio a lo largo del año se modela mejor con una función:', o:['periódica','lineal','exponencial'], a:0,
+     e:'El fenómeno se repite cíclicamente cada año: las trigonométricas son las funciones de lo periódico.'},
+    {q:'En \\( T(t)=15+8\\sen\\left(\\frac{2\\pi}{12}t\\right) \\) con \\( t \\) en meses, el periodo es:', o:['12 meses','\\( 2\\pi \\) meses','8 meses'], a:0,
+     e:'\\( 2\\pi/b=2\\pi/(2\\pi/12)=12 \\): el ciclo tarda un año completo, coherente con el contexto.'}
+  ],
+  ticket:{ ctx:'Normativa de accesibilidad: una rampa debe tener pendiente máxima 1:12 (sube 1 cm por cada 12 cm horizontales). Calcula el ángulo que forma la rampa.',
+    steps:[
+      ['La razón que relaciona altura (opuesto) y longitud horizontal (adyacente) es:',['\\( \\tan\\theta \\)','\\( \\sen\\theta \\)','\\( \\cos\\theta \\)'],0],
+      ['La ecuación a resolver es:',['\\( \\tan\\theta=1/12 \\)','\\( \\sen\\theta=12 \\)','\\( \\cos\\theta=1/12 \\)'],0],
+      ['Resolviendo \\( \\theta=\\arctan(1/12) \\):',['\\( \\theta\\approx 4.8^\\circ \\): pendiente accesible','\\( \\theta\\approx 45^\\circ \\)','\\( \\theta\\approx 12^\\circ \\)'],0]
+    ],
+    phrase:'¿Por qué una rampa más corta (con la misma altura) se vuelve más peligrosa para quien la usa?' },
+  taller:['Definan seno, coseno, amplitud y periodo con un dibujo del triángulo y de la curva.','Grafiquen \\( \\sen x \\) y \\( \\cos x \\) en el cuaderno marcando amplitud y periodo; comparen con GeoGebra.','Modelen la temperatura media mensual de Aguascalientes con una senoidal: elijan media, amplitud y periodo, y justifiquen cada elección.'],
+  rub:[['Laboratorio (3 ejercicios)',40],['Diagnóstico exprés',20],['Ticket de tres pasos',20],['Taller y cuaderno (Hacer/Ser)',20]],
+  inst:'Guía de observación (razones trigonométricas y graficación)'
+},
+
+/* === PARTE 2 AQUÍ: SESIONES 5–12, EXÁMENES Y GLOSARIO === */
+{ id:'5', t:'Primer Examen Parcial',
+  met:'Evaluación individual · Aprendizaje Colaborativo (repaso)',
+  hilo:'Veamos qué tanto podemos ya leer, modelar y comunicar el comportamiento de un fenómeno mediante funciones matemáticas.',
+  exp:'Resuelve problemas de modelado y análisis de funciones (lineales, polinomiales, exponenciales, logarítmicas y trigonométricas).',
+  saber:'Integración de las sesiones 1–4: reconocer el tipo de función que modela un fenómeno y justificar su elección.',
+  vids:[],
+  ggb:'Abre tus gráficas de las sesiones anteriores y explica en voz alta qué parámetro controla cada comportamiento.',
+  theory:[
+    {n:'5.1', h:'Mapa del parcial: qué tipo de función uso y por qué', b:`
+      <p>El examen no evalúa memoria de fórmulas: evalúa <strong>traducir un fenómeno al modelo correcto</strong>. La guía de decisión:</p>
+      <div class="demo">
+        <div class="dline"><span class="n">1.</span><span class="m">¿La variable crece <u>sumando</u> lo mismo?</span><span class="j">sí ⇒ lineal \\( mx+b \\)</span></div>
+        <div class="dline"><span class="n">2.</span><span class="m">¿Crece <u>multiplicándose</u> por una base?</span><span class="j">sí ⇒ exponencial \\( a^x \\)</span></div>
+        <div class="dline"><span class="n">3.</span><span class="m">¿Se <u>repite</u> cíclicamente?</span><span class="j">sí ⇒ trigonométrica \\( \\sen(bx) \\)</span></div>
+        <div class="dline fin"><span class="n">4.</span><span class="m">¿Busco el <u>tiempo</u> en el exponente?</span><span class="j">⇒ logaritmo \\( \\log_a N \\)</span></div>
+      </div>`},
+    {n:'5.2', h:'Estrategia frente a un problema de modelado', b:`
+      <div class="def"><b class="tagd">Protocolo de examen</b>(1) Identifica variables y unidades. (2) Detecta el patrón de cambio (suma, producto o ciclo). (3) Escribe el modelo. (4) Responde la pregunta <em>con unidades</em>. (5) Verifica con un caso extremo: ¿tiene sentido el resultado en \\( x=0 \\)? ¿en \\( x \\) grande?</div>`},
+    {n:'5.3', h:'Demo repaso: elegir modelo con recibo', b:`
+      <div class="demo">
+        <div class="dline"><span class="n">1.</span><span class="m">«Una red social duplica usuarios cada mes»</span><span class="j">patrón: multiplicación</span></div>
+        <div class="dline"><span class="n">2.</span><span class="m">\\( U(t)=U_0\\cdot 2^t \\)</span><span class="j">exponencial, base 2</span></div>
+        <div class="dline"><span class="n">3.</span><span class="m">NO \\( U(t)=2t \\) (eso suma 2 al mes)</span><span class="j">descartar lineal</span></div>
+        <div class="dline fin"><span class="n">4.</span><span class="m">Con \\( U_0=50 \\): \\( U(3)=400 \\)</span><span class="j">verificar con datos</span></div>
+      </div>`}
+  ],
+  lab:[
+    {q:'Un servicio cobra cargo fijo más una cuota por unidad consumida. El modelo es:',
+     o:['Lineal \\( C(x)=mx+b \\)','Exponencial \\( C(x)=a^x \\)','Cuadrático \\( C(x)=x^2 \\)'], a:0,
+     w:'Cargo fijo = ordenada \\( b \\); cuota por unidad = pendiente \\( m \\). Es la estructura recta del plan de datos de la sesión 2.'},
+    {q:'\\( \\log_2 8 = \\)', o:['\\( 3 \\)','\\( 4 \\)','\\( 2 \\)'], a:0,
+     w:'\\( 2^3=8 \\). El logaritmo revierte la exponencial.'},
+    {q:'El periodo de \\( \\sen(2x) \\) es:', o:['\\( \\pi \\)','\\( 2\\pi \\)','\\( \\pi/2 \\)'], a:0,
+     w:'Periodo \\( 2\\pi/b \\) con \\( b=2 \\): oscila al doble de velocidad que \\( \\sen x \\).'}
+  ],
+  quiz:[
+    {q:'¿Qué tipo de función modela mejor el costo de un servicio con cargo fijo y cargo variable por unidad?',
+     o:['Lineal','Exponencial','Cuadrática'], a:0,
+     e:'Cargo fijo (\\( b \\)) más tasa constante por unidad (\\( m \\)): la recta \\( mx+b \\).'},
+    {q:'El crecimiento poblacional que se multiplica por sí mismo se modela con:',
+     o:['Exponencial','Lineal','Logarítmica'], a:0,
+     e:'La variable en el exponente: cada periodo multiplica por la base.'},
+    {q:'Una función que crece muy lentamente al principio y luego se acelera es:',
+     o:['Exponencial','Lineal','Logarítmica'], a:0,
+     e:'La exponencial arranca casi plana y después se dispara: interés compuesto, propagación en redes.'},
+    {q:'Para hallar el tiempo necesario para alcanzar una meta de ahorro con interés compuesto se usa:',
+     o:['El logaritmo','La función lineal','La función polinomial'], a:0,
+     e:'La incógnita está atrapada en el exponente: solo el logaritmo la libera (sesión 3, demo con recibo).'}
+  ],
+  ticket:{ ctx:'Verificación previa al examen: un negocio arranca con \\$500 y gana \\$150 por día. Modela su ingreso acumulado y calcula cuándo llega a \\$2,000.',
+    steps:[
+      ['El patrón de cambio es:', ['Suma fija por día ⇒ lineal: \\( I(t)=500+150t \\)','Multiplicación ⇒ exponencial: \\( I(t)=500(1.5)^t \\)','Cíclico ⇒ senoidal'],0],
+      ['La ecuación de la meta es:', ['\\( 500+150t=2000 \\)','\\( 150t=500 \\)','\\( 500\\cdot 150=t \\)'],0],
+      ['Resolviendo:', ['\\( t=10 \\) días','\\( t=15 \\) días','\\( t=5 \\) días'],0]
+    ],
+    phrase:'¿Cómo supiste desde el paso 1 que NO era exponencial? Escríbelo en tu cuaderno.' },
+  taller:['Elaboren en equipo su «formulario personal»: una tarjeta por tipo de función con su forma, su gráfica y un ejemplo propio.','Resuelvan en el cuaderno los diagnósticos de las sesiones 1–4 y marquen los dos reactivos que más se les dificultaron.','Ensayen el protocolo de modelado (teoría 5.2) con un caso nuevo: la propagación de una campaña en redes con descuento por referidos.'],
+  rub:[['Examen parcial (impreso, en aula)',70],['Repaso guiado y formulario',15],['Diagnóstico exprés de repaso',15]],
+  inst:'Lista de cotejo estructurada (examen parcial)'
+},
+
+{ id:'6', t:'Sucesiones y Series: Aritméticas y Geométricas',
+  met:'Aprendizaje Colaborativo + GeoGebra',
+  hilo:'Existen patrones que nos permiten distinguir entre un ahorro que crece sumando lo mismo cada mes y una inversión que crece multiplicándose; ¿cómo podemos usar esto?',
+  exp:'Reconoce la convergencia en sucesiones geométricas con razón entre \\( -1 \\) y 1 y calcula términos generales.',
+  saber:'\\( a_n=a_1+(n-1)d \\) y \\( a_n=a_1r^{n-1} \\); sumas \\( S_n \\); convergencia \\( |r|<1 \\).',
+  vids:[['Repaso rápido de sucesiones y series','repaso rapido de sucesiones y series']],
+  ggb:'Con deslizadores para \\( a_1, d, r \\), grafica los puntos \\( (n, a_n) \\): observa cuándo la nube de puntos se encoge (convergencia) y cuándo explota.',
+  theory:[
+    {n:'6.1', h:'Aritmética: sumar lo mismo', b:`
+      <div class="def"><b class="tagd">Definición</b>Sucesión <strong>aritmética</strong>: cada término se obtiene sumando una diferencia fija \\( d \\). Término general: \\( a_n=a_1+(n-1)d \\). Suma de los primeros \\( n \\): \\( S_n=\\dfrac{n(a_1+a_n)}{2} \\).</div>
+      <div class="ex"><b class="tagd">Demostración con recibo · ahorrar \\$50 cada semana durante un año</b>
+      <div class="demo">
+        <div class="dline"><span class="n">1.</span><span class="m">\\( a_1=50,\\quad d=50 \\)</span><span class="j">datos del ahorro</span></div>
+        <div class="dline"><span class="n">2.</span><span class="m">\\( a_{52}=50+51\\cdot 50=2600 \\)</span><span class="j">término general</span></div>
+        <div class="dline"><span class="n">3.</span><span class="m">\\( S_{52}=\\dfrac{52(50+2600)}{2} \\)</span><span class="j">fórmula de la suma</span></div>
+        <div class="dline fin"><span class="n">4.</span><span class="m">\\( S_{52}=\\$68{,}900 \\)</span><span class="j">conclusión</span></div>
+      </div></div>`},
+    {n:'6.2', h:'Geométrica: multiplicar por la razón', b:`
+      <div class="def"><b class="tagd">Definición</b>Sucesión <strong>geométrica</strong>: cada término multiplica al anterior por una razón fija \\( r \\): \\( a_n=a_1 r^{\\,n-1} \\). Suma: \\( S_n=a_1\\dfrac{r^n-1}{r-1} \\) (con \\( r\\neq 1 \\)).</div>
+      <div class="ex"><b class="tagd">Ejemplo · duplicar cada semana</b>\\( a_1=20,\\ r=2 \\): semana 8 ⇒ \\( a_8=20\\cdot 2^7=2560 \\). Suma: \\( S_8=20\\dfrac{2^8-1}{2-1}=20\\cdot 255=5100 \\). Compara con la aritmética de \\$20 semanales (\\( S_8=720 \\)): <strong>el patrón manda</strong>.</div>`},
+    {n:'6.3', h:'Convergencia: cuando multiplicar encoge', b:`
+      <div class="def"><b class="tagd">Definición</b>Si \\( |r|<1 \\), los términos de la geométrica se acercan a cero: la sucesión <strong>converge</strong>. Si \\( |r|>1 \\) crece sin límite; si \\( r=-1 \\) oscila.</div>
+      <div class="ex"><b class="tagd">Ejemplo</b>\\( 1,\\ \\tfrac12,\\ \\tfrac14,\\ \\tfrac18,\\ldots \\) (\\( r=0.5 \\)): cada término es la mitad del anterior y la suma infinita vale \\( \\dfrac{a_1}{1-r}=2 \\) — crecer «hasta un techo». Interpretación financiera: interés compuesto moderado planea; \\( r>1 \\) endeuda.</div>`}
+  ],
+  lab:[
+    {q:'La suma de los primeros 5 términos de \\( 1,3,5,7,9 \\) es:',
+     o:['\\( 25 \\)','\\( 15 \\)','\\( 20 \\)'], a:0,
+     w:'Aritmética con \\( a_1=1, d=2 \\): \\( S_5=\\frac{5(1+9)}{2}=25 \\).'},
+    {q:'La razón de la sucesión \\( 2,4,8,16 \\) es:',
+     o:['\\( 2 \\)','\\( 3 \\)','\\( 4 \\)'], a:0,
+     w:'Cada término entre el anterior: \\( 4/2=8/4=16/8=2 \\). Multiplicación constante ⇒ geométrica.'},
+    {q:'En una geométrica con \\( r=0.5 \\), los términos:',
+     o:['Se acercan a cero','Crecen sin límite','Se mantienen constantes'], a:0,
+     w:'\\( |r|<1 \\): multiplicar por 0.5 encoge. La nube de puntos en GeoGebra se pega al eje.'}
+  ],
+  quiz:[
+    {q:'En una sucesión aritmética, la diferencia entre términos consecutivos es:',
+     o:['Constante','Variable','Cero'], a:0,
+     e:'Esa constancia de \\( d \\) es lo que define al patrón de suma fija.'},
+    {q:'El décimo término de \\( 3,7,11,15,\\ldots \\) es:',
+     o:['\\( 39 \\)','\\( 36 \\)','\\( 43 \\)'], a:0,
+     e:'\\( a_{10}=3+9\\cdot 4=39 \\). Nueve saltos de \\( d=4 \\) desde el primero.'},
+    {q:'La suma de los primeros 10 términos con \\( a_1=2, d=3 \\) es:',
+     o:['\\( 155 \\)','\\( 165 \\)','\\( 175 \\)'], a:0,
+     e:'\\( a_{10}=2+9\\cdot 3=29 \\); \\( S_{10}=\\frac{10(2+29)}{2}=155 \\).'},
+    {q:'Una geométrica converge si y solo si:',
+     o:['\\( |r|<1 \\)','\\( r>1 \\)','\\( r=1 \\)'], a:0,
+     e:'Multiplicar por algo con valor absoluto menor que 1 encoge los términos hacia 0.'}
+  ],
+  ticket:{ ctx:'Fondo comunitario: se depositan \\$20 la primera semana y cada semana se añaden \\$20 más que la anterior (aritmética con \\( d=20 \\)). Calcula lo reunido en 8 semanas.',
+    steps:[
+      ['El patrón «sumar lo mismo cada semana» es:', ['Aritmético: \\( a_n=20+(n-1)\\cdot 20 \\)','Geométrico: \\( a_n=20\\cdot 2^{n-1} \\)','Ninguno'],0],
+      ['El depósito de la semana 8 es:', ['\\( a_8=20+7\\cdot 20=160 \\)','\\( a_8=20\\cdot 8=160 \\) (¡coincide por fortuna, pero el patrón es \\( a_1+(n-1)d \\)!)','\\( a_8=2^8 \\)'],0],
+      ['Lo reunido en 8 semanas:', ['\\( S_8=\\frac{8(20+160)}{2}=\\$720 \\)','\\( S_8=8\\cdot 20=\\$160 \\)','\\( S_8=\\$5100 \\)'],0]
+    ],
+    phrase:'¿Cuánto reuniría el mismo fondo si en vez de sumar \\$20 cada semana se duplicara? Compara y comenta la diferencia de patrones.' },
+  taller:['Definan sucesión aritmética y geométrica; construyan los primeros 5 términos de cada tipo con datos propios.','Calculen el término general y la suma de los primeros 10 términos de dos sucesiones del entorno (ahorro semanal, producción diaria de un taller).','Investiguen un caso donde \\( |r|<1 \\) importe (descuento porcentual, depreciación) y expliquen qué significa «converger» ahí.'],
+  rub:[['Laboratorio (3 ejercicios)',40],['Diagnóstico exprés',20],['Ticket de tres pasos',20],['Taller y cuaderno (Hacer/Ser)',20]],
+  inst:'Rúbrica (sucesiones aritméticas y geométricas)'
+},
+
+{ id:'7', t:'Límites: Idea Intuitiva, Sustitución Directa y Cálculo Algebraico',
+  met:'Aprendizaje Basado en Proyectos (ABP) + Tecnología',
+  hilo:'¿Qué significa acercarse cada vez más a un valor sin necesariamente tocarlo, y cómo resolvemos las incertidumbres matemáticas que surgen en ese proceso?',
+  exp:'Resuelve indeterminaciones del tipo \\( \\frac{0}{0} \\) mediante técnicas algebraicas.',
+  saber:'Notación de límite, límites laterales, sustitución directa, factorización para 0/0.',
+  vids:[['Guía definitiva de límites','guia definitiva de limites']],
+  ggb:'Grafica \\( \\frac{x^2-4}{x-2} \\): verás una recta con un agujero en \\( x=2 \\). Haz zoom al agujero: la función se aproxima a 4 aunque ahí no esté definida.',
+  theory:[
+    {n:'7.1', h:'Acercarse sin llegar: la idea', b:`
+      <div class="def"><b class="tagd">Definición</b>\\( \\lim_{x\\to a} f(x)=L \\) significa: al tomar valores de \\( x \\) cada vez más cercanos a \\( a \\) (sin llegar a ser \\( a \\)), los valores de \\( f(x) \\) se acercan a \\( L \\). <strong>El límite describe el comportamiento cercano, no el valor puntual.</strong></div>
+      <div class="ex"><b class="tagd">Primer intento · sustitución directa</b>Si la fórmula existe en \\( a \\), casi siempre basta evaluar: \\( \\lim_{x\\to 3}(2x+1)=2(3)+1=7 \\). Sustituye primero; la técnica especial solo entra cuando algo se rompe.</div>`},
+    {n:'7.2', h:'La indeterminación 0/0 y la factorización', b:`
+      <p>Si al sustituir aparece \\( 0/0 \\), la fórmula «está enferma» solo en ese punto: hay un factor \\( (x-a) \\) escondido que cancelar.</p>
+      <div class="ex"><b class="tagd">Demostración con recibo</b>
+      <div class="demo">
+        <div class="dline"><span class="n">1.</span><span class="m">\\( \\lim_{x\\to 2}\\dfrac{x^2-4}{x-2} \\)</span><span class="j">sustituir: \\( 0/0 \\) — indeterminado</span></div>
+        <div class="dline"><span class="n">2.</span><span class="m">\\( x^2-4=(x+2)(x-2) \\)</span><span class="j">factorizar (conjugados)</span></div>
+        <div class="dline"><span class="n">3.</span><span class="m">\\( \\lim_{x\\to 2}(x+2) \\)</span><span class="j">cancelar \\( (x-2) \\), válido si \\( x\\neq 2 \\)</span></div>
+        <div class="dline fin"><span class="n">4.</span><span class="m">\\( =2+2=4 \\)</span><span class="j">sustitución directa</span></div>
+      </div>
+      El límite existe aunque la función no esté definida en 2 — exactamente la idea de «acercarse sin tocar».</div>`},
+    {n:'7.3', h:'Límites notables y por qué importan', b:`
+      <div class="def"><b class="tagd">Límite notable</b>\\( \\lim_{x\\to 0}\\dfrac{\\sen x}{x}=1 \\) (con \\( x \\) en radianes). Es la semilla del que será, en la sesión 9, el cálculo de la derivada del seno.</div>
+      <div class="ex"><b class="tagd">Cierre del ABP</b>La velocidad instantánea del transporte urbano es un límite: promedios en intervalos cada vez más cortos (\\( \\Delta t\\to 0 \\)). El límite convierte «promedio entre puntos» en «puntual en un instante» — cambiar de estrategia, no abandonar el problema.</div>`}
+  ],
+  lab:[
+    {q:'\\( \\lim_{x\\to 3}(2x+1) = \\)', o:['\\( 7 \\)','\\( 6 \\)','\\( 9 \\)'], a:0,
+     w:'Sustitución directa: la polinomial existe en \\( x=3 \\): \\( 2(3)+1=7 \\).'},
+    {q:'\\( \\lim_{x\\to 1}\\dfrac{x^2-1}{x-1} = \\)', o:['\\( 2 \\)','\\( 1 \\)','\\( 0 \\)'], a:0,
+     w:'\\( 0/0 \\) ⇒ factorizar: \\( (x+1)(x-1)/(x-1)=x+1 \\Rightarrow 2 \\).'},
+    {q:'\\( \\lim_{x\\to 0}\\dfrac{\\sen x}{x} = \\)', o:['\\( 1 \\)','\\( 0 \\)','\\( \\infty \\)'], a:0,
+     w:'Límite notable con \\( x \\) en radianes: la recta \\( y=x \\) y la senoide se abrazan cerca del origen.'}
+  ],
+  quiz:[
+    {q:'El límite describe:', o:['El comportamiento de la función al acercarse a un punto, aunque ahí no esté definida','El valor exacto de la función en el punto','La pendiente en todo el dominio'], a:0,
+     e:'«Sin necesariamente tocar»: el límite es de los alrededores, no del punto.'},
+    {q:'\\( \\lim_{x\\to 2}\\dfrac{x^2-4}{x-2} = \\)', o:['\\( 4 \\)','\\( 0 \\)','No existe'], a:0,
+     e:'Factoriza y cancela: queda \\( x+2 \\Rightarrow 4 \\).'},
+    {q:'Ante una indeterminación \\( 0/0 \\), la estrategia algebraica clásica es:',
+     o:['Factorizar y cancelar el factor problemático','Declarar que el límite no existe','Sustituir \\( x=0 \\)'], a:0,
+     e:'El \\( 0/0 \\) delata un factor común escondido; al cancelarlo, la fórmula sana y se puede sustituir.'},
+    {q:'En la vida cotidiana, un límite aparece cuando:',
+     o:['Estimamos la velocidad instantánea con promedios en intervalos cada vez más cortos','Sumamos una factura','Calculamos un área exacta'], a:0,
+     e:'Exactamente el caso de arranque de la sesión: intervalos que se encogen hacia un instante.'}
+  ],
+  ticket:{ ctx:'Tránsito de Aguascalientes: la posición de un auto que frena es \\( s(t)=5t^2 \\) (metros, segundos). Calcula la velocidad instantánea en \\( t=3 \\) con el cociente incremental.',
+    steps:[
+      ['Razón de cambio promedio entre \\( t=3 \\) y \\( t=3+h \\):', ['\\( \\dfrac{5(3+h)^2-45}{h} \\)','\\( \\dfrac{5(3+h)-45}{h} \\)','\\( 5(3+h)^2 \\)'],0],
+      ['Al expandir y simplificar el cociente:', ['\\( 30+5h \\)','\\( 45+5h \\)','\\( 5h \\)'],0],
+      ['Tomando \\( h\\to 0 \\):', ['\\( v(3)=30 \\) m/s','\\( v(3)=45 \\) m/s','\\( v(3)=0 \\) m/s'],0]
+    ],
+    phrase:'¿Por qué el término \\( 5h \\) «muere» al tomar el límite, pero el \\( 30 \\) sobrevive?' },
+  taller:['Definan límite y mencionen los tipos de indeterminación que conocen.','Evalúen en tabla \\( \\frac{x^2-4}{x-2} \\) en \\( x=1.9, 1.99, 2.01, 2.1 \\) y comparen con el límite calculado.','Calculen la velocidad instantánea de un objeto con \\( s(t)=t^2+3t \\) en \\( t=2 \\) usando el límite del cociente incremental.'],
+  rub:[['Laboratorio (3 ejercicios)',40],['Diagnóstico exprés',20],['Ticket de tres pasos',20],['Taller y cuaderno (Hacer/Ser)',20]],
+  inst:'Lista de cotejo (sustitución directa y cálculo algebraico)'
+},
+
+{ id:'8', t:'Continuidad: las Tres Condiciones y Tipos de Discontinuidad',
+  met:'Círculo de Diálogo + GeoGebra',
+  hilo:'¿Cuándo podemos trazar una gráfica sin levantar el lápiz y, cuando no podemos, cómo clasificamos esas interrupciones para diagnosticar fallas en sistemas reales?',
+  exp:'Aplica las tres condiciones de continuidad y distingue discontinuidades evitables, de salto e infinitas.',
+  saber:'Las tres condiciones en un punto; clasificación de discontinuidades; lectura de fallas de sensores.',
+  vids:[['¿Qué es la continuidad de funciones?','que es la continuidad de funciones']],
+  ggb:'Grafica \\( f(x)=\\frac{x^2-4}{x-2} \\) y \\( \\frac{1}{x} \\): localiza el agujero (evitable) y la asíntota (infinita). Traza con el comando Punto sobre la curva.',
+  theory:[
+    {n:'8.1', h:'El lápiz que no se levanta: tres condiciones', b:`
+      <div class="def"><b class="tagd">Definición</b>\\( f \\) es <strong>continua en \\( a \\)</strong> si: <strong>(1)</strong> \\( f(a) \\) existe (está definida), <strong>(2)</strong> \\( \\lim_{x\\to a}f(x) \\) existe (los lados coinciden), y <strong>(3)</strong> el límite vale \\( f(a) \\) (coinciden). Falla una ⇒ discontinua en \\( a \\).</div>
+      <div class="ex"><b class="tagd">Demostración con recibo · diagnóstico de una función</b>
+      <div class="demo">
+        <div class="dline"><span class="n">1.</span><span class="m">\\( f(x)=\\dfrac{x^2-4}{x-2} \\) en \\( x=2 \\)</span><span class="j">función en revisión</span></div>
+        <div class="dline"><span class="n">2.</span><span class="m">\\( f(2) \\) no existe</span><span class="j">falla condición (1)</span></div>
+        <div class="dline"><span class="n">3.</span><span class="m">\\( \\lim_{x\\to 2}f(x)=4 \\) existe</span><span class="j">sesión 7: factorizar</span></div>
+        <div class="dline fin"><span class="n">4.</span><span class="m">Discontinua <u>evitable</u> en 2</span><span class="j">basta definir \\( f(2)=4 \\) para sanarla</span></div>
+      </div></div>`},
+    {n:'8.2', h:'Los tres tipos de interrupción', b:`
+      <div class="def"><b class="tagd">Clasificación</b><strong>Evitable:</strong> el límite existe pero no coincide con \\( f(a) \\) (o no está definida): un «agujero». <strong>De salto:</strong> límites laterales distintos: la gráfica brinca. <strong>Infinita:</strong> la función explota hacia \\( \\pm\\infty \\): asíntota vertical.</div>
+      <div class="ex"><b class="tagd">Ejemplos rápidos</b>\\( \\frac{x^2-4}{x-2} \\): evitable (agujero en 2). La tarifa por tramos del agua: salto al cambiar de bloque. \\( \\frac{1}{x} \\) en \\( x=0 \\): infinita — nadie redefine eso.</div>`},
+    {n:'8.3', h:'Del diagnóstico matemático al diagnóstico técnico', b:`
+      <p>La planeación lo pide explícitamente: una discontinuidad tiene correlato directo en fallas de sistemas tecnológicos comunitarios.</p>
+      <div class="ex"><b class="tagd">Caso · sensor inteligente de un huerto urbano</b>Lecturas \\( f(t) \\) con hueco a las 12:00 (evitable: se puede re-llenar por interpolación). Lecturas que brincan de 20 a 80 (salto: falla de comunicación entre módulos). Lecturas que se disparan a millones (infinita: sensor quemado o división por cero en el firmware). <strong>Clasificar la discontinuidad ES diagnosticar la falla.</strong></div>`}
+  ],
+  lab:[
+    {q:'Una discontinuidad en la que el límite existe pero no coincide con \\( f(a) \\) es:',
+     o:['Evitable','De salto','Infinita'], a:0,
+     w:'El «agujero rellenable»: existe el comportamiento cercano, falta sanar el punto.'},
+    {q:'La función \\( f(x)=\\frac{1}{x} \\) es discontinua en:',
+     o:['\\( x=0 \\) (infinita)','\\( x=1 \\) (evitable)','\\( x=-1 \\) (de salto)'], a:0,
+     w:'En 0 explota hacia \\( \\pm\\infty \\): asíntota vertical, discontinuidad infinita.'},
+    {q:'Una función con discontinuidad de salto tiene:',
+     o:['Límites laterales diferentes','Límite infinito','Límite igual al valor'], a:0,
+     w:'Por la izquierda llega a un valor y por la derecha a otro: el brinco clásico de las tarifas por tramos.'}
+  ],
+  quiz:[
+    {q:'Las tres condiciones de continuidad en \\( a \\) son:',
+     o:['\\( f(a) \\) existe, el límite existe y coinciden','Solo que el límite exista','Solo que \\( f(a) \\) esté definida'], a:0,
+     e:'Definida + límite existe + coinciden. Las tres o no hay continuidad.'},
+    {q:'Si solo se redefine \\( f(a) \\) (o se define) y la función queda continua, la discontinuidad era:',
+     o:['Evitable','De salto','Infinita'], a:0,
+     e:'«Evitable»: el defecto cabe en un solo punto; lo demás estaba sano.'},
+    {q:'Las tarifas por tramos del servicio de agua (brinco al cambiar de bloque) ejemplifican discontinuidad:',
+     o:['De salto','Evitable','Infinita'], a:0,
+     e:'Al cruzar el umbral, el costo brinca: límites laterales distintos.'},
+    {q:'Un sensor que reporta valores que se disparan hacia millones sugiere una discontinuidad:',
+     o:['Infinita (asíntota)','Evitable','De salto'], a:0,
+     e:'Crecimiento sin cota en un punto: la firma matemática de un sensor dañado o una división entre cero.'}
+  ],
+  ticket:{ ctx:'El sensor de red inteligente del huerto reporta \\( f(t) \\) con lecturas sanas alrededor de las 12:00, pero a las 12:00 no reporta nada. Clasifica la falla.',
+    steps:[
+      ['Primera revisión: \\( f(12) \\)', ['No existe: falla la condición (1)','Existe y vale 50','Es infinita'],0],
+      ['Segunda revisión: \\( \\lim_{t\\to 12} f(t) \\)', ['Existe: los lados coinciden en 50','No existe: los lados difieren','Tiende a infinito'],0],
+      ['Diagnóstico y remedio:', ['Discontinuidad evitable: redefinir \\( f(12)=50 \\) (rellenar el hueco)','Salto: reemplazar el sensor','Infinita: recalibrar en fábrica'],0]
+    ],
+    phrase:'¿Por qué este defecto se llama «evitable»? ¿Qué condición falló y cuál se conservó?' },
+  taller:['Enuncien las tres condiciones de continuidad y clasifiquen con ejemplos gráficos los tres tipos de discontinuidad.','Analicen en equipo la continuidad de una función definida por partes (tarifa por tramos) y clasifiquen cada frontera.','Diseñen un «catálogo de fallas»: para cada tipo de discontinuidad, un ejemplo de falla técnica real y su corrección.'],
+  rub:[['Laboratorio (3 ejercicios)',40],['Diagnóstico exprés',20],['Ticket de tres pasos',20],['Taller y cuaderno (Hacer/Ser)',20]],
+  inst:'Rúbrica estructurada (condiciones de continuidad) + Lista de cotejo (clasificación)'
+},
+
+{ id:'9', t:'Cambio, Razón de Cambio y Nacimiento de la Derivada',
+  met:'Exposición + Aprendizaje Colaborativo + GeoGebra',
+  hilo:'¿Qué tan rápido cambia algo en un instante, qué significa esto geométricamente sobre la curva, y cómo lo calculamos con rigor algebraico?',
+  exp:'Calcula la derivada por definición usando la regla de los cuatro pasos.',
+  saber:'Cociente incremental; límite de la razón de cambio; pendiente de la tangente; cuatro pasos.',
+  vids:[['Guía definitiva de la derivada','guia definitiva de la derivada']],
+  ggb:'Con la herramienta Recta Tangente sobre \\( y=x^2 \\): arrastra el punto y observa cómo la pendiente coincide con \\( 2x \\) en cada posición.',
+  theory:[
+    {n:'9.1', h:'Del promedio al instante: el cociente incremental', b:`
+      <div class="def"><b class="tagd">Definición</b>Razón de cambio <strong>promedio</strong> entre \\( x \\) y \\( x+\\Delta x \\): \\( \\dfrac{f(x+\\Delta x)-f(x)}{\\Delta x} \\) (pendiente de la <em>secante</em>). La <strong>derivada</strong> es el límite cuando \\( \\Delta x\\to 0 \\): \\( f\'(x)=\\lim_{\\Delta x\\to 0}\\dfrac{f(x+\\Delta x)-f(x)}{\\Delta x} \\) — pendiente de la <em>tangente</em>, rapidez instantánea.</div>
+      <div class="ex"><b class="tagd">Caso acuífero</b>«¿Cuánto bajó el pozo en un mes?» es razón promedio. «¿Qué tan rápido baja <u>hoy</u>?» es razón instantánea: la pregunta que el límite responde y el promedio no puede.</div>`},
+    {n:'9.2', h:'La regla de los cuatro pasos, con recibo', b:`
+      <div class="ex"><b class="tagd">Demostración · \\( f(x)=x^2 \\)</b>
+      <div class="demo">
+        <div class="dline"><span class="n">1.</span><span class="m">\\( f(x+\\Delta x)=(x+\\Delta x)^2=x^2+2x\\Delta x+(\\Delta x)^2 \\)</span><span class="j">paso 1: expandir</span></div>
+        <div class="dline"><span class="n">2.</span><span class="m">\\( f(x+\\Delta x)-f(x)=2x\\Delta x+(\\Delta x)^2 \\)</span><span class="j">paso 2: restar \\( f(x) \\)</span></div>
+        <div class="dline"><span class="n">3.</span><span class="m">\\( \\dfrac{2x\\Delta x+(\\Delta x)^2}{\\Delta x}=2x+\\Delta x \\)</span><span class="j">paso 3: dividir entre \\( \\Delta x \\)</span></div>
+        <div class="dline fin"><span class="n">4.</span><span class="m">\\( \\lim_{\\Delta x\\to 0}(2x+\\Delta x)=2x \\)</span><span class="j">paso 4: tomar el límite</span></div>
+      </div>
+      <strong>\\( (x^2)\'=2x \\)</strong>. Cada línea cita qué paso hace: la misma disciplina de recibo de la deducción natural.</div>`},
+    {n:'9.3', h:'Leer la derivada sobre la curva', b:`
+      <div class="def"><b class="tagd">Interpretación geométrica</b>\\( f\'(a) \\) es la pendiente de la recta tangente en \\( a \\): pendiente positiva ⇒ crece; negativa ⇒ decrece; cero ⇒ punto crítico (al estarse por decidir si es máximo o mínimo — sesión 11).</div>
+      <div class="ex"><b class="tagd">Ejemplo</b>Para \\( f(x)=x^2 \\): en \\( x=3 \\), \\( f\'(3)=6 \\) — la tangente sube 6 unidades por cada unidad horizontal. El negocio local que crece o decrece se lee igual: la pendiente de la tangente es la <em>velocidad</em> del fenómeno.</div>`}
+  ],
+  lab:[
+    {q:'La derivada de \\( f(x)=x^2 \\) en \\( x=3 \\), usando la definición, es:',
+     o:['\\( 6 \\)','\\( 9 \\)','\\( 3 \\)'], a:0,
+     w:'\\( f\'(x)=2x \\Rightarrow f\'(3)=6 \\). Ojo: \\( f(3)=9 \\) es el valor, no la rapidez.'},
+    {q:'La derivada de \\( f(x)=3x^2 \\) en \\( x=2 \\) es:',
+     o:['\\( 12 \\)','\\( 6 \\)','\\( 4 \\)'], a:0,
+     w:'\\( f\'(x)=6x \\) (la constante multiplica) ⇒ \\( f\'(2)=12 \\).'},
+    {q:'La secante se vuelve tangente cuando:',
+     o:['El intervalo \\( \\Delta x \\) tiende a cero','El intervalo crece sin límite','La función es lineal'], a:0,
+     w:'Dos puntos que se juntan: la secante gira hasta apoyarse en la curva — el límite del cociente incremental.'}
+  ],
+  quiz:[
+    {q:'La derivada mide:',
+     o:['La razón de cambio instantánea (pendiente de la tangente)','El área bajo la curva','El valor máximo de la función'], a:0,
+     e:'Rapidez instantánea de cambio: geométricamente, la inclinación de la curva en el punto.'},
+    {q:'La derivada por definición es el límite de:',
+     o:['\\( \\dfrac{f(x+\\Delta x)-f(x)}{\\Delta x} \\)','\\( f(x+\\Delta x)+f(x) \\)','\\( \\dfrac{f(x)-\\Delta x}{f(x)} \\)'], a:0,
+     e:'El cociente incremental: cambio de la salida entre cambio de la entrada, con \\( \\Delta x\\to 0 \\).'},
+    {q:'La derivada de \\( f(x)=x^3 \\) es:',
+     o:['\\( 3x^2 \\)','\\( x^2 \\)','\\( 3x \\)'], a:0,
+     e:'Cuatro pasos con el binomio al cubo, o (adelanto) regla de la potencia \\( nx^{n-1} \\).'},
+    {q:'En \\( f(x)=x^2 \\), la pendiente de la tangente en \\( x=5 \\) es:',
+     o:['\\( 10 \\)','\\( 25 \\)','\\( 5 \\)'], a:0,
+     e:'\\( f\'(5)=2(5)=10 \\): en ese punto la curva sube 10 por unidad.'}
+  ],
+  ticket:{ ctx:'Acuífero: el nivel del pozo modela \\( N(t)=100-4t-t^2 \\) (metros, días). ¿Qué tan rápido baja el nivel en \\( t=2 \\)?',
+    steps:[
+      ['Cociente incremental entre \\( t=2 \\) y \\( t=2+h \\):', ['\\( \\dfrac{N(2+h)-N(2)}{h}=\\dfrac{-8h-h^2}{h} \\)','\\( \\dfrac{N(2+h)+N(2)}{h} \\)','\\( N(2+h)-N(2) \\)'],0],
+      ['Simplificando el cociente:', ['\\( -8-h \\)','\\( -8+h \\)','\\( -8h \\)'],0],
+      ['Tomando \\( h\\to 0 \\):', ['\\( N\'(2)=-8 \\): baja 8 m/día','\\( N\'(2)=8 \\): sube 8 m/día','\\( N\'(2)=0 \\): estable'],0]
+    ],
+    phrase:'¿Qué significa el signo negativo de \\( N\'(2) \\) para la gestión comunitaria del agua?' },
+  taller:['Definan derivada por definición y su interpretación geométrica; dibujen secante y tangente sobre una misma curva.','Calculen la pendiente de la secante de \\( f(x)=x^2 \\) en intervalos cada vez más cortos alrededor de \\( x=1 \\) y comparen con \\( f\'(1)=2 \\).','Usen los cuatro pasos para derivar \\( f(x)=x^2+3x \\) y verifiquen en GeoGebra con la herramienta tangente.'],
+  rub:[['Laboratorio (3 ejercicios)',40],['Diagnóstico exprés',20],['Ticket de tres pasos',20],['Taller y cuaderno (Hacer/Ser)',20]],
+  inst:'Lista de cotejo (interpretación geométrica y definición por límite)'
+},
+
+{ id:'10', t:'Reglas de Derivación: Potencia, Cadena, Producto, Cociente y Trascendentes',
+  met:'Aula Invertida + Aprendizaje Colaborativo',
+  hilo:'Es posible calcular tasas de cambio de manera eficiente sin importar la complejidad de la función de nuestro modelo.',
+  exp:'Selecciona la regla adecuada según la estructura de la función.',
+  saber:'Reglas de potencia, cadena, producto y cociente; derivadas de \\( e^x, \\ln x, \\sen x, \\cos x \\).',
+  vids:[['Las famosas reglas de derivación','las famosas reglas de derivacion'],['Reglas de derivación (parte 1 y 2)','reglas de derivacion parte 1']],
+  ggb:'Deriva funciones con el comando Deriva() de GeoGebra y compara tu formulario contra el resultado del software.',
+  theory:[
+    {n:'10.1', h:'El formulario básico: potencia y combinaciones', b:`
+      <div class="def"><b class="tagd">Reglas esenciales</b>\\( (x^n)\'=nx^{n-1} \\) · \\( (cf)\'=cf\' \\) · \\( (f\\pm g)\'=f\'\\pm g\' \\). Con ellas, <u>todo</u> polinomio se deriva término a término, sin límites: \\( (100x-2x^2)\'=100-4x \\).</div>
+      <div class="ex"><b class="tagd">Por qué existe el formulario</b>En la sesión 9, derivar \\( x^2 \\) costó cuatro pasos. El formulario comprime ese trabajo repetitivo en reglas cortas — el mismo ahorro que las reglas de inferencia trajeron a la lógica: <em>sistematizar lo repetido para pensar en lo importante</em>.</div>`},
+    {n:'10.2', h:'La cadena: derivar dentro de derivar', b:`
+      <div class="def"><b class="tagd">Regla de la cadena</b>Si \\( y=f(u) \\) y \\( u=g(x) \\), entonces \\( \\dfrac{dy}{dx}=\\dfrac{dy}{du}\\cdot\\dfrac{du}{dx} \\): deriva la capa externa, déjala quietita, multiplica por la derivada de la interna.</div>
+      <div class="ex"><b class="tagd">Demostración con recibo · \\( f(x)=\\sen(2x) \\)</b>
+      <div class="demo">
+        <div class="dline"><span class="n">1.</span><span class="m">Capa externa: \\( y=\\sen(u) \\), interna: \\( u=2x \\)</span><span class="j">identificar capas</span></div>
+        <div class="dline"><span class="n">2.</span><span class="m">\\( \\dfrac{dy}{du}=\\cos(u) \\)</span><span class="j">derivada externa (trascendente)</span></div>
+        <div class="dline"><span class="n">3.</span><span class="m">\\( \\dfrac{du}{dx}=2 \\)</span><span class="j">derivada interna (potencia)</span></div>
+        <div class="dline fin"><span class="n">4.</span><span class="m">\\( f\'(x)=\\cos(2x)\\cdot 2=2\\cos(2x) \\)</span><span class="j">multiplicar cadenas</span></div>
+      </div></div>`},
+    {n:'10.3', h:'Producto, cociente y trascendentes', b:`
+      <div class="def"><b class="tagd">Reglas compuestas</b>\\( (fg)\'=f\'g+fg\' \\) · \\( \\left(\\dfrac{f}{g}\\right)\'=\\dfrac{f\'g-fg\'}{g^2} \\). Trascendentes: \\( (e^x)\'=e^x \\), \\( (\\ln x)\'=\\dfrac{1}{x} \\), \\( (\\sen x)\'=\\cos x \\), \\( (\\cos x)\'=-\\sen x \\).</div>
+      <div class="ex"><b class="tagd">Ejemplo combinado</b>\\( \\ln(x^2) \\): cadena ⇒ \\( \\frac{1}{x^2}\\cdot 2x=\\frac{2}{x} \\). \\( x e^x \\): producto ⇒ \\( e^x+xe^x=e^x(1+x) \\). Criterio de selección: <strong>miro la estructura</strong> (¿potencia?, ¿capas?, ¿producto?) y elijo la regla — no al revés.</div>`}
+  ],
+  lab:[
+    {q:'\\( \\dfrac{d}{dx}\\left[\\ln(x^2)\\right] = \\)', o:['\\( \\dfrac{2}{x} \\)','\\( \\dfrac{1}{x} \\)','\\( 2x \\)'], a:0,
+     w:'Cadena: externa \\( \\ln u \\Rightarrow 1/u \\), interna \\( x^2 \\Rightarrow 2x \\); producto: \\( 2x/x^2=2/x \\).'},
+    {q:'\\( \\dfrac{d}{dx}\\left[(x^2+1)^3\\right] = \\)', o:['\\( 6x(x^2+1)^2 \\)','\\( 3(x^2+1)^2 \\)','\\( 6x^2(x^2+1)^2 \\)'], a:0,
+     w:'Cadena con potencia: \\( 3(x^2+1)^2\\cdot 2x \\). La interna contribuye su \\( 2x \\).'},
+    {q:'\\( \\dfrac{d}{dx}\\left[e^{3x}\\right] = \\)', o:['\\( 3e^{3x} \\)','\\( e^{3x} \\)','\\( 3x e^{3x} \\)'], a:0,
+     w:'La exponencial conserva su base y multiplica por la derivada del exponente: \\( e^{3x}\\cdot 3 \\).'}
+  ],
+  quiz:[
+    {q:'La regla de la potencia dice que \\( (x^n)\'= \\)', o:['\\( nx^{n-1} \\)','\\( x^{n-1} \\)','\\( nx \\)'], a:0,
+     e:'El exponente baja a multiplicar y se le resta uno: \\( (x^5)\'=5x^4 \\).'},
+    {q:'\\( \\dfrac{d}{dx}[\\sen(2x)] = \\)', o:['\\( 2\\cos(2x) \\)','\\( \\cos(2x) \\)','\\( 2\\sen(2x) \\)'], a:0,
+     e:'Cadena: \\( \\cos(2x) \\) por la derivada interna \\( 2 \\).'},
+    {q:'La regla del producto se usa para derivar:',
+     o:['Funciones multiplicadas entre sí, como \\( x e^x \\)','Funciones compuestas','Cocientes'], a:0,
+     e:'\\( (fg)\'=f\'g+fg\' \\). Compuestas ⇒ cadena; cocientes ⇒ su propia regla.'},
+    {q:'\\( (\\ln x)\' = \\)', o:['\\( \\dfrac{1}{x} \\)','\\( x \\)','\\( e^x \\)'], a:0,
+     e:'La derivada del logaritmo natural es la recíproca: válida para \\( x>0 \\).'}
+  ],
+  ticket:{ ctx:'Taller de calzado: la demanda fija el precio \\( p(x)=100-2x \\) (pesos por par). El ingreso es \\( I(x)=p(x)\\cdot x \\). Calcula el ingreso marginal \\( I\'(x) \\).',
+    steps:[
+      ['Expandir el ingreso:', ['\\( I(x)=100x-2x^2 \\)','\\( I(x)=100-2x \\)','\\( I(x)=102x \\)'],0],
+      ['Derivar término a término (potencia + suma):', ['\\( I\'(x)=100-4x \\)','\\( I\'(x)=100-2x \\)','\\( I\'(x)=-4x \\)'],0],
+      ['Interpretación del ingreso marginal:', ['\\( I\'(45)=100-180=-80 \\): después de 45 pares, vender uno más baja el ingreso','\\( I\'(45)=80 \\): siempre conviene vender más','\\( I\' \\) no dice nada útil'],0]
+    ],
+    phrase:'¿Por qué el ingreso marginal negativo después de \\( x=45 \\) anticipa el tema de la sesión 11 (máximos)?' },
+  taller:['Enumere cada regla de derivación con sus condiciones de uso y construyan su formulario personal en una tarjeta.','Deriven de memoria una función potencial sencilla y expliquen cómo decidirán qué regla aplicar ante una función nueva.','Apliquen la regla del producto a \\( x e^x \\) y la cadena a \\( (2x+1)^5 \\); verifiquen ambas con GeoGebra.'],
+  rub:[['Laboratorio (3 ejercicios)',40],['Diagnóstico exprés',20],['Ticket de tres pasos',20],['Taller y cuaderno (Hacer/Ser)',20]],
+  inst:'Lista de cotejo (reglas de derivación)'
+},
+
+{ id:'11', t:'Análisis de Funciones y Optimización: Máximos, Mínimos y Puntos de Inflexión',
+  met:'Aprendizaje Basado en Proyectos (ABP) + Design Thinking (focalizado)',
+  hilo:'La utilidad de la derivada para identificar puntos extremos y de inflexión de un fenómeno de interés y la toma de decisiones.',
+  exp:'Resuelve problemas de optimización con restricciones reales.',
+  saber:'Puntos críticos; criterios de primera y segunda derivada; concavidad; protocolo de optimización.',
+  vids:[['Concavidad y puntos de inflexión (segunda derivada)','concavidad y puntos de inflexion segunda derivada']],
+  ggb:'Grafica \\( U(x)=-2x^2+180x-1200 \\), traza \\( U\' \\) y \\( U\'\' \\), y localiza el vértice: confirma visualmente el máximo en \\( x=45 \\).',
+  theory:[
+    {n:'11.1', h:'La primera derivada decide subidas y bajadas', b:`
+      <div class="def"><b class="tagd">Criterio de la 1ª derivada</b>\\( f\'>0 \\) ⇒ crece · \\( f\'<0 \\) ⇒ decrece · \\( f\'=0 \\) ⇒ <strong>punto crítico</strong> (candidato a máximo o mínimo). El signo de \\( f\' \\) alrededor del punto crítico dice cuál.</div>
+      <div class="ex"><b class="tagd">Ejemplo · taller de calzado</b>\\( U(x)=-2x^2+180x-1200 \\): \\( U\'=-4x+180 \\). Antes de \\( x=45 \\), \\( U\'>0 \\): producir más aumenta la utilidad. Después, \\( U\'<0 \\): produce pérdida. <strong>\\( x=45 \\) es el punto donde el negocio se voltea.</strong></div>`},
+    {n:'11.2', h:'La segunda derivada clasifica', b:`
+      <div class="def"><b class="tagd">Criterio de la 2ª derivada</b>En un punto crítico: \\( f\'\'<0 \\) ⇒ <strong>máximo</strong> (concavidad hacia abajo); \\( f\'\'>0 \\) ⇒ <strong>mínimo</strong> (concavidad hacia arriba). Donde \\( f\'\' \\) cambia de signo hay <strong>punto de inflexión</strong>: la curva cambia de manera de doblarse.</div>
+      <div class="ex"><b class="tagd">Demostración con recibo · utilidad máxima del taller</b>
+      <div class="demo">
+        <div class="dline"><span class="n">1.</span><span class="m">\\( U(x)=-2x^2+180x-1200 \\)</span><span class="j">modelo de utilidad (pesos)</span></div>
+        <div class="dline"><span class="n">2.</span><span class="m">\\( U\'(x)=-4x+180 \\)</span><span class="j">potencia + suma (sesión 10)</span></div>
+        <div class="dline"><span class="n">3.</span><span class="m">\\( U\'(x)=0 \\Rightarrow x=45 \\)</span><span class="j">punto crítico</span></div>
+        <div class="dline"><span class="n">4.</span><span class="m">\\( U\'\'(x)=-4<0 \\)</span><span class="j">concavidad abajo ⇒ máximo</span></div>
+        <div class="dline fin"><span class="n">5.</span><span class="m">\\( U(45)=2850 \\)</span><span class="j">producción óptima: 45 pares, \\$2,850</span></div>
+      </div></div>`},
+    {n:'11.3', h:'Optimización con restricciones: el protocolo ABP', b:`
+      <div class="def"><b class="tagd">Protocolo</b>(1) Variables y objetivo (¿maximizo utilidad? ¿minimizo costo?). (2) Modelo con restricción real (capacidad de materia prima, demanda). (3) Derivar, igualar a cero, resolver. (4) Clasificar con \\( f\'\' \\). (5) Responder con unidades y verificar contra la restricción.</div>
+      <div class="ex"><b class="tagd">Caso Feria de San Marcos</b>El taller con casos de la planeación: si la capacidad máxima es 40 pares y el óptimo teórico es 45, la respuesta operativa es 40 — <strong>la restricción manda sobre el cálculo</strong>, y documentarlo es parte del rigor.</div>`}
+  ],
+  lab:[
+    {q:'Si \\( f\'(x)=0 \\) y \\( f\'\'(x)<0 \\), el punto es:',
+     o:['Máximo local','Mínimo local','Punto de inflexión'], a:0,
+     w:'Crítico con concavidad hacia abajo: la cumbre de la colina.'},
+    {q:'La segunda derivada positiva indica:',
+     o:['Concavidad hacia arriba','Concavidad hacia abajo','Punto de inflexión'], a:0,
+     w:'Se dobla como una taza que sostiene agua: mínimos dentro.'},
+    {q:'Un punto de inflexión ocurre cuando:',
+     o:['La segunda derivada cambia de signo','La primera derivada es cero','La función es discontinua'], a:0,
+     w:'Cambia la concavidad: de taza a cúpula o viceversa. \\( f\' \\) ahí no tiene que ser cero.'}
+  ],
+  quiz:[
+    {q:'Para maximizar la utilidad, la derivada de la función de utilidad debe ser:',
+     o:['Igual a cero','Positiva','Negativa'], a:0,
+     e:'En la cima ya no se crece ni se decrece: \\( U\'=0 \\) marca el candidato.'},
+    {q:'Después de encontrar \\( f\'(a)=0 \\), \\( f\'\'(a)<0 \\) confirma que \\( a \\) es:',
+     o:['Máximo','Mínimo','Inflexión'], a:0,
+     e:'Cúpula: concavidad abajo ⇒ máximo.'},
+    {q:'Si \\( f\'(x)>0 \\) en un intervalo, la función:',
+     o:['Crece en ese intervalo','Decrece','Es constante'], a:0,
+     e:'Pendiente positiva: cada paso sube. El signo de la derivada es el pronóstico del comportamiento.'},
+    {q:'Un taller cuyo óptimo teórico es 45 pares solo puede producir 40. La decisión correcta es:',
+     o:['Producir 40: la restricción real manda sobre el óptimo teórico','Producir 45 aunque no pueda','Producir 0 mientras se resuelve'], a:0,
+     e:'La optimización con restricciones termina verificando la factibilidad: el cálculo propone, la restricción dispone.'}
+  ],
+  ticket:{ ctx:'Feria de San Marcos: el taller de calzado modela su utilidad como \\( U(x)=-2x^2+180x-1200 \\) (\\( x \\) = pares producidos). Encuentra el óptimo con el protocolo completo.',
+    steps:[
+      ['Derivar e igualar a cero:', ['\\( U\'=-4x+180=0 \\Rightarrow x=45 \\)','\\( U\'=180 \\Rightarrow x=0 \\)','\\( U\'=-2x \\Rightarrow x=90 \\)'],0],
+      ['Clasificar el punto crítico:', ['\\( U\'\'=-4<0 \\Rightarrow \\) máximo','\\( U\'\'=-4<0 \\Rightarrow \\) mínimo','\\( U\'\'=0 \\Rightarrow \\) inflexión'],0],
+      ['Utilidad en el óptimo:', ['\\( U(45)=-4050+8100-1200=\\$2{,}850 \\)','\\( U(45)=0 \\)','\\( U(45)=180\\cdot 45=\\$8{,}100 \\)'],0]
+    ],
+    phrase:'Si la capacidad real del taller fuera 30 pares por semana, ¿cuántos producirías y por qué?' },
+  taller:['Organicen los pasos para resolver un problema de optimización en un cartel de equipo (protocolo de 11.3).','Maximicen el área de un rectángulo con perímetro fijo de 40 m: modelen, deriven, clasifiquen y respondan con unidades.','Resuelvan el caso extendido del taller (Fería de San Marcos) añadiendo una restricción real (capacidad o materia prima) y reajusten su solución.'],
+  rub:[['Laboratorio (3 ejercicios)',40],['Diagnóstico exprés',20],['Ticket de tres pasos',20],['Taller ABP con restricción (Hacer/Ser)',20]],
+  inst:'Rúbrica de desempeño (optimización, evaluada por fases)'
+},
+
+{ id:'12', t:'Examen Final',
+  met:'Evaluación individual · Aprendizaje Colaborativo (repaso)',
+  hilo:'Con todo el cálculo diferencial en la mano, ¿cómo describimos con rigor el cambio y los puntos óptimos de un fenómeno, y qué decisiones para el bien común permite sustentar esa descripción?',
+  exp:'Resuelve problemas integrados de límites, continuidad, derivadas y optimización.',
+  saber:'Integración de las 12 sesiones: del modelo funcional a la decisión sustentada en evidencia.',
+  vids:[],
+  ggb:'Construyan un «panel de diagnóstico»: una función con su derivada y su segunda derivada graficadas juntas, y expliquen qué cuenta cada curva.',
+  theory:[
+    {n:'12.1', h:'El mapa completo del curso', b:`
+      <div class="demo">
+        <div class="dline"><span class="n">1.</span><span class="m">Funciones y dominio</span><span class="j">sesiones 1–4: modelar</span></div>
+        <div class="dline"><span class="n">2.</span><span class="m">Límites e indeterminaciones</span><span class="j">sesión 7: aproximarse</span></div>
+        <div class="dline"><span class="n">3.</span><span class="m">Continuidad y sus fallas</span><span class="j">sesión 8: diagnosticar</span></div>
+        <div class="dline"><span class="n">4.</span><span class="m">Derivada por definición y reglas</span><span class="j">sesiones 9–10: medir el cambio</span></div>
+        <div class="dline fin"><span class="n">5.</span><span class="m">Optimización con restricciones</span><span class="j">sesión 11: decidir</span></div>
+      </div>
+      El examen evalúa la <strong>cadena completa</strong>: cada eslabón citando al anterior, como una demostración con recibo.`},
+    {n:'12.2', h:'Los criterios de decisión que debes traer afilados', b:`
+      <div class="def"><b class="tagd">Formulario de decisión</b>Continuidad: 3 condiciones. Derivada: \\( \\lim \\dfrac{f(x+\\Delta x)-f(x)}{\\Delta x} \\). Potencia: \\( nx^{n-1} \\). Cadena, producto, cociente. Crítico: \\( f\'=0 \\). Máx/mín: signo de \\( f\'\' \\). Inflexión: \\( f\'\' \\) cambia de signo.</div>`},
+    {n:'12.3', h:'Demo integradora: de la fórmula a la decisión', b:`
+      <div class="demo">
+        <div class="dline"><span class="n">1.</span><span class="m">\\( U(x)=-2x^2+180x-1200 \\), utilidad del taller</span><span class="j">modelo (ses. 2)</span></div>
+        <div class="dline"><span class="n">2.</span><span class="m">\\( U\'(x)=100-4x \\)… \\( U\'(45)=0 \\)</span><span class="j">reglas (ses. 10) + crítico (ses. 11)</span></div>
+        <div class="dline"><span class="n">3.</span><span class="m">\\( U\'\'>0 \\)… \\( U\'\'=-4<0 \\Rightarrow \\) máximo</span><span class="j">criterio de la 2ª derivada</span></div>
+        <div class="dline fin"><span class="n">4.</span><span class="m">Decisión: producir 45 pares (o 40 si la restricción lo impone)</span><span class="j">evidencia cuantitativa para decidir</span></div>
+      </div>`}
+  ],
+  lab:[
+    {q:'\\( \\lim_{x\\to 0}\\dfrac{\\sen x}{x} = \\)', o:['\\( 1 \\)','\\( 0 \\)','\\( \\infty \\)'], a:0,
+     w:'Límite notable; radianes siempre.'},
+    {q:'La derivada de \\( f(x)=e^{2x} \\) es:', o:['\\( 2e^{2x} \\)','\\( e^{2x} \\)','\\( 2x e^{2x} \\)'], a:0,
+     w:'Cadena: exponencial conserva base, multiplica la derivada del exponente.'},
+    {q:'\\( \\dfrac{d}{dx}\\left[\\ln(x^2+1)\\right] = \\)', o:['\\( \\dfrac{2x}{x^2+1} \\)','\\( \\dfrac{1}{x^2+1} \\)','\\( \\dfrac{2x}{x^2} \\)'], a:0,
+     w:'Cadena: \\( 1/(x^2+1) \\) por \\( 2x \\).'}
+  ],
+  quiz:[
+    {q:'Un punto crítico donde la segunda derivada es positiva es un:',
+     o:['Mínimo local','Máximo local','Punto de inflexión'], a:0,
+     e:'Taza: concavidad arriba sostiene un valle.'},
+    {q:'Para maximizar beneficios, la primera derivada de la utilidad debe ser:',
+     o:['Cero','Positiva','Negativa'], a:0,
+     e:'La cima del rendimiento: \\( U\'=0 \\), luego confirmar con \\( U\'\'<0 \\).'},
+    {q:'La derivada de una función constante es:',
+     o:['0','1','La misma constante'], a:0,
+     e:'No cambia: rapidez de cambio nula. Coherente con \\( (c)=c x^0 \\Rightarrow 0 \\).'},
+    {q:'El cálculo diferencial sirve para:',
+     o:['Modelar y optimizar fenómenos de cambio','Solo calcular áreas','Resolver ecuaciones lineales'], a:0,
+     e:'Su razón de ser: medir el cambio y sostener decisiones con evidencia — el cierre del curso.'}
+  ],
+  ticket:{ ctx:'Síntesis final: un taller modela utilidad \\( U(x)=-x^2+60x-500 \\) (\\$). Recorre la cadena completa del curso para decidir la producción óptima.',
+    steps:[
+      ['Modelo y punto crítico:', ['\\( U\'=-2x+60=0 \\Rightarrow x=30 \\)','\\( U\'=60 \\Rightarrow x=0 \\)','\\( U\'=-x^2 \\Rightarrow x=60 \\)'],0],
+      ['Clasificación con la segunda derivada:', ['\\( U\'\'=-2<0 \\Rightarrow \\) máximo en \\( x=30 \\)','\\( U\'\'>0 \\Rightarrow \\) mínimo','No se puede clasificar'],0],
+      ['Utilidad máxima y decisión:', ['\\( U(30)=-900+1800-500=\\$400 \\): producir 30','\\( U(30)=0 \\): no producir','\\( U(30)=1300 \\)'],0]
+    ],
+    phrase:'Escribe en tu cuaderno: ¿qué sesión del curso aportó cada eslabón de esta cadena?' },
+  taller:['Construyan un mapa conceptual del curso: funciones → límites → continuidad → derivada → optimización, con un ejemplo propio por nodo.','Revisen su cuaderno completo y marquen los 5 ejercicios que más representen su aprendizaje (portafolio).','Propongan un problema de optimización de recursos de su comunidad, resuélvanlo con el protocolo completo y presenten la decisión sustentada.'],
+  rub:[['Examen final (impreso, en aula)',70],['Mapa del curso / repaso guiado',15],['Diagnóstico exprés de repaso',15]],
+  inst:'Lista de cotejo estructurada (examen final)'
+}
+
+];
+
+// ========================================================================
+//  EXÁMENES (formato: [pregunta, opciones, respuesta])
+//  Las respuestas se guardan por examen para el reporte de evidencia.
+// ========================================================================
+const EXAMS = {
+  diagnostico: {
+    title:'Examen diagnóstico · Cálculo Diferencial',
+    intro:'Responde individualmente para conocer tu punto de partida. No tiene calificación.',
+    qs:[
+      ['¿Qué es una función?',['Una relación donde cada entrada tiene una única salida','Una relación donde cada salida tiene una única entrada','Cualquier relación entre dos conjuntos'],'Una relación donde cada entrada tiene una única salida'],
+      ['¿Cuál es el dominio de \\( f(x)=\\sqrt{x} \\)?',['\\( [0,\\infty) \\)','\\( (-\\infty,\\infty) \\)','\\( (0,\\infty) \\)'],'\\( [0,\\infty) \\)'],
+      ['¿Qué tipo de función es \\( f(x)=2x+3 \\)?',['Lineal','Cuadrática','Exponencial'],'Lineal'],
+      ['La pendiente de una recta indica:',['La inclinación (tasa de cambio)','La intersección con el eje y','El dominio'],'La inclinación (tasa de cambio)'],
+      ['¿Cuál es la función inversa de \\( f(x)=e^x \\)?',['\\( \\ln(x) \\)','\\( \\log_{10}(x) \\)','\\( \\sqrt{x} \\)'],'\\( \\ln(x) \\)'],
+      ['El seno de un ángulo en un triángulo rectángulo es:',['Cateto opuesto / hipotenusa','Cateto adyacente / hipotenusa','Cateto opuesto / cateto adyacente'],'Cateto opuesto / hipotenusa'],
+      ['¿Qué es una sucesión aritmética?',['Suma constante entre términos','Multiplicación constante entre términos','Suma variable entre términos'],'Suma constante entre términos'],
+      ['El límite \\( \\lim_{x \\to 2} (x^2-4) \\) es:',['0','2','4'],'0'],
+      ['Una función es continua en un punto si:',['El límite existe y coincide con el valor de la función','El límite existe','La función está definida'],'El límite existe y coincide con el valor de la función'],
+      ['La derivada de \\( f(x)=x^3 \\) es:',['\\( 3x^2 \\)','\\( x^2 \\)','\\( 3x \\)'],'\\( 3x^2 \\)']
+    ]
+  },
+  parcial1: {
+    title:'Guía Parcial 1 · Funciones, Sucesiones y Límites',
+    intro:'Repasa funciones, sucesiones, límites y continuidad.',
+    qs:[
+      ['¿Cuál es el rango de \\( f(x)=x^2 \\) con dominio real?',['\\( [0,\\infty) \\)','\\( (-\\infty,\\infty) \\)','\\( (0,\\infty) \\)'],'\\( [0,\\infty) \\)'],
+      ['La suma de los primeros 10 términos de una sucesión aritmética con \\( a_1=2 \\) y \\( d=3 \\) es:',['\\( 155 \\)','\\( 165 \\)','\\( 175 \\)'],'\\( 155 \\)'],
+      ['\\( \\lim_{x \\to 1} \\frac{x^2-1}{x-1} \\) es:',['\\( 2 \\)','\\( 1 \\)','\\( 0 \\)'],'\\( 2 \\)'],
+      ['Una función con discontinuidad de salto tiene:',['Límites laterales diferentes','Límite infinito','Límite igual al valor'],'Límites laterales diferentes'],
+      ['La regla de la cadena se usa para:',['Derivar funciones compuestas','Derivar productos','Derivar cocientes'],'Derivar funciones compuestas'],
+      ['El dominio de \\( f(x)=\\sqrt{x-3} \\) es:',['\\( [3,\\infty) \\)','\\( (-\\infty,3] \\)','\\( \\mathbb{R} \\)'],'\\( [3,\\infty) \\)'],
+      ['\\( \\log_2 8 \\) es:',['\\( 3 \\)','\\( 4 \\)','\\( 2 \\)'],'\\( 3 \\)'],
+      ['En una sucesión geométrica con \\( r=0.5 \\), los términos:',['Se acercan a cero','Crecen sin límite','Se mantienen constantes'],'Se acercan a cero']
+    ]
+  },
+  final: {
+    title:'Examen Final · Cálculo Diferencial',
+    intro:'Integra límites, continuidad, derivadas y optimización.',
+    qs:[
+      ['\\( \\lim_{x \\to 0} \\frac{\\sen x}{x} \\) es:',['\\( 1 \\)','\\( 0 \\)','\\( \\infty \\)'],'\\( 1 \\)'],
+      ['La derivada de \\( f(x)=e^{2x} \\) es:',['\\( 2e^{2x} \\)','\\( e^{2x} \\)','\\( 2x e^{2x} \\)'],'\\( 2e^{2x} \\)'],
+      ['Para maximizar beneficios, la primera derivada de la función de utilidad debe ser:',['Cero','Positiva','Negativa'],'Cero'],
+      ['El punto de inflexión ocurre cuando:',['La segunda derivada cambia de signo','La primera derivada es cero','La función es discontinua'],'La segunda derivada cambia de signo'],
+      ['Deriva \\( f(x)=\\ln(x^2+1) \\):',['\\( \\frac{2x}{x^2+1} \\)','\\( \\frac{1}{x^2+1} \\)','\\( \\frac{2x}{x^2} \\)'],'\\( \\frac{2x}{x^2+1} \\)'],
+      ['La derivada de \\( f(x)=x^3 \\) es:',['\\( 3x^2 \\)','\\( x^2 \\)','\\( 3x \\)'],'\\( 3x^2 \\)'],
+      ['\\( \\lim_{x \\to 1} \\frac{x^2-1}{x-1} \\) es:',['\\( 2 \\)','\\( 1 \\)','\\( 0 \\)'],'\\( 2 \\)'],
+      ['Una discontinuidad donde el límite existe pero no coincide con \\( f(a) \\) es:',['Evitable','De salto','Infinita'],'Evitable']
+    ]
+  }
+};
+
+// ========================================================================
+//  GLOSARIO
+// ========================================================================
+const GLOSSARY = [
+  ['Función','Relación donde a cada elemento del dominio le corresponde un único elemento del codominio.'],
+  ['Dominio','Conjunto de valores para los cuales la función está definida.'],
+  ['Rango','Conjunto de valores que la función puede tomar.'],
+  ['Composición','\\( (f\\circ g)(x)=f(g(x)) \\): aplicar primero \\( g \\) y a su resultado \\( f \\).'],
+  ['Sucesión aritmética','Secuencia donde la diferencia entre términos consecutivos es constante.'],
+  ['Sucesión geométrica','Secuencia donde el cociente entre términos consecutivos es constante.'],
+  ['Convergencia','Propiedad de una sucesión geométrica con \\( |r|<1 \\): sus términos se acercan a cero.'],
+  ['Límite','Valor al que se aproxima una función cuando la variable tiende a un punto.'],
+  ['Indeterminación 0/0','Forma que exige técnica algebraica (factorizar) para revelar el límite.'],
+  ['Continuidad','Propiedad de una función cuyo límite en un punto coincide con su valor en ese punto.'],
+  ['Discontinuidad','Interrupción de la continuidad: evitable, de salto o infinita.'],
+  ['Cociente incremental','\\( \\frac{f(x+\\Delta x)-f(x)}{\\Delta x} \\): razón de cambio promedio (pendiente de la secante).'],
+  ['Derivada','Razón de cambio instantánea; pendiente de la recta tangente a la curva.'],
+  ['Regla de la cadena','Técnica para derivar funciones compuestas: derivar la capa externa y multiplicar por la derivada de la interna.'],
+  ['Punto crítico','Punto donde \\( f\'(x)=0 \\): candidato a máximo o mínimo.'],
+  ['Concavidad','Dirección de doblamiento de la curva, dada por el signo de \\( f\'\' \\).'],
+  ['Optimización','Proceso de encontrar máximos o mínimos de una función sujeto a restricciones.']
+];
+
+/* === PARTE 3 AQUÍ: MOTOR (navegación, candados, render, registro, evidencia) === */
+// ========================================================================
+//  ALMACENAMIENTO
+// ========================================================================
+function getJSON(k,d){ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):d; }catch(e){ return d; } }
+function setJSON(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+function delJSON(k){ try{ localStorage.removeItem(k); }catch(e){} }
+
+const LS={ unl:'cd_unl', name:'cd_name', perf:'cd_perf', comp:'cd_comp' };
+const K={
+  lab:id=>'cd_s'+id+'_lab',
+  quiz:id=>'cd_s'+id+'_quiz',
+  ticket:id=>'cd_s'+id+'_ticket',
+  taller:id=>'cd_s'+id+'_taller',
+  exam:k=>'cd_ex_'+k
+};
+const EXAM_KEYS=['diagnostico','parcial1','final'];
+const EXAM_LABELS={ diagnostico:'📝 D · Diagnóstico (10)', parcial1:'📄 P1 · Guía Parcial 1', final:'📄 F · Examen Final' };
+const COMPROMISOS=[
+  'Verificaré el tipo de cambio (suma, producto o ciclo) antes de elegir el modelo.',
+  'Cada paso de mis cálculos citará su propiedad o regla: nada se acepta «porque sí».',
+  'Ante un 0/0, factorizaré antes de declarar que un límite no existe.',
+  'En optimización, verificaré la restricción real antes de dar la respuesta final.'
+];
+
+function getUnlocked(){ return getJSON(LS.unl,{}); }
+function isUnlocked(id){ return !!getUnlocked()[id]; }
+function unlockSession(id){ const u=getUnlocked(); u[id]=true; setJSON(LS.unl,u); }
+
+// ========================================================================
+//  MODAL DE CONTRASEÑA
+// ========================================================================
+let pendingKey=null;
+function openPasswordModal(key){
+  pendingKey=key;
+  document.getElementById('passwordModal').style.display='flex';
+  document.getElementById('passwordInput').value='';
+  document.getElementById('passwordError').style.display='none';
+  document.getElementById('passwordInput').focus();
+}
+function closePasswordModal(){ document.getElementById('passwordModal').style.display='none'; pendingKey=null; }
+function tryUnlock(){
+  if(!pendingKey) return;
+  const input=document.getElementById('passwordInput').value.trim();
+  const errEl=document.getElementById('passwordError');
+  const expected=pendingKey.startsWith('exam_') ? SESSION_PASSWORDS['12'] : SESSION_PASSWORDS[pendingKey];
+  if(expected && input===expected){
+    unlockSession(pendingKey);
+    closePasswordModal();
+    showExpanded(pendingKey);
+  } else {
+    errEl.style.display='block';
+    errEl.textContent='❌ Clave incorrecta. Intenta de nuevo.';
+    document.getElementById('passwordInput').value='';
+    document.getElementById('passwordInput').focus();
+  }
+}
+document.getElementById('passwordInput').addEventListener('keydown',e=>{ if(e.key==='Enter') tryUnlock(); });
+
+// ========================================================================
+//  MATHJAX
+// ========================================================================
+function typesetApp(){
+  if(window.MathJax && MathJax.typesetPromise){ MathJax.typesetPromise().catch(e=>console.log('MathJax:',e)); }
+}
+
+// ========================================================================
+//  NAVEGACIÓN
+// ========================================================================
+let CURRENT='1';
+function renderNav(){
+  const unl=getUnlocked();
+  let h='';
+  SESSIONS.forEach(s=>{
+    const locked=!unl[s.id], act=CURRENT===s.id;
+    const cls=act?'active':(locked?'locked':'unlocked');
+    const label=`${String(s.id).padStart(2,'0')} · ${s.t}`;
+    h+=locked
+      ? `<button class="${cls}" onclick="openPasswordModal('${s.id}')">${label}</button>`
+      : `<button class="${cls}" onclick="showExpanded('${s.id}')">${label}</button>`;
+  });
+  EXAM_KEYS.forEach(ek=>{
+    const locked=EXAM_LOCKED && !unl['exam_'+ek];
+    const act=CURRENT===ek;
+    const cls=act?'active':(locked?'locked':'');
+    const label=EXAM_LABELS[ek];
+    h+=locked
+      ? `<button class="${cls}" onclick="openPasswordModal('exam_${ek}')">${label}</button>`
+      : `<button class="${cls}" onclick="showExpanded('${ek}')">${label}</button>`;
+  });
+  h+=`<button class="${CURRENT==='glosario'?'active':''}" onclick="showExpanded('glosario')">📖 G · Glosario</button>`;
+  h+=`<button class="${CURRENT==='registro'?'active':''}" onclick="showExpanded('registro')">📊 Mi registro y nota</button>`;
+  document.getElementById('nav').innerHTML=h;
+
+  let prog='';
+  if(/^\d+$/.test(CURRENT)){
+    const n=Object.keys(unl).filter(k=>/^\d+$/.test(k)).length;
+    prog=`Sesión ${CURRENT} de 12 · ${n} desbloqueadas`;
+  }
+  else if(CURRENT==='glosario') prog='Consulta';
+  else if(CURRENT==='registro') prog='Tu avance';
+  else prog='Instrumento de evaluación';
+  document.getElementById('progress').textContent=prog;
+}
+
+function showExpanded(key){
+  CURRENT=key;
+  renderNav();
+  const app=document.getElementById('app');
+  if(/^\d+$/.test(key)){
+    const s=SESSIONS.find(x=>x.id===key);
+    app.innerHTML = s ? (isUnlocked(key)?renderSession(s):renderLocked(s)) : '<p>Contenido no encontrado.</p>';
+  }
+  else if(key==='glosario') app.innerHTML=renderGlosario();
+  else if(key==='registro') renderRegistro();
+  else if(EXAM_KEYS.includes(key)){
+    if(EXAM_LOCKED && !isUnlocked('exam_'+key)){
+      app.innerHTML=`<div class="lesson-head"><div class="eyebrow">Evaluación</div><h2>🔒 ${EXAMS[key].title}</h2>
+        <p>Este instrumento está bloqueado. Ingresa la clave proporcionada por el profesor.</p>
+        <button class="action" onclick="openPasswordModal('exam_${key}')">🔑 Desbloquear</button></div>`;
+    } else {
+      app.innerHTML=renderExamPage(key);
+    }
+  }
+  else app.innerHTML='<p>Contenido no disponible.</p>';
+
+  typesetApp();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function renderLocked(s){
+  return `<div class="lesson-head"><div class="eyebrow">Sesión ${s.id}/12</div>
+    <h2>🔒 ${s.t}</h2>
+    <p><strong>Esta sesión está bloqueada.</strong> Ingresa la clave proporcionada por el profesor para acceder al contenido.</p>
+    <button class="action" onclick="openPasswordModal('${s.id}')">🔑 Desbloquear sesión</button></div>`;
+}
+
+// ========================================================================
+//  RENDER DE SESIÓN ENRIQUECIDA
+// ========================================================================
+let QUIZSEL={};
+function renderSession(s){
+  const sid=s.id;
+  const labData=getJSON(K.lab(sid),null);
+  const quizData=getJSON(K.quiz(sid),null);
+  QUIZSEL[sid]=quizData && quizData.sel ? quizData.sel.slice() : s.quiz.map(()=>null);
+  const tallerData=getJSON(K.taller(sid),[]);
+
+  // --- cabecera ---
+  let h=`<div class="lesson-head">
+    <div class="eyebrow">Sesión ${sid}/12 · SUBAC-01-26</div>
+    <h2>${s.t}</h2>
+    <div class="pills">
+      <span class="pill p">Metodología: ${s.met}</span>
+      <span class="pill g">Aprendizaje esperado: ${s.exp}</span>
+    </div>
+    <div class="hilo">🧵 <strong>Hilo conductor:</strong> ${s.hilo}</div>
+    <p><strong>Saber en juego:</strong> ${s.saber}</p>
+    ${s.vids.length?`<p style="margin:.4rem 0 0"><strong>🎬 Videos de apoyo:</strong></p><ul class="vidlist">${s.vids.map(v=>`<li><a href="https://www.youtube.com/results?search_query=${encodeURIComponent(v[1])}" target="_blank" rel="noopener">${v[0]}</a></li>`).join('')}</ul>`:''}
+    <div class="subnav">
+      <a href="#teoria${sid}">📖 Teoría</a>
+      <a href="#lab${sid}">🧪 Laboratorio</a>
+      <a href="#diag${sid}">📋 Diagnóstico</a>
+      <a href="#act${sid}">🗂 Actividades</a>
+    </div>
+  </div>`;
+
+  // --- teoría ---
+  h+=`<section class="sec" id="teoria${sid}">
+    <div class="sec-no">📖 Teoría</div>`;
+  s.theory.forEach(b=>{ h+=`<div><span class="chip">${b.n}</span><h3>${b.h}</h3>${b.b}</div>`; });
+  h+=`<div class="ggb">🖥️ <strong>GeoGebra:</strong> ${s.ggb}</div>`;
+  h+=`</section>`;
+
+  // --- laboratorio ---
+  h+=`<section class="sec" id="lab${sid}">
+    <div class="sec-no">🧪 Laboratorio · práctica con retroalimentación</div>
+    <p>Resuelve cada ejercicio y comprueba. La retroalimentación explica la respuesta correcta — si fallas, vuelve a intentarlo antes de leerla.</p>`;
+  s.lab.forEach((it,i)=>{
+    const saved=labData && labData.answers && labData.answers[i];
+    const opts=it.o.map((o,j)=>`<label><input type="radio" name="lab${sid}_${i}" value="${j}" ${saved&&saved.value===j?'checked':''}> ${o}</label>`).join('');
+    h+=`<div class="labex">
+      <p class="q"><strong>Ejercicio ${i+1}.</strong> ${it.q}</p>
+      ${opts}
+      <button class="action" onclick="checkLab('${sid}',${i})">Comprobar</button>
+      <div class="feedback" id="lbf${sid}_${i}">${saved&&saved.correct?'<span class="ok">✅ Correcto (registrado).</span>':''}</div>
+    </div>`;
+  });
+  h+=`<p class="qz-res" id="lbres${sid}">${labData?`Avance del laboratorio: ${labData.score}/${labData.total} correctas`:''}</p>`;
+  h+=`</section>`;
+
+  // --- diagnóstico ---
+  h+=`<section class="sec" id="diag${sid}">
+    <div class="sec-no">📋 Diagnóstico exprés</div>
+    <p>Elige una opción por pregunta y califica al final. Cada pregunta trae su explicación.</p>`;
+  s.quiz.forEach((q,i)=>{
+    const sel=QUIZSEL[sid][i];
+    const graded=!!quizData;
+    h+=`<div class="qz-q" id="qz${sid}_${i}">
+      <div class="qt">P${i+1}. ${q.q}</div>
+      ${q.o.map((o,j)=>`<button type="button" class="qz-opt ${graded?'lock':''} ${graded?(j===q.a?'ok':(sel===j?'bad':'')):(sel===j?'sel':'')}" onclick="pickQuiz('${sid}',${i},${j})"><b>${'ABC'[j]})</b> ${o}</button>`).join('')}
+      <div class="explain" id="qze${sid}_${i}" style="display:${graded?'block':'none'}">${q.e}</div>
+    </div>`;
+  });
+  h+=`<div style="margin-top:.8rem">
+      <button class="action" onclick="gradeQuiz('${sid}')">✅ Calificar diagnóstico</button>
+      <button class="action" style="background:#e0e0e0;color:#333" onclick="resetQuiz('${sid}')">🔄 Reintentar</button>
+      <div class="qz-res" id="qzr${sid}">${quizData?`Resultado guardado: ${quizData.score}/${s.quiz.length}`:''}</div>
+    </div>
+  </section>`;
+
+  // --- actividades ---
+  const t=s.ticket;
+  h+=`<section class="sec" id="act${sid}">
+    <div class="sec-no">🗂 Actividades de cierre</div>
+
+    <div class="card activity" style="margin-bottom:1rem">
+      <h3>🎟️ Ticket de tres pasos (verificado)</h3>
+      <p>${t.ctx}</p>`;
+  t.steps.forEach((st,i)=>{
+    const opts=st[1].map((o,j)=>`<option value="${j}">${o}</option>`).join('');
+    h+=`<label><strong>Paso ${i+1}.</strong> ${st[0]}</label>
+        <select id="tk${sid}_${i}" style="width:100%"><option value="">— elige —</option>${opts}</select>`;
+  });
+  h+=`<label style="margin-top:.6rem"><strong>En una frase:</strong> ${t.phrase}</label>
+      <textarea id="tkph${sid}" rows="2" style="width:100%" placeholder="Escribe tu frase aquí…"></textarea>
+      <button class="action" onclick="checkTicket('${sid}')">Verificar mi ticket</button>
+      <div class="feedback" id="tkf${sid}"></div>
+    </div>
+
+    <div class="card notebook" style="margin-bottom:1rem">
+      <h3>📝 Taller (cuaderno · eje Hacer/Ser)</h3>
+      <p>Marca conforme lo completes en tu cuaderno. Se guarda con tu registro.</p>`;
+  s.taller.forEach((tt,i)=>{
+    h+=`<label class="chk ${tallerData[i]?'done':''}"><input type="checkbox" ${tallerData[i]?'checked':''} onchange="toggleTaller('${sid}',${i},this)"><span>${tt}</span></label>`;
+  });
+  h+=`</div>
+
+    <div class="card">
+      <h3>⚖️ Ponderación de la sesión</h3>
+      <span class="pill-flag">⚠️ Propuesta preliminar — pendiente de validación en Academia (colegiada)</span>`;
+  s.rub.forEach(r=>{
+    h+=`<div class="rub-row"><span class="rn">${r[0]}</span><div class="rub-bar"><div style="width:${r[1]}%"></div></div><span class="rub-pct">${r[1]}%</span></div>`;
+  });
+  h+=`<p style="margin-top:.6rem"><strong>Instrumento:</strong> ${s.inst}.</p>
+      <p class="hint" style="color:var(--muted);font-size:.9rem">Tu nota autoevaluable de esta sesión se calcula con tus resultados de Laboratorio, Diagnóstico, Ticket y Taller. Los puntos de examen en aula los registra tu profesor.</p>
+    </div>
+  </section>`;
+
+  return h;
+}
+
+// ========================================================================
+//  LABORATORIO · lógica
+// ========================================================================
+function checkLab(sid,i){
+  const s=SESSIONS.find(x=>x.id===sid);
+  const it=s.lab[i];
+  const chosen=document.querySelector(`input[name="lab${sid}_${i}"]:checked`);
+  const box=document.getElementById(`lbf${sid}_${i}`);
+  if(!chosen){ box.innerHTML='<span class="bad">Selecciona una respuesta.</span>'; return; }
+  const correct=+chosen.value===it.a;
+  box.innerHTML=correct
+    ? `<span class="ok">✅ Correcto.</span> ${it.w}`
+    : '<span class="bad">❌ Revisa la idea clave y vuelve a intentarlo.</span>';
+  const data=getJSON(K.lab(sid),{answers:[],score:0,total:s.lab.length});
+  data.answers[i]={value:+chosen.value,correct};
+  data.score=data.answers.filter(a=>a&&a.correct).length;
+  data.total=s.lab.length;
+  setJSON(K.lab(sid),data);
+  const res=document.getElementById(`lbres${sid}`);
+  if(res) res.textContent=`Avance del laboratorio: ${data.score}/${data.total} correctas`;
+  if(correct) typesetApp();
+}
+
+// ========================================================================
+//  DIAGNÓSTICO · lógica
+// ========================================================================
+function pickQuiz(sid,i,j){
+  const card=document.getElementById(`qz${sid}_${i}`);
+  if(card.dataset.graded==='1') return;
+  QUIZSEL[sid][i]=j;
+  card.querySelectorAll('.qz-opt').forEach(b=>b.classList.remove('sel'));
+  card.querySelectorAll('.qz-opt')[j].classList.add('sel');
+}
+function gradeQuiz(sid){
+  const s=SESSIONS.find(x=>x.id===sid);
+  let score=0,unanswered=0;
+  s.quiz.forEach((q,i)=>{
+    const card=document.getElementById(`qz${sid}_${i}`);
+    card.dataset.graded='1';
+    const chosen=QUIZSEL[sid][i];
+    if(chosen===null||chosen===undefined) unanswered++;
+    card.querySelectorAll('.qz-opt').forEach((b,j)=>{
+      b.classList.add('lock'); b.classList.remove('sel');
+      if(j===q.a) b.classList.add('ok');
+      else if(chosen===j) b.classList.add('bad');
+    });
+    document.getElementById(`qze${sid}_${i}`).style.display='block';
+    if(chosen===q.a) score++;
+  });
+  if(unanswered) toastMsg(`Faltan ${unanswered} pregunta(s) por responder.`);
+  const msg=score>=s.quiz.length-1?'¡Dominio firme de la sesión!':score>=Math.ceil(s.quiz.length/2)?'Vas bien: repasa lo marcado.':'Vuelve a la teoría antes del taller.';
+  document.getElementById(`qzr${sid}`).innerHTML=`Resultado: <strong>${score}/${s.quiz.length}</strong> — ${msg}`;
+  setJSON(K.quiz(sid),{score,total:s.quiz.length,sel:QUIZSEL[sid]});
+  typesetApp();
+}
+function resetQuiz(sid){
+  delJSON(K.quiz(sid));
+  showExpanded(sid);
+}
+
+// ========================================================================
+//  TICKET · lógica
+// ========================================================================
+function checkTicket(sid){
+  const s=SESSIONS.find(x=>x.id===sid);
+  const t=s.ticket;
+  const box=document.getElementById(`tkf${sid}`);
+  let allOk=true; const issues=[];
+  t.steps.forEach((st,i)=>{
+    const sel=document.getElementById(`tk${sid}_${i}`);
+    sel.style.border=''; sel.style.background='';
+    if(sel.value===''){ allOk=false; sel.style.border='2px solid var(--magenta)'; issues.push(`elige opción en el paso ${i+1}`); return; }
+    const ok=+sel.value===st[2];
+    sel.style.border= ok?'2px solid var(--green)':'2px solid var(--magenta)';
+    sel.style.background= ok?'var(--green-soft)':'var(--magenta-soft)';
+    if(!ok){ allOk=false; issues.push(`revisa el paso ${i+1}`); }
+  });
+  const ph=document.getElementById(`tkph${sid}`).value.trim();
+  if(ph.length<10){ allOk=false; issues.push('escribe tu frase de cierre (mínimo una línea)'); }
+  if(!allOk){
+    box.innerHTML=`<span class="bad">❌ Ticket incompleto: ${issues.join('; ')}.</span>`;
+    return;
+  }
+  const sel=t.steps.map((st,i)=>+document.getElementById(`tk${sid}_${i}`).value);
+  setJSON(K.ticket(sid),{ok:true,sel,phrase:ph,ts:Date.now()});
+  box.innerHTML='<span class="ok">✅ Ticket de tres pasos verificado y guardado. Anótalo también en tu cuaderno.</span>';
+  typesetApp();
+}
+
+// ========================================================================
+//  TALLER · lógica
+// ========================================================================
+function toggleTaller(sid,i,cb){
+  const arr=getJSON(K.taller(sid),[]);
+  arr[i]=cb.checked;
+  setJSON(K.taller(sid),arr);
+  cb.closest('.chk').classList.toggle('done',cb.checked);
+}
+
+// ========================================================================
+//  EXÁMENES
+// ========================================================================
+function renderExamPage(ek){
+  const ex=EXAMS[ek];
+  return `<div class="lesson-head"><div class="eyebrow">Evaluación</div><h2>${ex.title}</h2><p>${ex.intro}</p></div>
+  <section class="card">${ex.qs.map((q,i)=>`
+    <div class="activity" style="margin-bottom:.8rem">
+      <p><strong>${i+1}. ${q[0]}</strong></p>
+      ${q[1].map((o,j)=>`<label><input type="radio" name="ex_${ek}_${i}" value="${j}"> ${o}</label>`).join('')}
+    </div>`).join('')}
+    <button class="action" onclick="gradeExam('${ek}')">Calificar</button>
+    <div id="exf_${ek}" class="feedback"></div>
+  </section>`;
+}
+function gradeExam(ek){
+  const ex=EXAMS[ek];
+  let score=0; const saved=[];
+  ex.qs.forEach((q,i)=>{
+    const c=document.querySelector(`input[name="ex_${ek}_${i}"]:checked`);
+    const correct=!!c && +c.value===q[2];
+    saved.push(c?{value:+c.value,correct}:null);
+    if(correct) score++;
+  });
+  setJSON(K.exam(ek),saved);
+  const box=document.getElementById(`exf_${ek}`);
+  box.innerHTML=`Resultado: ${score}/${ex.qs.length}. ${score===ex.qs.length?'🎉 ¡Perfecto!':'Revisa las respuestas y anota qué concepto necesitas practicar.'}`;
+  box.className='feedback '+(score===ex.qs.length?'ok':'bad');
+}
+
+// ========================================================================
+//  GLOSARIO
+// ========================================================================
+function renderGlosario(){
+  return `<div class="lesson-head"><div class="eyebrow">Consulta rápida</div><h2>📚 Glosario de términos clave</h2>
+    <p>Usa estas definiciones para preparar la sesión y revisar tu cuaderno.</p></div>
+  <section class="card"><table><thead><tr><th>Término</th><th>Definición</th></tr></thead>
+  <tbody>${GLOSSARY.map(g=>`<tr><th>${g[0]}</th><td style="text-align:left">${g[1]}</td></tr>`).join('')}</tbody></table></section>`;
+}
+
+// ========================================================================
+//  REGISTRO Y NOTA
+// ========================================================================
+function buildRows(sid){
+  const s=SESSIONS.find(x=>x.id===sid);
+  const lab=getJSON(K.lab(sid),null);
+  const quiz=getJSON(K.quiz(sid),null);
+  const tk=getJSON(K.ticket(sid),null);
+  const tal=getJSON(K.taller(sid),[]);
+  const rows=[];
+  if(s.rub.length===4){
+    const w=s.rub[0][1], wq=s.rub[1][1], wt=s.rub[2][1], wa=s.rub[3][1];
+    rows.push({name:'Laboratorio',max:w,
+      pts:lab?Math.round(lab.score/lab.total*w):0,
+      pct:lab?lab.score/lab.total:0,
+      detail:lab?`${lab.score}/${lab.total} correctas`:'Sin comprobar aún',
+      status:lab?'done':'pend'});
+    rows.push({name:'Diagnóstico exprés',max:wq,
+      pts:quiz?Math.round(quiz.score/quiz.total*wq):0,
+      pct:quiz?quiz.score/quiz.total:0,
+      detail:quiz?`${quiz.score}/${quiz.total} aciertos`:'Sin calificar',
+      status:quiz?'done':'pend'});
+    rows.push({name:'Ticket de tres pasos',max:wt,
+      pts:(tk&&tk.ok)?wt:0, pct:(tk&&tk.ok)?1:0,
+      detail:(tk&&tk.ok)?'Verificado por el motor':'Pendiente',
+      status:(tk&&tk.ok)?'done':'pend'});
+    const done=tal.filter(Boolean).length;
+    rows.push({name:'Taller y cuaderno (Hacer/Ser)',max:wa,
+      pts:Math.round(done/3*wa), pct:done/3,
+      detail:`${done}/3 evidencias marcadas`,
+      status:done===3?'done':'pend'});
+  } else {
+    rows.push({name:s.rub[0][0],max:s.rub[0][1],pts:null,pct:0,
+      detail:'Se aplica e imprime en aula',status:'aula'});
+    rows.push({name:s.rub[1][0],max:s.rub[1][1],
+      pts:lab?Math.round(lab.score/lab.total*s.rub[1][1]):0,
+      pct:lab?lab.score/lab.total:0,
+      detail:lab?`${lab.score}/${lab.total} correctas`:'Sin comprobar aún',
+      status:lab?'done':'pend'});
+    rows.push({name:s.rub[2][0],max:s.rub[2][1],
+      pts:quiz?Math.round(quiz.score/quiz.total*s.rub[2][1]):0,
+      pct:quiz?quiz.score/quiz.total:0,
+      detail:quiz?`${quiz.score}/${quiz.total} aciertos`:'Sin calificar',
+      status:quiz?'done':'pend'});
+    rows.push({name:'Ticket (formativo)',max:0,pts:0,pct:(tk&&tk.ok)?1:0,
+      detail:(tk&&tk.ok)?'Verificado':'Pendiente (no pondera)',
+      status:(tk&&tk.ok)?'done':'pend'});
+  }
+  return rows;
+}
+
+function renderRegistro(){
+  const app=document.getElementById('app');
+  const perf=getJSON(LS.perf,null);
+  const comp=getJSON(LS.comp,[]);
+  let totPts=0, totMax=0;
+  let rowsHtml='';
+  SESSIONS.forEach(s=>{
+    const rows=buildRows(s.id);
+    const sesAuto=rows.reduce((a,r)=>a+(r.pts||0),0);
+    const sesMax=rows.reduce((a,r)=>a+(r.pts!==null?r.max:0),0);
+    totPts+=sesAuto; totMax+=sesMax;
+    rowsHtml+=`<div class="res-row" style="border-top:2px solid var(--green)">
+      <div><strong>Sesión ${String(s.id).padStart(2,'0')} · ${s.t}</strong>
+      <div style="color:var(--muted);font-size:.8rem">${rows.map(r=>`${r.name}: ${r.pts===null?'en aula':r.pts+'/'+r.max}`).join(' · ')}</div></div>
+      <span class="status-b ${sesAuto>=sesMax*0.8?'done':'pend'}">${sesMax?Math.round(sesAuto/sesMax*100)+'%':'—'}</span>
+      <span class="pt">${sesAuto} / ${sesMax} pts</span>
+      <button class="action" style="padding:.35rem .7rem;font-size:.8rem" onclick="showExpanded('${s.id}')">Ir</button>
+      <span></span>
+    </div>`;
+    rows.forEach(r=>{
+      rowsHtml+=`<div class="res-row">
+        <div>${r.name} <div style="color:var(--muted);font-size:.8rem">${r.detail}</div></div>
+        <span class="status-b ${r.status==='done'?'done':'pend'}">${r.status==='done'?'lista':r.status==='aula'?'en aula':'pendiente'}</span>
+        <span class="pt">${r.pts===null?'—':r.pts+' / '+r.max}</span>
+        <div class="rub-bar" style="align-self:center"><div style="width:${Math.round(Math.min(1,r.pct)*100)}%"></div></div>
+        <span></span>
+      </div>`;
+    });
+  });
+
+  let examHtml='';
+  EXAM_KEYS.forEach(ek=>{
+    const saved=getJSON(K.exam(ek),null);
+    const n=saved?saved.filter(a=>a&&a.correct).length:0;
+    const total=EXAMS[ek].qs.length;
+    examHtml+=`<div class="res-row">
+      <div>${EXAMS[ek].title} <div style="color:var(--muted);font-size:.8rem">${saved?`Intento registrado (${saved.filter(Boolean).length}/${total} respondidas)`:'Sin intento registrado'}</div></div>
+      <span class="status-b ${saved?'done':'pend'}">${saved?'registrado':'pendiente'}</span>
+      <span class="pt">${saved?n+' / '+total:'—'}</span>
+      <button class="action" style="padding:.35rem .7rem;font-size:.8rem" onclick="showExpanded('${ek}')">Ir</button>
+      <span></span>
+    </div>`;
+  });
+
+  app.innerHTML=`
+  <div class="lesson-head"><div class="eyebrow">Registro individual</div><h2>📊 Mi registro y nota</h2>
+  <p>Tu avance autoevaluable, sesión por sesión, con la ponderación de la planeación. Regístrate una sola vez.</p></div>
+
+  ${perf?`
+  <div class="card" style="margin:1rem 0">
+    <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+      <div style="width:52px;height:52px;border-radius:50%;background:var(--green-soft);border:2px solid var(--green);display:grid;place-items:center;font-weight:bold;color:var(--ok);font-size:1.2rem">${initials(perf.nombre)}</div>
+      <div><strong>${perf.nombre}</strong><br><span style="color:var(--muted);font-size:.9rem">Matrícula ${perf.matricula}</span></div>
+      <button class="action" style="margin-left:auto;background:#e0e0e0;color:#333" onclick="editPerfil()">✏️ Editar</button>
+    </div>
+  </div>`:`
+  <div class="card" style="margin:1rem 0">
+    <h3>👤 Regístrate con tus credenciales institucionales</h3>
+    <label>Nombre completo <input id="regNombre" type="text" placeholder="Ej. Ana Sofía Delgado Ruiz" style="width:100%"></label>
+    <label>Matrícula <input id="regMat" type="text" placeholder="Ej. 20260315" style="width:100%"></label>
+    <button class="action" onclick="savePerfil()">Registrarme</button>
+  </div>`}
+
+  <div class="card" style="margin-bottom:1rem">
+    <div class="res-total"><span><strong>Avance autoevaluable global</strong> (máx. ${totMax} pts; los exámenes en aula se suman aparte)</span>
+    <strong>${totPts} / ${totMax} · ${totMax?Math.round(totPts/totMax*100):0}%</strong></div>
+  </div>
+
+  <div class="card" style="margin-bottom:1rem">${rowsHtml}</div>
+
+  <div class="card" style="margin-bottom:1rem">
+    <h3>📝 Instrumentos de evaluación</h3>${examHtml}
+  </div>
+
+  <div class="card" style="margin-bottom:1rem">
+    <h3>🤝 Compromisos de aprendizaje</h3>
+    <p style="color:var(--muted);font-size:.9rem">Márcalos conforme los asumas. Alimentan el eje Ser.</p>
+    ${COMPROMISOS.map((c,i)=>`<label class="chk ${comp.includes(i)?'done':''}"><input type="checkbox" ${comp.includes(i)?'checked':''} onchange="toggleComp(${i},this)"><span>${c}</span></label>`).join('')}
+  </div>
+
+  <div class="card">
+    <h3>📄 Evidencia</h3>
+    <p>Genera tu evidencia de aprendizaje para imprimir, guardar como PDF o descargar como imagen.</p>
+    <button class="action" onclick="openReport()">📄 Generar evidencia</button>
+  </div>`;
+  typesetApp();
+}
+function initials(n){ return n.trim().split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join(''); }
+function savePerfil(){
+  const n=document.getElementById('regNombre').value.trim();
+  const m=document.getElementById('regMat').value.trim();
+  if(n.length<3){ alert('Escribe tu nombre completo.'); return; }
+  if(m.length<4){ alert('Escribe tu matrícula institucional.'); return; }
+  setJSON(LS.perf,{nombre:n,matricula:m,ts:Date.now()});
+  setJSON(LS.name,n);
+  document.getElementById('studentName').value=n;
+  renderRegistro();
+}
+function editPerfil(){
+  const p=getJSON(LS.perf,null); if(!p) return;
+  setJSON(LS.perf,null);
+  renderRegistro();
+  const n=document.getElementById('regNombre'); if(n){ n.value=p.nombre; document.getElementById('regMat').value=p.matricula; }
+}
+function toggleComp(i,cb){
+  const arr=new Set(getJSON(LS.comp,[]));
+  cb.checked?arr.add(i):arr.delete(i);
+  setJSON(LS.comp,[...arr].sort((a,b)=>a-b));
+  cb.closest('.chk').classList.toggle('done',cb.checked);
+}
+
+// ========================================================================
+//  REPORTE DE EVIDENCIA (modal + impresión + PNG)
+// ========================================================================
+function openReport(){
+  const perf=getJSON(LS.perf,null);
+  const name=perf?perf.nombre:(getJSON(LS.name,'')||'No especificado');
+  const comp=getJSON(LS.comp,[]);
+  let html=`<div class="report-container">
+    <h2>📄 Evidencia de aprendizaje · Cálculo Diferencial</h2>
+    <div class="student-info">👤 Estudiante: <strong>${name}</strong>${perf?` · Matrícula ${perf.matricula}`:''}</div>
+    <p><em>Fecha: ${new Date().toLocaleDateString('es-MX',{year:'numeric',month:'long',day:'numeric'})}</em></p><hr>`;
+
+  let totPts=0, totMax=0;
+  SESSIONS.forEach(s=>{
+    const rows=buildRows(s.id);
+    const p=rows.reduce((a,r)=>a+(r.pts||0),0);
+    const m=rows.reduce((a,r)=>a+(r.pts!==null?r.max:0),0);
+    totPts+=p; totMax+=m;
+    html+=`<h3 style="margin-top:1rem">Sesión ${String(s.id).padStart(2,'0')}: ${s.t}</h3>`;
+    rows.forEach(r=>{
+      const st=r.pts===null?'<span class="status-bad">en aula</span>'
+        :r.status==='done'?'<span class="status-ok">✓ completa</span>':'<span class="status-bad">pendiente</span>';
+      html+=`<div class="report-item"><div class="q">${r.name} — ${r.detail}</div>
+        <div class="a">Puntos: <strong>${r.pts===null?'—':r.pts+' / '+r.max}</strong> · ${st}</div></div>`;
+    });
+  });
+  html+=`<p style="margin-top:1rem"><strong>Avance autoevaluable: ${totPts} / ${totMax} pts (${totMax?Math.round(totPts/totMax*100):0}%)</strong>. Los exámenes aplicados en aula los registra el profesor.</p><hr>`;
+
+  EXAM_KEYS.forEach(ek=>{
+    const saved=getJSON(K.exam(ek),null);
+    html+=`<h3 style="margin-top:1rem">${EXAMS[ek].title}</h3>`;
+    if(!saved || !saved.filter(Boolean).length){ html+=`<p style="color:var(--muted)">Sin respuestas registradas.</p>`; }
+    else{
+      EXAMS[ek].qs.forEach((q,i)=>{
+        const a=saved[i];
+        if(a) html+=`<div class="report-item"><div class="q">${i+1}. ${q[0]}</div>
+          <div class="a">📌 Respuesta: ${q[1][a.value]}</div>
+          <div class="a ${a.correct?'status-ok':'status-bad'}">${a.correct?'✅ Correcto':'❌ Incorrecto — respuesta: '+q[1][q[2]]}</div></div>`;
+        else html+=`<div class="report-item"><div class="q">${i+1}. ${q[0]}</div><div class="a" style="color:var(--muted)">⚠️ No respondida</div></div>`;
+      });
+    }
+  });
+
+  html+=`<p style="margin-top:1rem"><strong>Compromisos asumidos:</strong> ${comp.length} de ${COMPROMISOS.length}.</p>`;
+  html+=`<p style="font-size:.9rem;color:var(--muted)">💡 Evidencia generada localmente; no se envía información a internet.</p></div>`;
+  document.getElementById('reportContent').innerHTML=html;
+  document.getElementById('reportModal').style.display='flex';
+  typesetApp();
+}
+function closeReport(){ document.getElementById('reportModal').style.display='none'; }
+
+function downloadPNG(){
+  const perf=getJSON(LS.perf,null);
+  if(!perf){ alert('Regístrate primero en «📊 Mi registro y nota» para descargar tu evidencia.'); return; }
+  const comp=getJSON(LS.comp,[]);
+  let totPts=0,totMax=0;
+  const lines=[];
+  SESSIONS.forEach(s=>{
+    const rows=buildRows(s.id);
+    const p=rows.reduce((a,r)=>a+(r.pts||0),0);
+    const m=rows.reduce((a,r)=>a+(r.pts!==null?r.max:0),0);
+    totPts+=p;totMax+=m;
+    lines.push(`Sesión ${String(s.id).padStart(2,'0')} · ${s.t.slice(0,52)} — ${p}/${m} pts (${m?Math.round(p/m*100):0}%)`);
+  });
+  const examLines=EXAM_KEYS.map(ek=>{
+    const sv=getJSON(K.exam(ek),null);
+    const n=sv?sv.filter(a=>a&&a.correct).length:0;
+    return `${EXAMS[ek].title}: ${sv?n+'/'+EXAMS[ek].qs.length:'sin intento'}`;
+  });
+
+  const W=1000, H=210+lines.length*34+examLines.length*28+180;
+  const c=document.createElement('canvas'); c.width=W; c.height=H;
+  const x=c.getContext('2d');
+  x.fillStyle='#f5fbf3'; x.fillRect(0,0,W,H);
+  x.fillStyle='#3BAA34'; x.fillRect(0,0,W,8); x.fillRect(0,H-8,W,8);
+  x.fillStyle='#CE027F'; x.font='700 13px Arial';
+  x.fillText('UNITI · LPID · CÁLCULO DIFERENCIAL — EVIDENCIA DE APRENDIZAJE',60,58);
+  x.fillStyle='#8C368D'; x.font='bold 28px Trebuchet MS, Arial';
+  x.fillText('Aula de Cálculo Diferencial · SUBAC-01-26',60,96);
+  x.fillStyle='#203025'; x.font='15px Georgia';
+  x.fillText(`${perf.nombre} · Matrícula ${perf.matricula} · ${new Date().toLocaleDateString('es-MX',{day:'2-digit',month:'long',year:'numeric'})}`,60,126);
+  let y=170;
+  x.font='bold 14px Trebuchet MS, Arial'; x.fillStyle='#203025';
+  x.fillText('Avance por sesión (autoevaluable):',60,y); y+=16;
+  x.font='13px Georgia';
+  lines.forEach(l=>{ x.fillText(l,74,y); y+=26; });
+  y+=8; x.font='13px Georgia';
+  examLines.forEach(l=>{ x.fillText('📄 '+l,74,y); y+=24; });
+  y+=14;
+  x.strokeStyle='#3BAA34'; x.lineWidth=2; x.beginPath(); x.moveTo(60,y); x.lineTo(W-60,y); x.stroke();
+  x.fillStyle='#247a25'; x.font='bold 24px Trebuchet MS, Arial';
+  x.fillText(`Avance autoevaluable: ${totPts} / ${totMax} pts (${totMax?Math.round(totPts/totMax*100):0}%)`,60,y+44);
+  x.fillStyle='#526457'; x.font='13px Georgia';
+  x.fillText(`Compromisos asumidos: ${comp.length} de ${COMPROMISOS.length} · Los exámenes en aula los registra el profesor.`,60,y+76);
+  const a=document.createElement('a');
+  a.download='evidencia-calculo-'+perf.matricula+'.png';
+  a.href=c.toDataURL('image/png'); a.click();
+}
+
+// ========================================================================
+//  MENSAJES (toast ligero)
+// ========================================================================
+function toastMsg(msg){
+  const t=document.createElement('div');
+  t.textContent=msg;
+  t.style.cssText='position:fixed;bottom:20px;right:20px;background:#203025;color:#fff;padding:.7rem 1.1rem;border-radius:8px;font:600 .9rem Trebuchet MS,Arial;z-index:1200;box-shadow:0 6px 20px rgba(0,0,0,.25)';
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),2800);
+}
+
+// ========================================================================
+//  NOMBRE EN BARRA SUPERIOR + INICIO
+// ========================================================================
+document.getElementById('studentName').addEventListener('change',function(){
+  setJSON(LS.name,this.value.trim());
+  const p=getJSON(LS.perf,null);
+  if(p){ p.nombre=this.value.trim(); setJSON(LS.perf,p); }
+});
+
+(function init(){
+  document.documentElement.style.scrollBehavior='smooth';
+  const st=document.createElement('style');
+  st.textContent='.sec,.labex,.qz-q{scroll-margin-top:1rem}';
+  document.head.appendChild(st);
+
+  const u=getUnlocked();
+  if(Object.keys(u).length===0) unlockSession('1');
+  const nameInput=document.getElementById('studentName');
+  const savedName=getJSON(LS.name,'') || (getJSON(LS.perf,null)||{}).nombre || '';
+  if(nameInput && savedName) nameInput.value=savedName;
+  showExpanded('1');
+})();
+</script>
+</body>
+</html>
+
+
+  
