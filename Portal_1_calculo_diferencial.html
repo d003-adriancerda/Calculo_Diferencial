@@ -144,7 +144,8 @@ footer{max-width:1180px;margin:2rem auto;padding:1rem;color:var(--muted);border-
 <header>
     <div class="eyebrow">UNITI · LPID · 3er cuatrimestre</div>
     <h1>Aula de Cálculo Diferencial</h1>
-    <p>Interpreta el cambio, modela fenómenos y optimiza recursos. Cada sesión integra teoría con demostraciones paso a paso, laboratorio interactivo, diagnóstico exprés y actividades de cierre, siguiendo la planeación SUBAC-01-26.</p>
+    <p>Interpreta el cambio, modela fenómenos y optimiza recursos.<br>  
+      Este laboratorio interactivo acompaña la planeación de la unidad de aprendizaje de Cálculo Diferencial, mediante una serie de recursos como diagnóstico exprés y actividades de desarrollo y de cierre.</p>
     <p class="signature">Diseñado para la clase por Dr. J. Adrián Cerda</p>
     <div class="top-bar no-print">
         <label>👤 Tu nombre: <input type="text" id="studentName" placeholder="Escribe tu nombre completo" style="min-width:200px;"></label>
@@ -162,7 +163,7 @@ footer{max-width:1180px;margin:2rem auto;padding:1rem;color:var(--muted);border-
 </div>
 
 <footer>
-    Recurso local para clase. Las actividades no envían datos a internet. <strong>En cada sesión, escribe en tu cuaderno la actividad o actividades propuestas y la solución o soluciones de los ejercicios.</strong>
+    Recurso local para clase.<br> Las actividades no envían datos a internet. <br><strong>En cada sesión, escribe en tu cuaderno la actividad o actividades propuestas, que pudieran fallar y la solución o soluciones de los ejercicios.</strong>
     <br><br>
     <span class="no-print" style="font-size:.9rem;color:var(--purple);">🔒 Las sesiones bloqueadas requieren la clave que el profesor proporciona en clase. Cada sesión incluye: Teoría · Laboratorio · Diagnóstico · Actividades.</span>
 </footer>
@@ -206,18 +207,18 @@ const SESSIONS = [
 
 { id:'1', t:'Concepto de Función, Dominio y Rango',
   met:'Aprendizaje Colaborativo · GeoGebra',
-  hilo:'Si a cada causa le corresponde un único efecto, ¿cómo convertimos esa idea en una regla precisa y a qué rostros toma esa regla cuando es lo más simple posible?',
+  hilo:'Si a cada causa le corresponde un único efecto, ¿cómo convertimos esa idea en una regla precisa y a qué aspecto toma esa regla cuando es lo más simple posible?',
   exp:'Identifica dominio y rango de funciones elementales a partir de su gráfica o regla.',
   saber:'Definición formal de función \\( f:A\\to B \\), prueba de la recta vertical, dominio y rango.',
   vids:[['¿Qué es un acuífero?','que es un acuifero'],['Cómo graficar funciones en GeoGebra','como graficar funciones en geogebra online'],['Funciones desde cero','funciones desde cero']],
   ggb:'Grafica \\( y=x^2 \\) y \\( x=y^2 \\) en la misma vista; traza líneas verticales con el comando Recta y verifica cuál pasa la prueba.',
   theory:[
-    {n:'1.1', h:'Una función es una regla sin ambigüedad', b:`
-      <p>Cuando se extrae agua del acuífero de Aguascalientes, el nivel del pozo depende de cuánta agua salió: a cada causa le corresponde <em>un solo</em> efecto. Esa idea, dicha con precisión, es una función.</p>
-      <div class="def"><b class="tagd">Definición</b>Una <strong>función</strong> \\( f:A\\to B \\) asigna a <u>cada</u> elemento de \\( A \\) exactamente <u>un</u> elemento de \\( B \\). El conjunto \\( A \\) es el <strong>dominio</strong> (entradas válidas); el <strong>rango</strong> es el conjunto de salidas que efectivamente se alcanzan.</div>
+    {n:'1.1', h:'Una función es una regla de asignación sin ambigüedad', b:`
+      <p>Cuando se extrae agua de un acuífero de Aguascalientes, el nivel del pozo depende de cuánta agua salió: a cada causa (extracción) le corresponde <em>un solo</em> efecto (nivel). Esa idea, dicha con precisión, es una función.</p>
+      <div class="def"><b class="tagd">Definición</b>Una <strong>función</strong> \\( f:A\\to B \\) asigna a <u>cada</u> elemento del conjunto  \\( A \\) exactamente <u>un</u> elemento del conjunto \\( B \\). El conjunto \\( A \\) es el <strong>dominio</strong> (entradas válidas); el conjunto \\( B \\) se llama contradominio y el <strong>rango</strong> es el conjunto de salidas de \\( f \\) que efectivamente se alcanzan en \\( B \\).</div>
       <div class="ex"><b class="tagd">Ejemplo · acuífero</b>Si \\( x \\) son litros extraídos y \\( N(x) \\) el nivel resultante, cada valor de \\( x \\) produce <em>un único</em> nivel: la relación es función. En cambio, si a una misma extracción pudieran corresponder dos niveles distintos (por lluvia reciente, por bombeo simultáneo), la relación dejaría de ser función.</div>`},
     {n:'1.2', h:'Dominio: qué puede entrar', b:`
-      <p>El dominio se lee de la regla: basta preguntar <em>¿qué valores rompen la fórmula?</em> Dos sospechosos clásicos: dividir entre cero y raíces pares de negativos.</p>
+      <p>El dominio se lee de la regla: basta preguntar <em>¿qué valores rompen la fórmula?</em> Dos sospechosos clásicos: dividir entre cero y raíces pares de negativos. Siempre son sospechosos por que dan valores indeterminados para algunas funciones.</p>
       <div class="ex"><b class="tagd">Ejemplos con recibo</b>
       <div class="demo">
         <div class="dline"><span class="n">1.</span><span class="m">\\( f(x)=\\dfrac{1}{x-2} \\)</span><span class="j">regla dada</span></div>
@@ -230,8 +231,8 @@ const SESSIONS = [
         <div class="dline fin"><span class="n">3.</span><span class="m">Dominio: \\( [3,\\infty) \\)</span><span class="j">conclusión</span></div>
       </div></div>`},
     {n:'1.3', h:'La prueba de la recta vertical', b:`
-      <p>Una gráfica es función si <strong>toda línea vertical la corta a lo más una vez</strong>. Si una vertical toca dos puntos, significa que una misma entrada tiene dos salidas — y eso está prohibido por la definición.</p>
-      <div class="ex"><b class="tagd">Confronte</b>\\( y=x^2 \\) <em>sí</em> es función: cualquier vertical la corta una vez. \\( x=y^2 \\) <em>no</em> lo es: la vertical \\( x=4 \\) corta en \\( y=2 \\) y en \\( y=-2 \\). Misma parábola, distinta orientación — y exactamente la diferencia entre regla y no-regla.</div>`}
+      <p>Una gráfica es función si <strong>toda línea vertical la corta a lo más una sola vez</strong>. Si una vertical toca dos puntos, significa que una misma entrada tiene dos salidas — y eso está prohibido por la definición.</p>
+      <div class="ex"><b class="tagd">Confronte</b>\\( y=x^2 \\) <em>sí</em> es función: ya que cualquier recta vertical la corta una sola vez. \\( x=y^2 \\) <em>no</em> lo es: la vertical \\( x=4 \\) corta en \\( y=2 \\) y en \\( y=-2 \\)<br>. Misma parábola, distinta orientación — y exactamente muestran la diferencia entre regla valida y regla no valida.</div>`}
   ],
   lab:[
     {q:'La relación entre litros extraídos de un acuífero y el nivel del agua, ¿cumple la definición de función?',
@@ -1148,7 +1149,7 @@ function renderSession(s){
       <span class="pill g">Aprendizaje esperado: ${s.exp}</span>
     </div>
     <div class="hilo">🧵 <strong>Hilo conductor:</strong> ${s.hilo}</div>
-    <p><strong>Saber en juego:</strong> ${s.saber}</p>
+    <p><strong>Que debo saber:</strong> ${s.saber}</p>
     ${s.vids.length?`<p style="margin:.4rem 0 0"><strong>🎬 Videos de apoyo:</strong></p><ul class="vidlist">${s.vids.map(v=>`<li><a href="https://www.youtube.com/results?search_query=${encodeURIComponent(v[1])}" target="_blank" rel="noopener">${v[0]}</a></li>`).join('')}</ul>`:''}
     <div class="subnav">
       <a href="#teoria${sid}">📖 Teoría</a>
@@ -1168,7 +1169,7 @@ function renderSession(s){
   // --- laboratorio ---
   h+=`<section class="sec" id="lab${sid}">
     <div class="sec-no">🧪 Laboratorio · práctica con retroalimentación</div>
-    <p>Resuelve cada ejercicio y comprueba. La retroalimentación explica la respuesta correcta — si fallas, vuelve a intentarlo antes de leerla.</p>`;
+    <p>Resuelve cada ejercicio y comprueba. La retroalimentación explica la respuesta correcta — si fallas, vuelve a intentarlo la finalidad es el aprendizaje.</p>`;
   s.lab.forEach((it,i)=>{
     const saved=labData && labData.answers && labData.answers[i];
     const opts=it.o.map((o,j)=>`<label><input type="radio" name="lab${sid}_${i}" value="${j}" ${saved&&saved.value===j?'checked':''}> ${o}</label>`).join('');
@@ -1185,7 +1186,7 @@ function renderSession(s){
   // --- diagnóstico ---
   h+=`<section class="sec" id="diag${sid}">
     <div class="sec-no">📋 Diagnóstico exprés</div>
-    <p>Elige una opción por pregunta y califica al final. Cada pregunta trae su explicación.</p>`;
+    <p>Elige una opción por pregunta y califica tus respuestas al final. Cada pregunta trae su explicación.</p>`;
   s.quiz.forEach((q,i)=>{
     const sel=QUIZSEL[sid][i];
     const graded=!!quizData;
