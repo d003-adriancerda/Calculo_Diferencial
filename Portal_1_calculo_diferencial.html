@@ -197,7 +197,15 @@ footer{max-width:1180px;margin:2rem auto;padding:1rem;color:var(--muted);border-
 //  CONFIGURACIÓN DEL PROFESOR — CLAVES POR SESIÓN
 // ========================================================================
 const SESSION_PASSWORDS = {'1':'clase1','2':'clase2','3':'clase3','4':'clase4','5':'clase5','6':'clase6','7':'clase7','8':'clase8','9':'clase9','10':'clase10','11':'clase11','12':'clase12'};
-const EXAM_LOCKED = false;
+const EXAM_LOCKED = true;
+
+// Claves individuales para cada instrumento (cámbialas a tu gusto)
+const EXAM_PASSWORDS = {
+  diagnostico:'diag2026',     // 📝 D · Diagnóstico (10)
+  parcial1:'parcial2026',     // 📄 P1 · Guía Parcial 1
+  final:'final2026'           // 📄 F · Examen Final
+};
+// ¿Prefieres UNA sola clave para los tres? Usa la misma palabra en los tres renglones.
 
 // ========================================================================
 //  DATOS DE SESIONES (alineados a SUBAC-01-26)
@@ -1037,11 +1045,12 @@ function tryUnlock(){
   if(!pendingKey) return;
   const input=document.getElementById('passwordInput').value.trim();
   const errEl=document.getElementById('passwordError');
-  const expected=pendingKey.startsWith('exam_') ? SESSION_PASSWORDS['12'] : SESSION_PASSWORDS[pendingKey];
+    const isExam=pendingKey.startsWith('exam_');
+  const expected=isExam ? EXAM_PASSWORDS[pendingKey.slice(5)] : SESSION_PASSWORDS[pendingKey];
   if(expected && input===expected){
     unlockSession(pendingKey);
     closePasswordModal();
-    showExpanded(pendingKey);
+    showExpanded(isExam ? pendingKey.slice(5) : pendingKey);
   } else {
     errEl.style.display='block';
     errEl.textContent='❌ Clave incorrecta. Intenta de nuevo.';
