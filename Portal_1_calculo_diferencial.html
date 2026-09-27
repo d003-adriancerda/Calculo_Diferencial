@@ -142,12 +142,11 @@ footer{max-width:1180px;margin:2rem auto;padding:1rem;color:var(--muted);border-
 </style>
 </head>
 <body>
-
 <header>
     <div class="header-main">
         <div class="eyebrow">UNITI · LPID · 3er cuatrimestre</div>
         <h1>Aula de Cálculo Diferencial</h1>
-        <p>Interpreta el cambio, modela fenómenos y optimiza recursos.<br>  
+        <p>Interpreta el cambio, modela fenómenos y optimiza recursos.<br>
           Este laboratorio interactivo acompaña la planeación de la unidad de aprendizaje de Cálculo Diferencial, mediante una serie de recursos como diagnóstico exprés y actividades de desarrollo y de cierre.</p>
         <p class="signature">Diseñado para la clase por Dr. J. Adrián Cerda</p>
         <div class="top-bar no-print">
@@ -348,7 +347,7 @@ const SESSIONS = [
   theory:[
     {n:'3.1', h:'Exponencial: crecer multiplicándose', b:`
       <p>En una lineal se suma lo mismo cada paso; en una exponencial se <strong>multiplica</strong> por la base. Esa diferencia, pequeña al inicio, se vuelve abismal con el tiempo.</p>
-      <div class="def"><b class="tagd">Definición</b>\\( f(x)=a^x \\) con \\( a>0,\\; a\\neq 1 \\): la variable está en el <em>exponente</em>. Con \\( a>1 \\) crece; con \\( 0<a<1 \\) decrece.</div>
+      <div class="def"><b class="tagd">Definición</b>\\( f(x)=a^x \\) con \\( a>0,\\; a\\neq 1 \\): la variable está en el <em>exponente</em>. Con \\( a>1 \\) crece; con \\( 0&lt;a&lt;1 \\) decrece.</div>
       <div class="ex"><b class="tagd">Ejemplo · ahorro</b>\\( \\$1000 \\) al 5% anual compuesto: \\( A(t)=1000(1.05)^t \\). En \\( t=10 \\): \\( A(10)=1000(1.05)^{10}\\approx 1628.89 \\). En \\( t=40 \\): \\( \\approx 7040 \\) — el interés genera interés.</div>`},
     {n:'3.2', h:'El logaritmo: la operación que «revierte»', b:`
       <div class="def"><b class="tagd">Definición</b>\\( \\log_a N=x \\iff a^x=N \\). El logaritmo responde: <em>¿a qué exponente debo elevar \\( a \\) para obtener \\( N \\)?</em> Propiedades: \\( \\log(ab)=\\log a+\\log b \\), \\( \\log a^n=n\\log a \\).</div>
@@ -398,53 +397,53 @@ const SESSIONS = [
   met:'Aprendizaje Colaborativo + GeoGebra',
   hilo:'¿Cómo describimos con precisión la inclinación de lo que se apoya en un ángulo y la forma de lo que gira o se repite cíclicamente en nuestro entorno?',
   exp:'Identifica amplitud, periodo y desfase en funciones trigonométricas.',
-  saber:'Razones \\( \\sen,\\cos,\\tan \\); gráficas senoidales; amplitud, periodo \\( 2\\pi/b \\) y desfase.',
+  saber:'Razones \\( \\sin,\\cos,\\tan \\); gráficas senoidales; amplitud, periodo \\( 2\\pi/b \\) y desfase.',
   vids:[['Funciones trigonométricas','funciones trigonometricas 1']],
-  ggb:'Grafica \\( a\\sen(bx+c) \\) con deslizadores para \\( a,b,c \\): conecta cada parámetro con amplitud, periodo y desfase.',
+  ggb:'Grafica \\( a\\sin(bx+c) \\) con deslizadores para \\( a,b,c \\): conecta cada parámetro con amplitud, periodo y desfase.',
   theory:[
     {n:'4.1', h:'Las razones: triángulos que miden el mundo', b:`
-      <div class="def"><b class="tagd">Definición</b>En un triángulo rectángulo con ángulo \\( \\theta \\): \\( \\sen\\theta=\\dfrac{opuesto}{hipotenusa} \\), \\( \\cos\\theta=\\dfrac{adyacente}{hipotenusa} \\), \\( \\tan\\theta=\\dfrac{opuesto}{adyacente} \\).</div>
+      <div class="def"><b class="tagd">Definición</b>En un triángulo rectángulo con ángulo \\( \\theta \\): \\( \\sin\\theta=\\dfrac{opuesto}{hipotenusa} \\), \\( \\cos\\theta=\\dfrac{adyacente}{hipotenusa} \\), \\( \\tan\\theta=\\dfrac{opuesto}{adyacente} \\).</div>
       <div class="ex"><b class="tagd">Ejemplo · panel solar</b>Para fijar el ángulo de elevación del sol sobre un panel, se mide la altura \\( h \\) de la sombra y la longitud \\( L \\): \\( \\tan\\theta=h/L \\). La razón convierte dos longitudes medibles en un ángulo — sin medir el ángulo directamente.</div>`},
     {n:'4.2', h:'Amplitud y periodo: el ritmo de la gráfica', b:`
-      <div class="def"><b class="tagd">Definición</b>Para \\( f(x)=a\\sen(bx+c)+d \\): la <strong>amplitud</strong> es \\( |a| \\), el <strong>periodo</strong> es \\( 2\\pi/|b| \\), el <strong>desfase</strong> es \\( -c/b \\) y \\( d \\) sube o baja la curva completa.</div>
-      <div class="ex"><b class="tagd">Ejemplos</b>\\( \\sen(2x) \\): periodo \\( 2\\pi/2=\\pi \\) — oscila el doble de rápido. \\( \\cos(3x) \\): periodo \\( 2\\pi/3 \\). \\( 5\\sen(x) \\): amplitud 5. En general, \\( b \\) comprime horizontalmente y \\( a \\) estira verticalmente.</div>`},
+      <div class="def"><b class="tagd">Definición</b>Para \\( f(x)=a\\sin(bx+c)+d \\): la <strong>amplitud</strong> es \\( |a| \\), el <strong>periodo</strong> es \\( 2\\pi/|b| \\), el <strong>desfase</strong> es \\( -c/b \\) y \\( d \\) sube o baja la curva completa.</div>
+      <div class="ex"><b class="tagd">Ejemplos</b>\\( \\sin(2x) \\): periodo \\( 2\\pi/2=\\pi \\) — oscila el doble de rápido. \\( \\cos(3x) \\): periodo \\( 2\\pi/3 \\). \\( 5\\sin(x) \\): amplitud 5. En general, \\( b \\) comprime horizontalmente y \\( a \\) estira verticalmente.</div>`},
     {n:'4.3', h:'Modelar la temperatura anual', b:`
       <div class="ex"><b class="tagd">Demostración con recibo</b>
       <div class="demo">
-        <div class="dline"><span class="n">1.</span><span class="m">\\( T(t)=20+10\\sen\\!\\left(\\dfrac{2\\pi}{365}t\\right) \\)</span><span class="j">modelo en °C, \\( t \\) en días</span></div>
+        <div class="dline"><span class="n">1.</span><span class="m">\\( T(t)=20+10\\sin\\!\\left(\\dfrac{2\\pi}{365}t\\right) \\)</span><span class="j">modelo en °C, \\( t \\) en días</span></div>
         <div class="dline"><span class="n">2.</span><span class="m">Media \\( =20 \\), amplitud \\( =10 \\)</span><span class="j">identificar \\( d \\) y \\( a \\)</span></div>
         <div class="dline"><span class="n">3.</span><span class="m">Periodo \\( =2\\pi/(2\\pi/365)=365 \\)</span><span class="j">ciclo completo anual</span></div>
-        <div class="dline fin"><span class="n">4.</span><span class="m">\\( T(91)=20+10\\sen(\\pi/2)=30 \\)</span><span class="j">evaluar al día 91</span></div>
+        <div class="dline fin"><span class="n">4.</span><span class="m">\\( T(91)=20+10\\sin(\\pi/2)=30 \\)</span><span class="j">evaluar al día 91</span></div>
       </div>
       El modelo predice un máximo de 30 °C cerca del día 91 — coherente con un fenómeno estacional que se repite cada 365 días.</div>`}
   ],
   lab:[
-    {q:'\\( \\sen(\\pi/2) = \\)', o:['\\( 1 \\)','\\( 0 \\)','\\( -1 \\)'], a:0,
+    {q:'\\( \\sin(\\pi/2) = \\)', o:['\\( 1 \\)','\\( 0 \\)','\\( -1 \\)'], a:0,
      w:'\\( \\pi/2 \\) rad = 90°: el seno alcanza su máximo, 1. Es el punto más alto de la curva.'},
     {q:'El periodo de \\( \\cos(3x) \\) es:', o:['\\( 2\\pi/3 \\)','\\( 2\\pi \\)','\\( \\pi/3 \\)'], a:0,
      w:'Periodo \\( =2\\pi/b \\) con \\( b=3 \\): \\( 2\\pi/3 \\). La curva completa 3 ciclos en \\( [0,2\\pi] \\).'},
-    {q:'En \\( T(t)=20+10\\sen\\left(\\frac{2\\pi}{365}t\\right) \\), la amplitud es:',
+    {q:'En \\( T(t)=20+10\\sin\\left(\\frac{2\\pi}{365}t\\right) \\), la amplitud es:',
      o:['10 (rango aproximado 10 a 30 °C)','20','365'], a:0,
      w:'La amplitud es el coeficiente \\( a=10 \\): la temperatura oscila 10 °C alrededor de la media 20.'}
   ],
   quiz:[
-    {q:'En un triángulo rectángulo, \\( \\sen\\theta = \\)', o:['cateto opuesto / hipotenusa','cateto adyacente / hipotenusa','cateto opuesto / cateto adyacente'], a:0,
+    {q:'En un triángulo rectángulo, \\( \\sin\\theta = \\)', o:['cateto opuesto / hipotenusa','cateto adyacente / hipotenusa','cateto opuesto / cateto adyacente'], a:0,
      e:'SOH-CAH-TOA: Seno=Op/Hip, Coseno=Ady/Hip, Tangente=Op/Ady.'},
-    {q:'El periodo de \\( \\sen x \\) es:', o:['\\( 2\\pi \\)','\\( \\pi \\)','\\( 1 \\)'], a:0,
+    {q:'El periodo de \\( \\sin x \\) es:', o:['\\( 2\\pi \\)','\\( \\pi \\)','\\( 1 \\)'], a:0,
      e:'El seno tarda \\( 2\\pi \\) rad en repetirse: un ciclo completo de la rueda.'},
     {q:'La temperatura promedio a lo largo del año se modela mejor con una función:', o:['periódica','lineal','exponencial'], a:0,
      e:'El fenómeno se repite cíclicamente cada año: las trigonométricas son las funciones de lo periódico.'},
-    {q:'En \\( T(t)=15+8\\sen\\left(\\frac{2\\pi}{12}t\\right) \\) con \\( t \\) en meses, el periodo es:', o:['12 meses','\\( 2\\pi \\) meses','8 meses'], a:0,
+    {q:'En \\( T(t)=15+8\\sin\\left(\\frac{2\\pi}{12}t\\right) \\) con \\( t \\) en meses, el periodo es:', o:['12 meses','\\( 2\\pi \\) meses','8 meses'], a:0,
      e:'\\( 2\\pi/b=2\\pi/(2\\pi/12)=12 \\): el ciclo tarda un año completo, coherente con el contexto.'}
   ],
   ticket:{ ctx:'Normativa de accesibilidad: una rampa debe tener pendiente máxima 1:12 (sube 1 cm por cada 12 cm horizontales). Calcula el ángulo que forma la rampa.',
     steps:[
-      ['La razón que relaciona altura (opuesto) y longitud horizontal (adyacente) es:',['\\( \\tan\\theta \\)','\\( \\sen\\theta \\)','\\( \\cos\\theta \\)'],0],
-      ['La ecuación a resolver es:',['\\( \\tan\\theta=1/12 \\)','\\( \\sen\\theta=12 \\)','\\( \\cos\\theta=1/12 \\)'],0],
+      ['La razón que relaciona altura (opuesto) y longitud horizontal (adyacente) es:',['\\( \\tan\\theta \\)','\\( \\sin\\theta \\)','\\( \\cos\\theta \\)'],0],
+      ['La ecuación a resolver es:',['\\( \\tan\\theta=1/12 \\)','\\( \\sin\\theta=12 \\)','\\( \\cos\\theta=1/12 \\)'],0],
       ['Resolviendo \\( \\theta=\\arctan(1/12) \\):',['\\( \\theta\\approx 4.8^\\circ \\): pendiente accesible','\\( \\theta\\approx 45^\\circ \\)','\\( \\theta\\approx 12^\\circ \\)'],0]
     ],
     phrase:'¿Por qué una rampa más corta (con la misma altura) se vuelve más peligrosa para quien la usa?' },
-  taller:['Definan seno, coseno, amplitud y periodo con un dibujo del triángulo y de la curva.','Grafiquen \\( \\sen x \\) y \\( \\cos x \\) en el cuaderno marcando amplitud y periodo; comparen con GeoGebra.','Modelen la temperatura media mensual de Aguascalientes con una senoidal: elijan media, amplitud y periodo, y justifiquen cada elección.'],
+  taller:['Definan seno, coseno, amplitud y periodo con un dibujo del triángulo y de la curva.','Grafiquen \\( \\sin x \\) y \\( \\cos x \\) en el cuaderno marcando amplitud y periodo; comparen con GeoGebra.','Modelen la temperatura media mensual de Aguascalientes con una senoidal: elijan media, amplitud y periodo, y justifiquen cada elección.'],
   rub:[['Laboratorio (3 ejercicios)',40],['Diagnóstico exprés',20],['Ticket de tres pasos',20],['Taller y cuaderno (Hacer/Ser)',20]],
   inst:'Guía de observación (razones trigonométricas y graficación)'
 },
@@ -463,7 +462,7 @@ const SESSIONS = [
       <div class="demo">
         <div class="dline"><span class="n">1.</span><span class="m">¿La variable crece <u>sumando</u> lo mismo?</span><span class="j">sí ⇒ lineal \\( mx+b \\)</span></div>
         <div class="dline"><span class="n">2.</span><span class="m">¿Crece <u>multiplicándose</u> por una base?</span><span class="j">sí ⇒ exponencial \\( a^x \\)</span></div>
-        <div class="dline"><span class="n">3.</span><span class="m">¿Se <u>repite</u> cíclicamente?</span><span class="j">sí ⇒ trigonométrica \\( \\sen(bx) \\)</span></div>
+        <div class="dline"><span class="n">3.</span><span class="m">¿Se <u>repite</u> cíclicamente?</span><span class="j">sí ⇒ trigonométrica \\( \\sin(bx) \\)</span></div>
         <div class="dline fin"><span class="n">4.</span><span class="m">¿Busco el <u>tiempo</u> en el exponente?</span><span class="j">⇒ logaritmo \\( \\log_a N \\)</span></div>
       </div>`},
     {n:'5.2', h:'Estrategia frente a un problema de modelado', b:`
@@ -482,8 +481,8 @@ const SESSIONS = [
      w:'Cargo fijo = ordenada \\( b \\); cuota por unidad = pendiente \\( m \\). Es la estructura recta del plan de datos de la sesión 2.'},
     {q:'\\( \\log_2 8 = \\)', o:['\\( 3 \\)','\\( 4 \\)','\\( 2 \\)'], a:0,
      w:'\\( 2^3=8 \\). El logaritmo revierte la exponencial.'},
-    {q:'El periodo de \\( \\sen(2x) \\) es:', o:['\\( \\pi \\)','\\( 2\\pi \\)','\\( \\pi/2 \\)'], a:0,
-     w:'Periodo \\( 2\\pi/b \\) con \\( b=2 \\): oscila al doble de velocidad que \\( \\sen x \\).'}
+    {q:'El periodo de \\( \\sin(2x) \\) es:', o:['\\( \\pi \\)','\\( 2\\pi \\)','\\( \\pi/2 \\)'], a:0,
+     w:'Periodo \\( 2\\pi/b \\) con \\( b=2 \\): oscila al doble de velocidad que \\( \\sin x \\).'}
   ],
   quiz:[
     {q:'¿Qué tipo de función modela mejor el costo de un servicio con cargo fijo y cargo variable por unidad?',
@@ -515,7 +514,7 @@ const SESSIONS = [
   met:'Aprendizaje Colaborativo + GeoGebra',
   hilo:'Existen patrones que nos permiten distinguir entre un ahorro que crece sumando lo mismo cada mes y una inversión que crece multiplicándose; ¿cómo podemos usar esto?',
   exp:'Reconoce la convergencia en sucesiones geométricas con razón entre \\( -1 \\) y 1 y calcula términos generales.',
-  saber:'\\( a_n=a_1+(n-1)d \\) y \\( a_n=a_1r^{n-1} \\); sumas \\( S_n \\); convergencia \\( |r|<1 \\).',
+  saber:'\\( a_n=a_1+(n-1)d \\) y \\( a_n=a_1r^{n-1} \\); sumas \\( S_n \\); convergencia \\( |r|&lt;1 \\).',
   vids:[['Repaso rápido de sucesiones y series','repaso rapido de sucesiones y series']],
   ggb:'Con deslizadores para \\( a_1, d, r \\), grafica los puntos \\( (n, a_n) \\): observa cuándo la nube de puntos se encoge (convergencia) y cuándo explota.',
   theory:[
@@ -532,8 +531,8 @@ const SESSIONS = [
       <div class="def"><b class="tagd">Definición</b>Sucesión <strong>geométrica</strong>: cada término multiplica al anterior por una razón fija \\( r \\): \\( a_n=a_1 r^{\\,n-1} \\). Suma: \\( S_n=a_1\\dfrac{r^n-1}{r-1} \\) (con \\( r\\neq 1 \\)).</div>
       <div class="ex"><b class="tagd">Ejemplo · duplicar cada semana</b>\\( a_1=20,\\ r=2 \\): semana 8 ⇒ \\( a_8=20\\cdot 2^7=2560 \\). Suma: \\( S_8=20\\dfrac{2^8-1}{2-1}=20\\cdot 255=5100 \\). Compara con la aritmética de \\$20 semanales (\\( S_8=720 \\)): <strong>el patrón manda</strong>.</div>`},
     {n:'6.3', h:'Convergencia: cuando multiplicar encoge', b:`
-      <div class="def"><b class="tagd">Definición</b>Si \\( |r|<1 \\), los términos de la geométrica se acercan a cero: la sucesión <strong>converge</strong>. Si \\( |r|>1 \\) crece sin límite; si \\( r=-1 \\) oscila.</div>
-      <div class="ex"><b class="tagd">Ejemplo</b>\\( 1,\\ \\tfrac12,\\ \\tfrac14,\\ \\tfrac18,\\ldots \\) (\\( r=0.5 \\)): cada término es la mitad del anterior y la suma infinita vale \\( \\dfrac{a_1}{1-r}=2 \\) — crecer «hasta un techo». Interpretación financiera: interés compuesto moderado planea; \\( r>1 \\) endeuda.</div>`}
+      <div class="def"><b class="tagd">Definición</b>Si \\( |r|&lt;1 \\), los términos de la geométrica se acercan a cero: la sucesión <strong>converge</strong>. Si \\( |r|&gt;1 \\) crece sin límite; si \\( r=-1 \\) oscila.</div>
+      <div class="ex"><b class="tagd">Ejemplo</b>\\( 1,\\ \\tfrac12,\\ \\tfrac14,\\ \\tfrac18,\\ldots \\) (\\( r=0.5 \\)): cada término es la mitad del anterior y la suma infinita vale \\( \\dfrac{a_1}{1-r}=2 \\) — crecer «hasta un techo». Interpretación financiera: interés compuesto moderado planea; \\( r&gt;1 \\) endeuda.</div>`}
   ],
   lab:[
     {q:'La suma de los primeros 5 términos de \\( 1,3,5,7,9 \\) es:',
@@ -544,7 +543,7 @@ const SESSIONS = [
      w:'Cada término entre el anterior: \\( 4/2=8/4=16/8=2 \\). Multiplicación constante ⇒ geométrica.'},
     {q:'En una geométrica con \\( r=0.5 \\), los términos:',
      o:['Se acercan a cero','Crecen sin límite','Se mantienen constantes'], a:0,
-     w:'\\( |r|<1 \\): multiplicar por 0.5 encoge. La nube de puntos en GeoGebra se pega al eje.'}
+     w:'\\( |r|&lt;1 \\): multiplicar por 0.5 encoge. La nube de puntos en GeoGebra se pega al eje.'}
   ],
   quiz:[
     {q:'En una sucesión aritmética, la diferencia entre términos consecutivos es:',
@@ -557,7 +556,7 @@ const SESSIONS = [
      o:['\\( 155 \\)','\\( 165 \\)','\\( 175 \\)'], a:0,
      e:'\\( a_{10}=2+9\\cdot 3=29 \\); \\( S_{10}=\\frac{10(2+29)}{2}=155 \\).'},
     {q:'Una geométrica converge si y solo si:',
-     o:['\\( |r|<1 \\)','\\( r>1 \\)','\\( r=1 \\)'], a:0,
+     o:['\\( |r|&lt;1 \\)','\\( r&gt;1 \\)','\\( r=1 \\)'], a:0,
      e:'Multiplicar por algo con valor absoluto menor que 1 encoge los términos hacia 0.'}
   ],
   ticket:{ ctx:'Fondo comunitario: se depositan \\$20 la primera semana y cada semana se añaden \\$20 más que la anterior (aritmética con \\( d=20 \\)). Calcula lo reunido en 8 semanas.',
@@ -567,7 +566,7 @@ const SESSIONS = [
       ['Lo reunido en 8 semanas:', ['\\( S_8=\\frac{8(20+160)}{2}=\\$720 \\)','\\( S_8=8\\cdot 20=\\$160 \\)','\\( S_8=\\$5100 \\)'],0]
     ],
     phrase:'¿Cuánto reuniría el mismo fondo si en vez de sumar \\$20 cada semana se duplicara? Compara y comenta la diferencia de patrones.' },
-  taller:['Definan sucesión aritmética y geométrica; construyan los primeros 5 términos de cada tipo con datos propios.','Calculen el término general y la suma de los primeros 10 términos de dos sucesiones del entorno (ahorro semanal, producción diaria de un taller).','Investiguen un caso donde \\( |r|<1 \\) importe (descuento porcentual, depreciación) y expliquen qué significa «converger» ahí.'],
+  taller:['Definan sucesión aritmética y geométrica; construyan los primeros 5 términos de cada tipo con datos propios.','Calculen el término general y la suma de los primeros 10 términos de dos sucesiones del entorno (ahorro semanal, producción diaria de un taller).','Investiguen un caso donde \\( |r|&lt;1 \\) importe (descuento porcentual, depreciación) y expliquen qué significa «converger» ahí.'],
   rub:[['Laboratorio (3 ejercicios)',40],['Diagnóstico exprés',20],['Ticket de tres pasos',20],['Taller y cuaderno (Hacer/Ser)',20]],
   inst:'Rúbrica (sucesiones aritméticas y geométricas)'
 },
@@ -594,7 +593,7 @@ const SESSIONS = [
       </div>
       El límite existe aunque la función no esté definida en 2 — exactamente la idea de «acercarse sin tocar».</div>`},
     {n:'7.3', h:'Límites notables y por qué importan', b:`
-      <div class="def"><b class="tagd">Límite notable</b>\\( \\lim_{x\\to 0}\\dfrac{\\sen x}{x}=1 \\) (con \\( x \\) en radianes). Es la semilla del que será, en la sesión 9, el cálculo de la derivada del seno.</div>
+      <div class="def"><b class="tagd">Límite notable</b>\\( \\lim_{x\\to 0}\\dfrac{\\sin x}{x}=1 \\) (con \\( x \\) en radianes). Es la semilla del que será, en la sesión 9, el cálculo de la derivada del seno.</div>
       <div class="ex"><b class="tagd">Cierre del ABP</b>La velocidad instantánea del transporte urbano es un límite: promedios en intervalos cada vez más cortos (\\( \\Delta t\\to 0 \\)). El límite convierte «promedio entre puntos» en «puntual en un instante» — cambiar de estrategia, no abandonar el problema.</div>`}
   ],
   lab:[
@@ -602,7 +601,7 @@ const SESSIONS = [
      w:'Sustitución directa: la polinomial existe en \\( x=3 \\): \\( 2(3)+1=7 \\).'},
     {q:'\\( \\lim_{x\\to 1}\\dfrac{x^2-1}{x-1} = \\)', o:['\\( 2 \\)','\\( 1 \\)','\\( 0 \\)'], a:0,
      w:'\\( 0/0 \\) ⇒ factorizar: \\( (x+1)(x-1)/(x-1)=x+1 \\Rightarrow 2 \\).'},
-    {q:'\\( \\lim_{x\\to 0}\\dfrac{\\sen x}{x} = \\)', o:['\\( 1 \\)','\\( 0 \\)','\\( \\infty \\)'], a:0,
+    {q:'\\( \\lim_{x\\to 0}\\dfrac{\\sin x}{x} = \\)', o:['\\( 1 \\)','\\( 0 \\)','\\( \\infty \\)'], a:0,
      w:'Límite notable con \\( x \\) en radianes: la recta \\( y=x \\) y la senoide se abrazan cerca del origen.'}
   ],
   quiz:[
@@ -755,7 +754,7 @@ const SESSIONS = [
   met:'Aula Invertida + Aprendizaje Colaborativo',
   hilo:'Es posible calcular tasas de cambio de manera eficiente sin importar la complejidad de la función de nuestro modelo.',
   exp:'Selecciona la regla adecuada según la estructura de la función.',
-  saber:'Reglas de potencia, cadena, producto y cociente; derivadas de \\( e^x, \\ln x, \\sen x, \\cos x \\).',
+  saber:'Reglas de potencia, cadena, producto y cociente; derivadas de \\( e^x, \\ln x, \\sin x, \\cos x \\).',
   vids:[['Las famosas reglas de derivación','las famosas reglas de derivacion'],['Reglas de derivación (parte 1 y 2)','reglas de derivacion parte 1']],
   ggb:'Deriva funciones con el comando Deriva() de GeoGebra y compara tu formulario contra el resultado del software.',
   theory:[
@@ -764,15 +763,15 @@ const SESSIONS = [
       <div class="ex"><b class="tagd">Por qué existe el formulario</b>En la sesión 9, derivar \\( x^2 \\) costó cuatro pasos. El formulario comprime ese trabajo repetitivo en reglas cortas — el mismo ahorro que las reglas de inferencia trajeron a la lógica: <em>sistematizar lo repetido para pensar en lo importante</em>.</div>`},
     {n:'10.2', h:'La cadena: derivar dentro de derivar', b:`
       <div class="def"><b class="tagd">Regla de la cadena</b>Si \\( y=f(u) \\) y \\( u=g(x) \\), entonces \\( \\dfrac{dy}{dx}=\\dfrac{dy}{du}\\cdot\\dfrac{du}{dx} \\): deriva la capa externa, déjala quietita, multiplica por la derivada de la interna.</div>
-      <div class="ex"><b class="tagd">Demostración con recibo · \\( f(x)=\\sen(2x) \\)</b>
+      <div class="ex"><b class="tagd">Demostración con recibo · \\( f(x)=\\sin(2x) \\)</b>
       <div class="demo">
-        <div class="dline"><span class="n">1.</span><span class="m">Capa externa: \\( y=\\sen(u) \\), interna: \\( u=2x \\)</span><span class="j">identificar capas</span></div>
+        <div class="dline"><span class="n">1.</span><span class="m">Capa externa: \\( y=\\sin(u) \\), interna: \\( u=2x \\)</span><span class="j">identificar capas</span></div>
         <div class="dline"><span class="n">2.</span><span class="m">\\( \\dfrac{dy}{du}=\\cos(u) \\)</span><span class="j">derivada externa (trascendente)</span></div>
         <div class="dline"><span class="n">3.</span><span class="m">\\( \\dfrac{du}{dx}=2 \\)</span><span class="j">derivada interna (potencia)</span></div>
         <div class="dline fin"><span class="n">4.</span><span class="m">\\( f\'(x)=\\cos(2x)\\cdot 2=2\\cos(2x) \\)</span><span class="j">multiplicar cadenas</span></div>
       </div></div>`},
     {n:'10.3', h:'Producto, cociente y trascendentes', b:`
-      <div class="def"><b class="tagd">Reglas compuestas</b>\\( (fg)\'=f\'g+fg\' \\) · \\( \\left(\\dfrac{f}{g}\\right)\'=\\dfrac{f\'g-fg\'}{g^2} \\). Trascendentes: \\( (e^x)\'=e^x \\), \\( (\\ln x)\'=\\dfrac{1}{x} \\), \\( (\\sen x)\'=\\cos x \\), \\( (\\cos x)\'=-\\sen x \\).</div>
+      <div class="def"><b class="tagd">Reglas compuestas</b>\\( (fg)\'=f\'g+fg\' \\) · \\( \\left(\\dfrac{f}{g}\\right)\'=\\dfrac{f\'g-fg\'}{g^2} \\). Trascendentes: \\( (e^x)\'=e^x \\), \\( (\\ln x)\'=\\dfrac{1}{x} \\), \\( (\\sin x)\'=\\cos x \\), \\( (\\cos x)\'=-\\sin x \\).</div>
       <div class="ex"><b class="tagd">Ejemplo combinado</b>\\( \\ln(x^2) \\): cadena ⇒ \\( \\frac{1}{x^2}\\cdot 2x=\\frac{2}{x} \\). \\( x e^x \\): producto ⇒ \\( e^x+xe^x=e^x(1+x) \\). Criterio de selección: <strong>miro la estructura</strong> (¿potencia?, ¿capas?, ¿producto?) y elijo la regla — no al revés.</div>`}
   ],
   lab:[
@@ -786,13 +785,13 @@ const SESSIONS = [
   quiz:[
     {q:'La regla de la potencia dice que \\( (x^n)\'= \\)', o:['\\( nx^{n-1} \\)','\\( x^{n-1} \\)','\\( nx \\)'], a:0,
      e:'El exponente baja a multiplicar y se le resta uno: \\( (x^5)\'=5x^4 \\).'},
-    {q:'\\( \\dfrac{d}{dx}[\\sen(2x)] = \\)', o:['\\( 2\\cos(2x) \\)','\\( \\cos(2x) \\)','\\( 2\\sen(2x) \\)'], a:0,
+    {q:'\\( \\dfrac{d}{dx}[\\sin(2x)] = \\)', o:['\\( 2\\cos(2x) \\)','\\( \\cos(2x) \\)','\\( 2\\sin(2x) \\)'], a:0,
      e:'Cadena: \\( \\cos(2x) \\) por la derivada interna \\( 2 \\).'},
     {q:'La regla del producto se usa para derivar:',
      o:['Funciones multiplicadas entre sí, como \\( x e^x \\)','Funciones compuestas','Cocientes'], a:0,
      e:'\\( (fg)\'=f\'g+fg\' \\). Compuestas ⇒ cadena; cocientes ⇒ su propia regla.'},
     {q:'\\( (\\ln x)\' = \\)', o:['\\( \\dfrac{1}{x} \\)','\\( x \\)','\\( e^x \\)'], a:0,
-     e:'La derivada del logaritmo natural es la recíproca: válida para \\( x>0 \\).'}
+     e:'La derivada del logaritmo natural es la recíproca: válida para \\( x&gt;0 \\).'}
   ],
   ticket:{ ctx:'Taller de calzado: la demanda fija el precio \\( p(x)=100-2x \\) (pesos por par). El ingreso es \\( I(x)=p(x)\\cdot x \\). Calcula el ingreso marginal \\( I\'(x) \\).',
     steps:[
@@ -896,7 +895,7 @@ const SESSIONS = [
       </div>`}
   ],
   lab:[
-    {q:'\\( \\lim_{x\\to 0}\\dfrac{\\sen x}{x} = \\)', o:['\\( 1 \\)','\\( 0 \\)','\\( \\infty \\)'], a:0,
+    {q:'\\( \\lim_{x\\to 0}\\dfrac{\\sin x}{x} = \\)', o:['\\( 1 \\)','\\( 0 \\)','\\( \\infty \\)'], a:0,
      w:'Límite notable; radianes siempre.'},
     {q:'La derivada de \\( f(x)=e^{2x} \\) es:', o:['\\( 2e^{2x} \\)','\\( e^{2x} \\)','\\( 2x e^{2x} \\)'], a:0,
      w:'Cadena: exponencial conserva base, multiplica la derivada del exponente.'},
@@ -970,7 +969,7 @@ const EXAMS = {
     title:'Examen Final · Cálculo Diferencial',
     intro:'Integra límites, continuidad, derivadas y optimización.',
     qs:[
-      ['\\( \\lim_{x \\to 0} \\frac{\\sen x}{x} \\) es:',['\\( 1 \\)','\\( 0 \\)','\\( \\infty \\)'],'\\( 1 \\)'],
+      ['\\( \\lim_{x \\to 0} \\frac{\\sin x}{x} \\) es:',['\\( 1 \\)','\\( 0 \\)','\\( \\infty \\)'],'\\( 1 \\)'],
       ['La derivada de \\( f(x)=e^{2x} \\) es:',['\\( 2e^{2x} \\)','\\( e^{2x} \\)','\\( 2x e^{2x} \\)'],'\\( 2e^{2x} \\)'],
       ['Para maximizar beneficios, la primera derivada de la función de utilidad debe ser:',['Cero','Positiva','Negativa'],'Cero'],
       ['El punto de inflexión ocurre cuando:',['La segunda derivada cambia de signo','La primera derivada es cero','La función es discontinua'],'La segunda derivada cambia de signo'],
@@ -992,7 +991,7 @@ const GLOSSARY = [
   ['Composición','\\( (f\\circ g)(x)=f(g(x)) \\): aplicar primero \\( g \\) y a su resultado \\( f \\).'],
   ['Sucesión aritmética','Secuencia donde la diferencia entre términos consecutivos es constante.'],
   ['Sucesión geométrica','Secuencia donde el cociente entre términos consecutivos es constante.'],
-  ['Convergencia','Propiedad de una sucesión geométrica con \\( |r|<1 \\): sus términos se acercan a cero.'],
+  ['Convergencia','Propiedad de una sucesión geométrica con \\( |r|&lt;1 \\): sus términos se acercan a cero.'],
   ['Límite','Valor al que se aproxima una función cuando la variable tiende a un punto.'],
   ['Indeterminación 0/0','Forma que exige técnica algebraica (factorizar) para revelar el límite.'],
   ['Continuidad','Propiedad de una función cuyo límite en un punto coincide con su valor en ese punto.'],
@@ -1142,6 +1141,7 @@ function renderLocked(s){
     <p><strong>Esta sesión está bloqueada.</strong> Ingresa la clave proporcionada por el profesor para acceder al contenido.</p>
     <button class="action" onclick="openPasswordModal('${s.id}')">🔑 Desbloquear sesión</button></div>`;
 }
+
 
 // ========================================================================
 //  RENDER DE SESIÓN ENRIQUECIDA
@@ -1694,6 +1694,3 @@ document.getElementById('studentName').addEventListener('change',function(){
 </script>
 </body>
 </html>
-
-
-  
