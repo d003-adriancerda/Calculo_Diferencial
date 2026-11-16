@@ -1598,9 +1598,16 @@ function renderActividad(act,modId,idx,num){
       html+=`<div class="opciones">${act.opciones.map((o,i)=>`<div class="opcion" onclick="toggleMulti('${aId}',${i})"><div class="marker">☐</div><div>${o}</div></div>`).join('')}</div>
         <div class="act-actions"><button class="btn btn-primary btn-sm" onclick="verificarMulti('${aId}')">Verificar</button></div>`;
       break;
-    case 'completar_hueco':
+    case 'completar_hueco':{
+      /* CORRECCIÓN: si el enunciado no incluye un campo de respuesta embebido,
+         se agrega uno automáticamente para que el usuario pueda escribir su respuesta. */
+      const tieneInputEmbebido=/<input/i.test(enunciadoSeguro);
+      if(!tieneInputEmbebido){
+        html+=`<div class="numerica-input"><input class="input-line" id="in-${aId}" type="text" placeholder="Escribe tu respuesta aquí" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();verificarHueco('${aId}',${idx});}"></div>`;
+      }
       html+=`<div class="act-actions"><button class="btn btn-primary btn-sm" onclick="verificarHueco('${aId}',${idx})">Verificar</button></div>`;
       break;
+    }
     case 'ordenar_pasos':
       html+=`<div class="orden-list" id="orden-${aId}">${renderOrdenItems(act.pasos,aId)}</div>
         <div class="act-actions"><button class="btn btn-primary btn-sm" onclick="verificarOrden('${aId}',${idx})">Verificar orden</button></div>`;
@@ -1610,7 +1617,10 @@ function renderActividad(act,modId,idx,num){
       html+=`<div class="act-actions"><button class="btn btn-primary btn-sm" onclick="verificarEmparejar('${aId}',${idx})">Verificar emparejamientos</button></div>`;
       break;
     case 'numerica':
-      html+=`<div class="act-actions"><button class="btn btn-primary btn-sm" onclick="verificarNumerica('${aId}',${idx})">Verificar</button></div>`;
+      /* CORRECCIÓN: se agrega el campo de respuesta numérica que faltaba
+         (antes solo aparecía el botón Verificar y el usuario no podía escribir). */
+      html+=`<div class="numerica-input"><input class="input-line" id="in-${aId}" type="text" inputmode="decimal" placeholder="Escribe tu respuesta (número)" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();verificarNumerica('${aId}',${idx});}"></div>
+        <div class="act-actions"><button class="btn btn-primary btn-sm" onclick="verificarNumerica('${aId}',${idx})">Verificar</button></div>`;
       break;
   }
   html+=`<div class="hints">
@@ -1796,7 +1806,7 @@ function verificarHueco(aId,idx){
   const modId=cont.dataset.mod;
   const act=getModulo(modId).actividades[idx];
   const input=cont.querySelector('input.input-line');
-  if(!input)return;
+  if(!input){toast('No se encontró el campo de respuesta. Vuelve a abrir el módulo.','error');return}
   const val=input.value.trim();
   if(!val){toast('Escribe tu respuesta','info');return}
   const norm=normalizeStr(val);
@@ -1869,7 +1879,7 @@ function verificarNumerica(aId,idx){
   const modId=cont.dataset.mod;
   const act=getModulo(modId).actividades[idx];
   const input=cont.querySelector('input.input-line');
-  if(!input)return;
+  if(!input){toast('No se encontró el campo de respuesta. Vuelve a abrir el módulo.','error');return}
   const val=parseFloat(input.value.replace(',','.'));
   if(isNaN(val)){toast('Escribe un número','info');return}
   const isCorrect=Math.abs(val-act.respuesta)<=act.tolerancia;
@@ -1964,6 +1974,156 @@ function generarPistaGenerica(act,nivel,modId){
     return 'Revisa el ejemplo resuelto del módulo para ver el primer paso aplicado.';
   }
   return '';
+}
+
+/* ============================================================
+   GENERADOR DE PRÁCTICA INFINITA
+   (Corrección: las funciones generarPractica / comprobarPractica /
+    mostrarSolucionGen eran referenciadas por los botones del panel
+    "🎲 Generador de práctica infinita" pero no estaban definidas.)
+   ============================================================ */
+let GEN={actual:null};
+function rndInt(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+/* Construye un término de polinomio: term(3,'x^{3}',true)='3x^{3}'; term(-3,'x^{2}',false)='-3x^{2}'; term(1,'x',false)='+x'; term(-2,'',false)='-2' */
+function term(c,s,first){
+  if(c===0)return '';
+  const sign=(c<0?'-':(first?'':'+'));
+  const abs=Math.abs(c);
+  return sign+((abs===1&&s)?s:abs+s);
+}
+
+/* Cada generador devuelve: {enunciado, solucion, tolerancia, solucionTxt, explicacion} */
+function generarEjercicioM3(){
+  if(Math.random()<0.5){
+    const dx=rndInt(1,3), m=rndInt(-4,4)||1, dy=m*dx;
+    const x1=rndInt(-5,3), y1=rndInt(-6,6);
+    const x2=x1+dx, y2=y1+dy;
+    return {enunciado:`¿Cuál es la pendiente de la recta que pasa por $(${x1},${y1})$ y $(${x2},${y2})$?`,
+      solucion:m, tolerancia:0.01,
+      solucionTxt:`$m=\\frac{${y2}-(${y1})}{${x2}-(${x1})}=\\frac{${dy}}{${dx}}=${m}$`,
+      explicacion:'La pendiente es el cambio en $y$ entre el cambio en $x$.'};
+  }
+  const a=rndInt(1,4), b=rndInt(-5,5), k=rndInt(1,4), sol=a*k*k+b;
+  const fxTxt='f(x)='+term(a,'x',true)+term(b,'',false);
+  return {enunciado:`Si $${fxTxt}$ y $g(x)=x^{2}$, ¿cuánto vale $(f\\circ g)(${k})$?`,
+    solucion:sol, tolerancia:0.01,
+    solucionTxt:`$g(${k})=${k*k}$ y luego $f(${k*k})=${sol}$`,
+    explicacion:'Primero evalúa $g$ y después aplica $f$ al resultado.'};
+}
+function generarEjercicioM4(){
+  const v=rndInt(0,2);
+  if(v===0){
+    const k=rndInt(1,6), sol=Math.pow(2,k);
+    return {enunciado:`Calcula $2^{${k}}$.`, solucion:sol, tolerancia:0.01,
+      solucionTxt:`$2^{${k}}=${sol}$`,
+      explicacion:'Multiplica $2$ por sí mismo tantas veces como indica el exponente.'};
+  }
+  if(v===1){
+    const a=rndInt(1,4), b=rndInt(1,4), sol=a+b;
+    return {enunciado:`Calcula $\\log_{2}\\!\\left(2^{${a}}\\cdot 2^{${b}}\\right)$.`, solucion:sol, tolerancia:0.01,
+      solucionTxt:`$2^{${a}}\\cdot 2^{${b}}=2^{${a+b}}$, así que $\\log_{2}(2^{${a+b}})=${sol}$`,
+      explicacion:'Al multiplicar potencias de igual base se suman los exponentes.'};
+  }
+  const k=rndInt(1,4);
+  return {enunciado:`Resuelve $3^{x}=3^{${k}}$.`, solucion:k, tolerancia:0.01,
+    solucionTxt:`$x=${k}$`,
+    explicacion:'Si las bases son iguales, los exponentes son iguales.'};
+}
+function generarEjercicioM5(){
+  const vals=[
+    {e:'\\operatorname{sen}(30^{\\circ})',v:0.5,txt:'$\\frac{1}{2}=0.5$'},
+    {e:'\\cos(60^{\\circ})',v:0.5,txt:'$\\frac{1}{2}=0.5$'},
+    {e:'\\operatorname{sen}(45^{\\circ})',v:0.7071,txt:'$\\frac{\\sqrt{2}}{2}\\approx 0.71$'},
+    {e:'\\cos(45^{\\circ})',v:0.7071,txt:'$\\frac{\\sqrt{2}}{2}\\approx 0.71$'},
+    {e:'\\operatorname{sen}(60^{\\circ})',v:0.8660,txt:'$\\frac{\\sqrt{3}}{2}\\approx 0.87$'},
+    {e:'\\cos(30^{\\circ})',v:0.8660,txt:'$\\frac{\\sqrt{3}}{2}\\approx 0.87$'},
+    {e:'\\tan(45^{\\circ})',v:1,txt:'$1$'},
+    {e:'\\tan(30^{\\circ})',v:0.5774,txt:'$\\frac{\\sqrt{3}}{3}\\approx 0.58$'},
+    {e:'\\tan(60^{\\circ})',v:1.7321,txt:'$\\sqrt{3}\\approx 1.73$'},
+    {e:'\\operatorname{sen}(90^{\\circ})',v:1,txt:'$1$'}
+  ];
+  const p=vals[rndInt(0,vals.length-1)];
+  return {enunciado:`Calcula (redondea a $2$ decimales si es necesario): $${p.e}=\\,?$`,
+    solucion:p.v, tolerancia:0.02, solucionTxt:p.txt,
+    explicacion:'Usa los valores notables del círculo unitario.'};
+}
+function generarEjercicioM9(){
+  const v=rndInt(0,2);
+  if(v===0){
+    const a=rndInt(2,9);
+    return {enunciado:`Calcula $\\displaystyle\\lim_{x\\to ${a}}\\frac{x^{2}-${a*a}}{x-${a}}$.`,
+      solucion:2*a, tolerancia:0.01,
+      solucionTxt:`Factoriza: $\\frac{(x-${a})(x+${a})}{x-${a}}=x+${a}$, y al evaluar da $${2*a}$`,
+      explicacion:'Factoriza la diferencia de cuadrados y cancela el factor que se anula.'};
+  }
+  if(v===1){
+    const k=rndInt(1,5);
+    return {enunciado:`Calcula $\\displaystyle\\lim_{x\\to 0}\\frac{\\operatorname{sen}\\, ${k}x}{x}$.`,
+      solucion:k, tolerancia:0.01,
+      solucionTxt:`$${k}$`,
+      explicacion:'Es un límite notable: multiplica y divide entre $'+k+'$ y usa $\\lim_{u\\to 0}\\frac{\\operatorname{sen}\\, u}{u}=1$.'};
+  }
+  const a=rndInt(1,6), c=[1,2,4,5][rndInt(0,3)], b=rndInt(-5,5), d=rndInt(1,9);
+  const numTxt=term(a,'x^{2}',true)+term(b,'x',false);
+  return {enunciado:`Calcula $\\displaystyle\\lim_{x\\to\\infty}\\frac{${numTxt}}{${c}x^{2}+${d}}$.`,
+    solucion:a/c, tolerancia:0.01,
+    solucionTxt:`$\\frac{${a}}{${c}}\\approx ${(a/c).toFixed(2)}$ (grados iguales: divide los coeficientes principales)`,
+    explicacion:'Cuando los grados son iguales, el límite es la razón de los coeficientes líderes.'};
+}
+function generarEjercicioM11(){
+  const a=rndInt(1,4), b=rndInt(-4,4), c=rndInt(-6,6), d=rndInt(-5,5), k=rndInt(1,3);
+  const sol=3*a*k*k+2*b*k+c;
+  const fxTxt=term(a,'x^{3}',true)+term(b,'x^{2}',false)+term(c,'x',false)+term(d,'',false);
+  const dfxTxt=term(3*a,'x^{2}',true)+term(2*b,'x',false)+term(c,'',false);
+  return {enunciado:`Si $${fxTxt}$, ¿cuánto vale $f'(${k})$?`,
+    solucion:sol, tolerancia:0.01,
+    solucionTxt:`$f'(x)=${dfxTxt}$, entonces $f'(${k})=${sol}$`,
+    explicacion:'Deriva término a término con $\\frac{d}{dx}(x^{n})=nx^{n-1}$ y evalúa en $x='+k+'$.'};
+}
+function generarPractica(modId){
+  const gens={m3:generarEjercicioM3,m4:generarEjercicioM4,m5:generarEjercicioM5,m9:generarEjercicioM9,m11:generarEjercicioM11};
+  const gen=gens[modId];
+  if(!gen){toast('Generador no disponible para este módulo','info');return}
+  GEN.actual=gen();
+  GEN.actual.mod=modId;
+  const disp=$('gen-display');
+  if(!disp){toast('No se encontró el panel de práctica','error');return}
+  disp.style.display='block';
+  setHTML(disp,`
+    <div class="gen-problem">${GEN.actual.enunciado}</div>
+    <div class="numerica-input" style="justify-content:center">
+      <input class="input-line" id="gen-input" type="text" inputmode="decimal" placeholder="Escribe tu respuesta (número)" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();comprobarPractica();}">
+    </div>
+    <div style="text-align:center;margin-top:10px">
+      <button class="btn btn-primary btn-sm" onclick="comprobarPractica()">Verificar</button>
+    </div>
+    <div class="feedback" id="gen-fb"></div>`);
+  const inp=$('gen-input');
+  if(inp)inp.focus();
+  toast('Nuevo ejercicio generado','success');
+}
+function comprobarPractica(){
+  if(!GEN.actual){toast('Primero genera un ejercicio','info');return}
+  const inp=$('gen-input');
+  if(!inp){toast('No se encontró el campo de respuesta','error');return}
+  const val=parseFloat(inp.value.replace(',','.'));
+  if(isNaN(val)){toast('Escribe un número','info');return}
+  const fb=$('gen-fb');
+  const ok=Math.abs(val-GEN.actual.solucion)<=GEN.actual.tolerancia;
+  if(ok){
+    fb.className='feedback show ok';
+    setHTML(fb,'✓ ¡Correcto! '+GEN.actual.explicacion+' Pulsa "🔄 Generar otro ejercicio" para seguir practicando.');
+  }else{
+    fb.className='feedback show err';
+    setHTML(fb,'Aún no es correcto. Revisa tu procedimiento y vuelve a intentarlo, o usa "💡 Ver solución".');
+  }
+}
+function mostrarSolucionGen(){
+  if(!GEN.actual){toast('Primero genera un ejercicio','info');return}
+  const fb=$('gen-fb');
+  if(!fb){toast('Genera primero un ejercicio','error');return}
+  fb.className='feedback show ok';
+  setHTML(fb,'💡 Solución: '+GEN.actual.solucionTxt+'. '+GEN.actual.explicacion);
 }
 
 /* ============================================================
