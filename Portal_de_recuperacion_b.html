@@ -1093,8 +1093,41 @@ function renderMath(el){
   }
 }
 /* Set innerHTML and render LaTeX math (data already has $...$ delimiters) */
+/* Raíces cuadradas "limpias": reescribe \sqrt{X} → √X o √(X) en tiempo de renderizado,
+   para eliminar la barra flotante del vínculo (que se ve como una barra de conjugado
+   complejo desconectada del símbolo radical). El símbolo √ se dibuja limpio, sin barra. */
+function reemplazarSqrt(texto){
+  if(texto.indexOf('\\sqrt')===-1)return texto;
+  let out='';
+  let i=0;
+  while(true){
+    const j=texto.indexOf('\\sqrt', i);
+    if(j===-1){ out+=texto.slice(i); break; }
+    out+=texto.slice(i, j);
+    let k=j+5;
+    if(texto[k]==='{'){
+      let depth=0, end=-1;
+      for(let p=k; p<texto.length; p++){
+        if(texto[p]==='{')depth++;
+        else if(texto[p]==='}'){ depth--; if(depth===0){ end=p; break; } }
+      }
+      if(end!==-1){
+        const radicando=texto.slice(k+1, end);
+        const inner=reemplazarSqrt(radicando); /* raíces anidadas */
+        /* radicando simple (solo letras/números) → √2, √x, √169; compuesto → √(x-3) */
+        out+=(/^[A-Za-z0-9]+$/.test(radicando)) ? ('√'+inner) : ('√('+inner+')');
+        i=end+1;
+        continue;
+      }
+    }
+    /* \sqrt sin llaves o malformado: se deja tal cual */
+    out+='\\sqrt';
+    i=k;
+  }
+  return out;
+}
 function setHTML(el,html){
-  el.innerHTML=html;
+  el.innerHTML=reemplazarSqrt(html);
   renderMath(el);
 }
 
