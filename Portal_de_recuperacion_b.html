@@ -77,6 +77,7 @@ header.topbar{background:linear-gradient(135deg,var(--primary),var(--primary-dar
 .welcome h2{font-size:1.3rem;margin-bottom:8px;color:var(--primary-dark)}
 .welcome p{color:var(--text-muted);font-size:.95rem}
 .welcome .motiv{margin-top:10px;padding:10px 14px;background:var(--accent-light);border-left:4px solid var(--accent);border-radius:6px;color:var(--text);font-size:.9rem}
+.ahorro{margin-top:10px;font-size:.85rem;color:var(--text-muted)}
 
 .modules-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:16px}
 .module-card{background:var(--surface);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);border:2px solid var(--border);transition:all .2s;position:relative;overflow:hidden;cursor:pointer}
@@ -221,6 +222,11 @@ header.topbar{background:linear-gradient(135deg,var(--primary),var(--primary-dar
 .nota-card .nota-estado.pendiente{background:var(--danger-light);color:var(--text);border:1px solid var(--danger)}
 .nota-card .nota-acciones{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 
+/* Descargas (lista de notas) */
+.dl-table{width:100%;border-collapse:collapse;font-size:.88rem;margin:8px 0}
+.dl-table td{padding:8px 6px;border-bottom:1px solid var(--border);vertical-align:middle}
+.dl-table td:nth-child(2){text-align:center;font-weight:700}
+
 /* Insignia */
 .insignia{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:linear-gradient(135deg,var(--accent),var(--primary));color:var(--btn-text);border-radius:20px;font-weight:700;font-size:.85rem;box-shadow:0 4px 12px rgba(0,0,0,.25);animation:pop .4s}
 @keyframes pop{0%{transform:scale(0)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
@@ -228,7 +234,7 @@ header.topbar{background:linear-gradient(135deg,var(--primary),var(--primary-dar
 /* Modal */
 .modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.6);display:none;align-items:center;justify-content:center;z-index:200;padding:16px}
 .modal-overlay.show{display:flex}
-.modal{background:var(--surface);border-radius:var(--radius);padding:20px;max-width:500px;width:100%;max-height:80vh;overflow-y:auto;box-shadow:var(--shadow-lg)}
+.modal{background:var(--surface);border-radius:var(--radius);padding:20px;max-width:560px;width:100%;max-height:80vh;overflow-y:auto;box-shadow:var(--shadow-lg)}
 .modal h3{color:var(--primary-dark);margin-bottom:12px;font-size:1.2rem}
 .modal .field{margin-bottom:12px}
 .modal .field label{display:block;font-size:.85rem;font-weight:600;margin-bottom:4px;color:var(--text-muted)}
@@ -297,12 +303,13 @@ footer{padding:20px;text-align:center;color:var(--text-muted);font-size:.82rem}
     <div class="topbar-row">
       <h1><span class="logo">📐</span> Recuperación de Cálculo Diferencial</h1>
       <div class="topbar-actions">
+        <button class="btn btn-ghost btn-sm" onclick="irDashboard()" title="Volver al Dashboard">🏠 <span class="btn-label">Dashboard</span></button>
         <button class="btn btn-ghost btn-sm" onclick="toggleDarkMode()" id="btn-dark-mode" title="Cambiar modo claro/oscuro">🌙 <span class="btn-label">Modo oscuro</span></button>
         <button class="btn btn-ghost btn-sm" onclick="openPanel('panel-formulas')" title="Tabla de fórmulas">📐 <span class="btn-label">Fórmulas</span></button>
         <button class="btn btn-ghost btn-sm" onclick="openPanel('panel-errores')" title="Mis errores frecuentes">⚠️ <span class="btn-label">Errores</span></button>
         <button class="btn btn-ghost btn-sm" onclick="openPanel('panel-progreso')" title="Mi progreso detallado">📊 <span class="btn-label">Progreso</span></button>
         <button class="btn btn-ghost btn-sm" onclick="editarDatos()" title="Editar mis datos">👤 <span class="btn-label">Mis datos</span></button>
-        <button class="btn btn-download btn-sm" onclick="descargarPortafolioCompleto()">📦 <span class="btn-label">Descargar avance</span></button>
+        <button class="btn btn-download btn-sm" onclick="abrirDescargas()">📦 <span class="btn-label">Descargar notas</span></button>
       </div>
     </div>
   </header>
@@ -312,8 +319,9 @@ footer{padding:20px;text-align:center;color:var(--text-muted);font-size:.82rem}
     <div class="welcome">
       <h2>Bienvenido de vuelta a tu recuperación 🎯</h2>
       <p>Esta plataforma-taller está diseñado para que retomes tu curso de Cálculo Diferencial a tu ritmo, en sesiones cortas, desde tu celular o computadora. No importa cuánto hayas perdido si te ausentaste: aquí empezamos de donde estás y avanzamos juntos, paso a paso.</p>
-      <p style="margin-top:8px"><strong>Los módulos son independientes:</strong> puedes estudiarlos en el orden que necesites. Cada módulo tiene su propio repaso opcional, práctica y consolidación. Al finalizar un módulo verás tu nota y podrás descargarla con tu nombre.</p>
+      <p style="margin-top:8px"><strong>Los módulos son independientes:</strong> puedes estudiarlos en el orden que necesites. Cada módulo tiene su propio repaso opcional, práctica y consolidación. Al finalizar un módulo verás tu nota y podrás descargarla con tu nombre, en PNG o HTML.</p>
       <div class="motiv">💡 <strong>Regla de oro:</strong> equivocarse aquí en esta plataforma no te penaliza ni te califica con menos puntos. Cada error se registra para repaso y te ayuda a aprender. Lo único que importa es no rendirse, si se comete un error primero lo reconoces aprendes de él y después simplemente ya no caes en el mismo error, por el contrario avanzas con mayor seguridad.</div>
+      <div class="ahorro">💾 Tu avance se guarda automáticamente en este navegador, así que puedes resolver varios módulos en la misma sesión. Descarga tus notas antes de borrar los datos del navegador.</div>
     </div>
 
     <div class="progress-global">
@@ -329,13 +337,13 @@ footer{padding:20px;text-align:center;color:var(--text-muted);font-size:.82rem}
     <div class="section">
       <h3>🗂️ Diagnóstico inicial (Módulo 0)</h3>
       <p style="font-size:.92rem;color:var(--text-muted);margin-bottom:10px">Antes de empezar, contesta estas preguntas rápidas para identificar qué prerrequisitos necesitas reforzar. <strong>No bloquea ningún módulo</strong>, solo te da recomendaciones personalizadas.</p>
-      <button class="btn btn-primary" onclick="abrirModulo('m0')">Iniciar diagnóstico (6 preguntas)</button>
+      <button class="btn btn-primary" onclick="abrirModulo('m0')">Iniciar diagnóstico (8 preguntas)</button>
     </div>
 
     <div class="section">
       <h3>📂 Opciones</h3>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button class="btn" onclick="importarEvidencias()">📥 Importar evidencias previas</button>
+        <button class="btn" onclick="abrirDescargas()">📦 Descargar notas (PNG/HTML)</button>
         <button class="btn" onclick="reiniciarProgreso()">🔄 Reiniciar progreso</button>
         <button class="btn" onclick="editarDatos()">✏️ Editar mis datos</button>
       </div>
@@ -358,7 +366,7 @@ footer{padding:20px;text-align:center;color:var(--text-muted);font-size:.82rem}
 
   <footer>
     Curso-taller de recuperación · Cálculo Diferencial · Diseñado para aprendizaje autosuficiente<br>
-    Tus datos se guardan solo en este navegador (localStorage). Descarga tu nota o tu portafolio para enviarlo al docente.
+    Tus datos se guardan solo en este navegador (localStorage). Descarga tus notas (PNG o HTML) para enviarlas al docente.
   </footer>
 </div>
 
@@ -400,7 +408,7 @@ const STORAGE_KEY = 'calc_diferencial_recuperacion_v1';
 
 let ESTADO = {
   usuario: { nombre: '', grupo: '', correo: '', fechaInicio: new Date().toISOString() },
-  m0: { completado: false, score: 0, max: 6, recomendaciones: [], intentos: [] },
+  m0: { completado: false, score: 0, max: 8, recomendaciones: [], intentos: [] },
   modulos: {},
   errores: [],
   evidencias: [],
@@ -449,7 +457,6 @@ function loadState() {
     if (raw) {
       const parsed = JSON.parse(raw);
       ESTADO = Object.assign(ESTADO, parsed);
-      // ensure modulos structure
       initModulosEstado();
     }
   } catch(e) { console.warn('No se pudo cargar:', e); }
@@ -1060,7 +1067,7 @@ const FORMULAS_REFERENCIA = [
 function $(id){return document.getElementById(id)}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 
-/* Fisher-Yates: mezcla uniforme (reemplaza sort(() => Math.random()-0.5)) */
+/* Fisher-Yates: mezcla uniforme */
 function barajar(arr){
   const a=arr.slice();
   for(let i=a.length-1;i>0;i--){
@@ -1251,22 +1258,9 @@ function normalizeStr(s){
     .replace(/√/g,'sqrt').replace(/π/g,'pi');
 }
 function getModulo(id){return MODULES.find(m=>m.id===id)}
-function siguienteModulo(id){
-  const idx = MODULES.findIndex(m=>m.id===id);
-  if(idx<0||idx>=MODULES.length-1) return null;
-  // Skip m0
-  for(let i=idx+1;i<MODULES.length;i++){
-    if(MODULES[i].id!=='m0') return MODULES[i];
-  }
-  return null;
-}
 function toast(msg,type='info'){
   const t=$('toast');t.textContent=msg;t.className='toast '+type+' show';
   setTimeout(()=>t.classList.remove('show'),2800);
-}
-function hoy(){
-  const d=new Date();
-  return d.toLocaleDateString('es-MX',{year:'numeric',month:'long',day:'numeric'});
 }
 function fechaHora(){
   return new Date().toLocaleString('es-MX');
@@ -1320,13 +1314,11 @@ function renderDashboard(){
     totalDone+=e.scoreActividades;
     totalAct+=e.totalActividades;
   });
-  // Add consolidation bonus
   let dominatedCount=mods.filter(m=>ESTADO.modulos[m.id].dominado).length;
   let pct=Math.round(((totalDone/totalAct)*0.7 + (dominatedCount/mods.length)*0.3)*100);
   if(isNaN(pct))pct=0;
   $('progress-pct').textContent=pct+'%';
   $('progress-fill').style.width=pct+'%';
-  // Render side panels
   renderFormulaRef();
   renderErroresList();
   renderProgresoDetallado();
@@ -1344,13 +1336,12 @@ function irDashboard(){
   renderDashboard();
   window.scrollTo(0,0);
 }
+
 /* ============================================================
-   SELECCIÓN DE ACTIVIDADES POR SESIÓN
+   SELECCIÓN DE ACTIVIDADES POR SESIÓN (siempre 3, numeradas 1–3)
    ============================================================ */
-// Semilla de sesión: cambia cada vez que se abre el archivo
 var SESSION_SEED = Math.floor(Math.random()*1000000);
 
-// Shuffle determinista con semilla (para que las 3 actividades no cambien al navegar dentro de la misma sesión)
 function shuffleWithSeed(arr,seed){
   var s=seed;
   for(var i=arr.length-1;i>0;i--){
@@ -1369,17 +1360,13 @@ function getActividadesVisibles(modId){
   var todas=m.actividades.map(function(a,i){return {idx:i,answered:est.actividades[i]&&est.actividades[i].correcta}});
   var sinResponder=todas.filter(function(t){return !t.answered});
   var respondidas=todas.filter(function(t){return t.answered});
-  // Semilla por módulo (parseInt evita colisiones entre m1 y m10)
   var numMod=parseInt(modId.slice(1),10);
   shuffleWithSeed(sinResponder,SESSION_SEED+numMod*1000);
   shuffleWithSeed(respondidas,SESSION_SEED+numMod*1000+7);
-  // Priorizar sin responder, hasta 3
   var visibles=sinResponder.slice(0,3);
-  // Rellenar con respondidas si faltan
   if(visibles.length<3){
     visibles=visibles.concat(respondidas.slice(0,3-visibles.length));
   }
-  // Ordenar por índice original
   visibles.sort(function(a,b){return a.idx-b.idx});
   return visibles.map(function(v){return v.idx});
 }
@@ -1401,7 +1388,6 @@ function abrirModulo(id){
 function renderModuloContenido(id){
   const m=getModulo(id);
   const cont=$('module-content');
-  const est=ESTADO.modulos[id];
   let html=`
     <div class="module-header">
       <h2><span style="font-size:1.6rem">${m.icono}</span> Módulo ${m.num}: ${m.titulo}</h2>
@@ -1411,21 +1397,20 @@ function renderModuloContenido(id){
   if(m.esDiagnostico){
     html+=`<div class="section"><h3>🧭 Preguntas de diagnóstico</h3>`;
     if(ESTADO.m0.completado){
-      html+=`<div class="diag-result ${ESTADO.m0.score>=5?'alto':ESTADO.m0.score>=3?'medio':'bajo'}">
+      html+=`<div class="diag-result ${ESTADO.m0.score>=6?'alto':ESTADO.m0.score>=4?'medio':'bajo'}">
         <strong>Resultado: ${ESTADO.m0.score}/${ESTADO.m0.max}</strong><br>
         ${ESTADO.m0.recomendaciones.map(r=>`<div class="diag-rec">• ${r}</div>`).join('')}
       </div>`;
       html+=`<button class="btn" onclick="repetirDiagnostico()">🔄 Repetir diagnóstico</button>`;
     }
-    m.actividades.forEach((a,i)=>html+=renderActividad(a,id,i));
+    m.actividades.forEach((a,i)=>html+=renderActividad(a,id,i,i+1));
     html+=`</div>`;
     setHTML(cont,html);
-    attachActividadHandlers(id);
     $('btn-dominar').disabled=true;
     $('dominar-msg').textContent='';
     return;
   }
-  // Repaso OPCIONAL (no obligatorio): cada módulo es independiente
+  // Repaso OPCIONAL (no obligatorio)
   if(m.repaso && m.repaso.length>0){
     html+=`<div class="section">
       <div class="accordion">
@@ -1461,13 +1446,12 @@ function renderModuloContenido(id){
       <div class="gen-display" id="gen-display" style="display:none"></div>
     </div>`;
   }
-  // Actividades (3 por sesión, seleccionadas aleatoriamente)
+  // Ejercicios: siempre 3, numerados 1, 2 y 3
   var visibles=getActividadesVisibles(id);
-  var totalMod=m.actividades.length;
-  html+=`<div class="section"><h3>✏️ Actividades <span class="badge">${visibles.length} de ${totalMod}</span></h3>`;
-  html+=`<p style="font-size:.82rem;color:var(--text-muted);margin-bottom:12px">Esta sesión muestra ${visibles.length} actividades. Al reabrir el archivo verás otras distintas. ¡Sigue practicando!</p>`;
-  visibles.forEach(function(idx){
-    html+=renderActividad(m.actividades[idx],id,idx);
+  html+=`<div class="section"><h3>✏️ Ejercicios <span class="badge">3</span></h3>`;
+  html+=`<p style="font-size:.82rem;color:var(--text-muted);margin-bottom:12px">Esta sesión incluye 3 ejercicios (del 1 al 3). Al volver a entrar al módulo recibirás otros 3 distintos. ¡Sigue practicando!</p>`;
+  visibles.forEach(function(idx,pos){
+    html+=renderActividad(m.actividades[idx],id,idx,pos+1);
   });
   html+=`</div>`;
   // Consolidación
@@ -1489,7 +1473,6 @@ function renderModuloContenido(id){
   // Nota del módulo (aparece al finalizar)
   html+=`<div id="nota-modulo"></div>`;
   setHTML(cont,html);
-  attachActividadHandlers(id);
   if(m.ejemplo && m.ejemplo.length>0)renderEjemplo(m.ejemplo,0);
   actualizarEstadoDominar(id);
   renderNotaModulo(id);
@@ -1564,7 +1547,6 @@ function marcarRepasoHecho(id){
    RENDERIZADORES DE ACTIVIDADES
    ============================================================ */
 function renderActividadSimple(act,modId,rId){
-  // Simplified renderer for repaso (no tracking)
   if(act.tipo==='opcion_multiple'){
     let opts=act.opciones.map((o,i)=>`<div class="opcion" onclick="seleccionarSimple(this,'${rId}',${i},${act.correcta})"><div class="marker">${String.fromCharCode(65+i)}</div><div>${o}</div></div>`).join('');
     return `<div class="actividad" id="${rId}"><div class="act-enunciado">${act.enunciado}</div><div class="opciones">${opts}</div><div class="feedback" id="fb-${rId}"></div></div>`;
@@ -1588,17 +1570,18 @@ function seleccionarSimple(el,rId,sel,correcta){
   }
 }
 
-function renderActividad(act,modId,idx){
+/* num = número visible del ejercicio en la sesión (1, 2 o 3); idx = índice interno */
+function renderActividad(act,modId,idx,num){
   const aId=`act-${modId}-${idx}`;
   const est=ESTADO.modulos[modId];
   const estadoAct=est.actividades[idx]||{intentos:0,correcta:false,primerIntento:null};
   const enunciadoSeguro = act.enunciado || '(Enunciado no disponible)';
+  const numVisible = num!==undefined ? num : idx+1;
   let html=`<div class="actividad ${estadoAct.correcta?'respondida-correcta':''}" id="${aId}" data-tipo="${act.tipo}" data-mod="${modId}" data-idx="${idx}">
-    <div class="act-enunciado"><span class="act-num">${idx+1}</span>${enunciadoSeguro}</div>`;
+    <div class="act-enunciado"><span class="act-num">${numVisible}</span>${enunciadoSeguro}</div>`;
   switch(act.tipo){
     case 'opcion_multiple':
     case 'verdadero_falso':{
-      // For verdadero_falso: ensure opciones exist and convert boolean correcta to index
       const opciones = act.opciones || ['Verdadero','Falso'];
       const correctIdx = (act.tipo==='verdadero_falso') ? (act.correcta?0:1) : act.correcta;
       let opts=opciones.map((o,i)=>{
@@ -1616,7 +1599,6 @@ function renderActividad(act,modId,idx){
         <div class="act-actions"><button class="btn btn-primary btn-sm" onclick="verificarMulti('${aId}')">Verificar</button></div>`;
       break;
     case 'completar_hueco':
-      // enunciado already rendered above (contains the input)
       html+=`<div class="act-actions"><button class="btn btn-primary btn-sm" onclick="verificarHueco('${aId}',${idx})">Verificar</button></div>`;
       break;
     case 'ordenar_pasos':
@@ -1628,19 +1610,15 @@ function renderActividad(act,modId,idx){
       html+=`<div class="act-actions"><button class="btn btn-primary btn-sm" onclick="verificarEmparejar('${aId}',${idx})">Verificar emparejamientos</button></div>`;
       break;
     case 'numerica':
-      // enunciado already rendered above (contains the input)
       html+=`<div class="act-actions"><button class="btn btn-primary btn-sm" onclick="verificarNumerica('${aId}',${idx})">Verificar</button></div>`;
       break;
   }
-  // Hints (always show — generic hints generated if no explicit pistas)
-  {
-    html+=`<div class="hints">
+  html+=`<div class="hints">
       <button class="hint-btn" onclick="mostrarPista('${aId}',1)">💡 Pista 1</button>
       <button class="hint-btn" onclick="mostrarPista('${aId}',2)">💡 Pista 2</button>
       <button class="hint-btn" onclick="mostrarPista('${aId}',3)">💡 Pista 3 (pista fuerte)</button>
     </div>
     <div class="hint-content" id="hint-${aId}"></div>`;
-  }
   html+=`<div class="feedback" id="fb-${aId}"></div>`;
   if(estadoAct.intentos>0){
     html+=`<div class="act-stats">Intentos: ${estadoAct.intentos} ${estadoAct.correcta?'✓':'· Sigue intentando'}</div>`;
@@ -1650,7 +1628,6 @@ function renderActividad(act,modId,idx){
 }
 
 function renderOrdenItems(pasos,aId){
-  // Mezcla uniforme (Fisher-Yates)
   let shuffled=barajar(pasos);
   return shuffled.map((p,i)=>`<div class="orden-item" data-orden="${p.orden}">
     <span class="pos">${i+1}</span>
@@ -1665,7 +1642,6 @@ function moverOrden(aId,i,dir){
   const j=i+dir;
   if(j<0||j>=items.length)return;
   list.insertBefore(items[j],items[i]);
-  // Update pos numbers
   [...list.querySelectorAll('.orden-item')].forEach((it,k)=>it.querySelector('.pos').textContent=k+1);
 }
 function renderEmparejar(parejas,aId){
@@ -1686,12 +1662,10 @@ function selEmp(aId,side,idx){
     empSel[aId].L=idx;
     cont.querySelectorAll(`.emp-item[data-side="L"]`)[idx].classList.add('selected');
   }else{
-    // idx is the element
     idx.classList.add('selected');
     empSel[aId].Relem=idx;
   }
   if(empSel[aId].L!==undefined && empSel[aId].Relem){
-    // Match
     const act=getActFromElem(aId);
     const pareja=act.parejas[empSel[aId].L];
     const rightVal=empSel[aId].Relem.getAttribute('data-val');
@@ -1732,7 +1706,6 @@ function seleccionarOpcion(aId,sel){
   cont.querySelectorAll('.opcion').forEach(o=>o.classList.remove('selected'));
   cont.querySelectorAll('.opcion')[sel].classList.add('selected');
   cont.dataset.sel=sel;
-  // Auto-verify on selection
   verificarOpcion(aId);
 }
 function attachActividadHandlers(modId){
@@ -1745,7 +1718,6 @@ function verificarOpcion(aId){
   const act=getModulo(modId).actividades[idx];
   const sel=parseInt(cont.dataset.sel);
   if(sel===undefined||isNaN(sel)){toast('Selecciona una opción','info');return}
-  // For verdadero_falso, correcta is boolean: convert to index
   const correctIdx=(act.tipo==='verdadero_falso')?(act.correcta?0:1):act.correcta;
   const opciones=act.opciones||['Verdadero','Falso'];
   const fb=$('fb-'+aId);
@@ -1888,7 +1860,6 @@ function verificarEmparejar(aId,idx){
   }else{
     fb.className='feedback show err';
     setHTML(fb,`Llevas ${matched}/${act.parejas.length} correctos. `+(act.feedback.errores||'Sigue intentando.'));
-    // Nota: no se registra un intento extra aquí; un intento = una verificación completa
   }
   actualizarEstadoDominar(modId);
 }
@@ -1931,7 +1902,6 @@ function mostrarPista(aId,nivel){
   if(act.pistas && act.pistas[nivel-1]){
     pista=act.pistas[nivel-1];
   }else{
-    // Generate generic hints based on activity type
     pista=generarPistaGenerica(act,nivel,modId);
   }
   if(!pista)return;
@@ -1940,7 +1910,6 @@ function mostrarPista(aId,nivel){
 }
 function generarPistaGenerica(act,nivel,modId){
   const tipo=act.tipo;
-  // Get the correct answer's text as a hint source (handle verdadero_falso and missing opciones)
   let correctaTxt='';
   if(act.tipo==='verdadero_falso'){
     correctaTxt=act.correcta?'Verdadero':'Falso';
@@ -2036,7 +2005,6 @@ function evalDiagnostico(){
   const m0=ESTADO.m0;
   m0.max=getModulo('m0').actividades.length;
   m0.completado=Object.keys(m0.intentos).filter(k=>k.endsWith('_ok')).length>=m0.max;
-  // Generate recommendations based on categories
   const cats={derivadas:0,exponentes:0,sigma:0,algebra:0};
   const acts=getModulo('m0').actividades;
   Object.keys(m0.intentos).filter(k=>k.endsWith('_ok')).forEach(k=>{
@@ -2052,13 +2020,13 @@ function evalDiagnostico(){
   saveState();
 }
 function repetirDiagnostico(){
-  ESTADO.m0={completado:false,score:0,max:6,recomendaciones:[],intentos:[]};
+  ESTADO.m0={completado:false,score:0,max:8,recomendaciones:[],intentos:[]};
   saveState();
   abrirModulo('m0');
 }
 
 /* ============================================================
-   ESTADO FINALIZAR, NOTA Y DESCARGA
+   ESTADO FINALIZAR, NOTA Y DESCARGAS
    ============================================================ */
 function actualizarEstadoDominar(modId){
   if(modId==='m0')return;
@@ -2069,10 +2037,10 @@ function actualizarEstadoDominar(modId){
   const pct=est.totalActividades>0 ? est.scoreActividades/est.totalActividades : 0;
   if(est.consolidacionHecha){
     btn.disabled=false;
-    msg.textContent='Puedes finalizar el módulo. Avance actual en actividades: '+Math.round(pct*100)+'%.';
+    msg.textContent='Puedes finalizar el módulo. Avance actual en ejercicios: '+Math.round(pct*100)+'%.';
   }else{
     btn.disabled=true;
-    msg.textContent='Para finalizar el módulo, completa la consolidación (sección inferior). Tu nota se calcula con 90% de actividades y 10% de consolidación.';
+    msg.textContent='Para finalizar el módulo, completa la consolidación (sección inferior). Tu nota se calcula con 90% de ejercicios y 10% de consolidación.';
   }
 }
 
@@ -2112,19 +2080,20 @@ function renderNotaModulo(modId){
       <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:8px">
         <div class="nota-valor">${est.nota.toFixed(1)}<small> / 10</small></div>
         <div>
-          <span class="nota-estado ${aprobado?'aprobado':'pendiente'}">${aprobado?'✅ Aprobado':'🔁 No aprobado: repite las actividades para subir tu nota'}</span>
+          <span class="nota-estado ${aprobado?'aprobado':'pendiente'}">${aprobado?'✅ Aprobado':'🔁 No aprobado: repite los ejercicios para subir tu nota'}</span>
         </div>
       </div>
       <table>
-        <tr><td>Actividades correctas</td><td>${est.scoreActividades} / ${est.totalActividades}</td></tr>
+        <tr><td>Ejercicios correctos (acumulado)</td><td>${est.scoreActividades} / ${est.totalActividades}</td></tr>
         <tr><td>Porcentaje de aciertos</td><td>${pct}%</td></tr>
         <tr><td>Consolidación</td><td>${est.consolidacionHecha?'Completada':'Pendiente'}</td></tr>
         <tr><td>Criterio de aprobación</td><td>${Math.round(m.criterioDominio*100)}% de aciertos + consolidación</td></tr>
         <tr><td>Fecha de finalización</td><td>${escapeHtml(est.fechaFinal||'—')}</td></tr>
       </table>
-      <p style="font-size:.8rem;color:var(--text-muted)">Fórmula de la nota: 90% aciertos en actividades + 10% consolidación.</p>
+      <p style="font-size:.8rem;color:var(--text-muted)">Fórmula de la nota: 90% aciertos en ejercicios + 10% consolidación.</p>
       <div class="nota-acciones">
-        <button class="btn btn-download" onclick="descargarReporteModulo('${modId}')">⬇️ Descargar mi nota (con mi nombre)</button>
+        <button class="btn btn-download" onclick="descargarNotaPNG('${modId}')">🖼️ Descargar nota en PNG</button>
+        <button class="btn" onclick="descargarReporteModulo('${modId}')">⬇️ Descargar nota en HTML</button>
         <button class="btn" onclick="irDashboard()">Volver al panel</button>
       </div>
     </div>`);
@@ -2148,28 +2117,124 @@ function guardarConsolidacion(modId){
   toast('Consolidación registrada','success');
 }
 
-/* ============================================================
-   GENERADORES DE PRÁCTICA
-   ============================================================ */
-let practicaActual=null;
-function generarPractica(modId){
-  var gen={m3:genOperaciones,m4:genExpLog,m5:genTrig,m9:genLimites,m11:genDerivadas}[modId];
-  if(!gen){toast('No hay generador','info');return}
-  practicaActual=gen();var disp=$('gen-display');disp.style.display='block';
-  setHTML(disp,'<div class="gen-problem">'+practicaActual.problema+'</div><div class="numerica-input"><input class="input-line" id="gen-input" placeholder="Tu respuesta"><button class="btn btn-primary btn-sm" onclick="verificarPractica()">Verificar</button></div><div class="feedback" id="gen-feedback"></div>');
+/* ----- Descargas de notas (individuales) ----- */
+function abrirDescargas(){
+  const m=$('modal-content');
+  const mods=MODULES.filter(x=>x.id!=='m0');
+  let filas='';
+  mods.forEach(x=>{
+    const e=ESTADO.modulos[x.id];
+    const notaTxt=e.finalizado&&e.nota!==null ? e.nota.toFixed(1)+' / 10' : 'Pendiente';
+    const disabled=e.finalizado?'':'disabled';
+    filas+=`<tr>
+      <td>M${x.num}. ${escapeHtml(x.titulo)}</td>
+      <td>${notaTxt}</td>
+      <td style="white-space:nowrap">
+        <button class="btn btn-sm btn-download" ${disabled} onclick="descargarNotaPNG('${x.id}')">PNG</button>
+        <button class="btn btn-sm" ${disabled} onclick="descargarReporteModulo('${x.id}')">HTML</button>
+      </td>
+    </tr>`;
+  });
+  setHTML(m,`
+    <h3>📦 Descargar notas</h3>
+    <p style="font-size:.88rem;color:var(--text-muted);margin-bottom:6px">Cada módulo se descarga por separado. Una nota aparece aquí cuando finalizas ese módulo.</p>
+    <p style="font-size:.85rem;margin-bottom:6px">Estudiante: <strong>${escapeHtml(ESTADO.usuario.nombre||'(sin nombre: escríbelo en Mis datos)')}</strong></p>
+    <table class="dl-table">${filas}</table>
+    <div class="modal-actions">
+      <button class="btn" onclick="descargarPortafolioCompleto()">Portafolio completo (HTML + JSON)</button>
+      <button class="btn btn-ghost" onclick="cerrarModal()">Cerrar</button>
+    </div>`);
+  $('modal-overlay').classList.add('show');
 }
-function mostrarSolucionGen(){if(!practicaActual){toast('Genera primero','info');return}var fb=$('gen-feedback');fb.className='feedback show ok';setHTML(fb,'<strong>Solución:</strong> '+practicaActual.solucion);}
-function verificarPractica(){if(!practicaActual)return;var input=$('gen-input'),val=input.value.trim();if(!val){toast('Escribe','info');return}var isCorrect;if(practicaActual.tipo==='numerica'){var num=parseFloat(val.replace(',','.'));isCorrect=!isNaN(num)&&Math.abs(num-practicaActual.respuesta)<=practicaActual.tolerancia;}else{var norm=normalizeStr(val);isCorrect=practicaActual.acepta.some(function(r){return normalizeStr(r)===norm});}var fb=$('gen-feedback');if(isCorrect){fb.className='feedback show ok';setHTML(fb,'Correcto! '+practicaActual.explicacion);input.style.borderColor='var(--success)';}else{fb.className='feedback show err';setHTML(fb,'Revisa. '+practicaActual.pista);input.style.borderColor='var(--danger)';}}
 
-function genOperaciones(){var t=Math.floor(Math.random()*3);if(t===0){var c=1+Math.floor(Math.random()*5),x=1+Math.floor(Math.random()*4),gx=x+c,fx=gx*gx;return{tipo:'numerica',problema:'Sean $f(x)=x^{2}$ y $g(x)=x+'+c+'$. Calcula $(f\\circ g)('+x+')$.',solucion:'$'+fx+'$',acepta:[],respuesta:fx,tolerancia:0.01,pista:'Primero $g('+x+')$.',explicacion:'$'+fx+'$'};}if(t===1){var a=1+Math.floor(Math.random()*4),b=1+Math.floor(Math.random()*4),co=a+1;return{tipo:'simbolica',problema:'$f(x)='+a+'x$, $g(x)=x+'+b+'$. Calcula $(f+g)(x)$.',solucion:'$'+co+'x+'+b+'$',acepta:[co+'x+'+b],pista:'Suma.',explicacion:'$'+co+'x+'+b+'$'};}var x1=Math.floor(Math.random()*4)+1,y1=Math.floor(Math.random()*5)+1,x2=x1+1+Math.floor(Math.random()*3),y2=y1+1+Math.floor(Math.random()*4),m=(y2-y1)/(x2-x1);return{tipo:'numerica',problema:'Pendiente por $('+x1+','+y1+')$ y $('+x2+','+y2+')$.',solucion:'$'+m+'$',acepta:[],respuesta:m,tolerancia:0.01,pista:'$m=\\frac{\\Delta y}{\\Delta x}$',explicacion:'$'+m+'$'};}
-function genExpLog(){var t=Math.floor(Math.random()*3);if(t===0){var bs=[2,3,10],b=bs[Math.floor(Math.random()*3)],e=2+Math.floor(Math.random()*3),v=Math.pow(b,e);return{tipo:'numerica',problema:'$\\log_{'+b+'}('+v+')$',solucion:'$'+e+'$',acepta:[],respuesta:e,tolerancia:0.01,pista:'$'+b+'^{?}='+v+'$',explicacion:'$'+e+'$'};}if(t===1){var m=2+Math.floor(Math.random()*3),n=2+Math.floor(Math.random()*3),b=2+Math.floor(Math.random()*3),s=m+n,v=Math.pow(b,s);return{tipo:'simbolica',problema:'Simplifica $'+b+'^{'+m+'}\\cdot '+b+'^{'+n+'}$',solucion:'$'+b+'^{'+s+'}='+v+'$',acepta:[b+'^'+s,String(v)],pista:'Suma exponentes.',explicacion:'$'+v+'$'};}var b=2+Math.floor(Math.random()*3),x=2+Math.floor(Math.random()*3),v=Math.pow(b,x);return{tipo:'numerica',problema:'Resuelve $'+b+'^{x}='+v+'$',solucion:'$x='+x+'$',acepta:[],respuesta:x,tolerancia:0.01,pista:'Potencia de '+b+'.',explicacion:'$x='+x+'$'};}
-function genTrig(){var a=[{d:0,s:'0',c:'1'},{d:30,s:'\\frac{1}{2}',c:'\\frac{\\sqrt{3}}{2}'},{d:45,s:'\\frac{\\sqrt{2}}{2}',c:'\\frac{\\sqrt{2}}{2}'},{d:60,s:'\\frac{\\sqrt{3}}{2}',c:'\\frac{1}{2}'},{d:90,s:'1',c:'0'}];var p=a[Math.floor(Math.random()*a.length)],isS=Math.random()<0.5,f=isS?'\\operatorname{sen}':'\\cos',v=isS?p.s:p.c;return{tipo:'simbolica',problema:'$'+f+'('+p.d+'^{\\circ})$',solucion:'$'+v+'$',acepta:[v],pista:'Valores notables.',explicacion:'$'+v+'$'};}
-function genLimites(){var t=Math.floor(Math.random()*3);if(t===0){var a=2+Math.floor(Math.random()*4),a2=a*a,r=2*a;return{tipo:'numerica',problema:'$\\lim_{x\\to '+a+'}\\frac{x^{2}-'+a2+'}{x-'+a+'}$',solucion:'$'+r+'$',acepta:[],respuesta:r,tolerancia:0.01,pista:'Factoriza.',explicacion:'$'+r+'$'};}if(t===1){var n=2+Math.floor(Math.random()*2),a=1+Math.floor(Math.random()*4),b=1+Math.floor(Math.random()*4);return{tipo:'numerica',problema:'$\\lim_{x\\to\\infty}\\frac{'+a+'x^{'+n+'}+3x}{'+b+'x^{'+n+'}-2}$',solucion:'$\\frac{'+a+'}{'+b+'}$',acepta:[],respuesta:a/b,tolerancia:0.001,pista:'Coeficientes principales.',explicacion:'$\\frac{'+a+'}{'+b+'}$'};}var a=2+Math.floor(Math.random()*5),c=1+Math.floor(Math.random()*4),r=c*a+2;return{tipo:'numerica',problema:'$\\lim_{x\\to '+a+'}('+c+'x+2)$',solucion:'$'+r+'$',acepta:[],respuesta:r,tolerancia:0.01,pista:'Sustitución directa.',explicacion:'$'+r+'$'};}
-function genDerivadas(){var t=Math.floor(Math.random()*4);if(t===0){var n=2+Math.floor(Math.random()*5);return{tipo:'simbolica',problema:'$\\frac{d}{dx}[x^{'+n+'}]$',solucion:'$'+n+'x^{'+(n-1)+'}$',acepta:[n+'x^'+(n-1)],pista:'Baja exponente.',explicacion:'$'+n+'x^{'+(n-1)+'}$'};}if(t===1){var a=1+Math.floor(Math.random()*3),b=1+Math.floor(Math.random()*4),c=Math.floor(Math.random()*3),co=2*a;return{tipo:'simbolica',problema:'$\\frac{d}{dx}['+a+'x^{2}+'+b+'x+'+c+']$',solucion:'$'+co+'x+'+b+'$',acepta:[co+'x+'+b],pista:'Término a término.',explicacion:'$'+co+'x+'+b+'$'};}if(t===2){var n=2+Math.floor(Math.random()*3),a=2+Math.floor(Math.random()*3),tc=n*Math.pow(a,n);return{tipo:'simbolica',problema:'$\\frac{d}{dx}[('+a+'x)^{'+n+'}]$',solucion:'$'+tc+'x^{'+(n-1)+'}$',acepta:[tc+'x^'+(n-1)],pista:'Regla de la cadena.',explicacion:'$'+tc+'x^{'+(n-1)+'}$'};}var a=1+Math.floor(Math.random()*4),x0=1+Math.floor(Math.random()*3),d=2*a*x0-1;return{tipo:'numerica',problema:'Si $f(x)='+a+'x^{2}-x$, calcula $f\'('+x0+')$.',solucion:'$'+d+'$',acepta:[],respuesta:d,tolerancia:0.01,pista:'Primero $f\'(x)$.',explicacion:'$'+d+'$'};}
+/* Dibuja la nota en un canvas y la descarga como PNG (sin librerías externas) */
+function dibujarNotaCanvas(modId){
+  const est=ESTADO.modulos[modId];
+  const m=getModulo(modId);
+  const W=1200, H=720;
+  const cv=document.createElement('canvas');
+  cv.width=W; cv.height=H;
+  const ctx=cv.getContext('2d');
+  // Fondo y marco
+  ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='#2a2a2a'; ctx.fillRect(0,0,W,140);
+  ctx.fillStyle='#ffffff';
+  ctx.font='bold 44px Arial, sans-serif';
+  ctx.fillText('Constancia de nota', 60, 75);
+  ctx.font='24px Arial, sans-serif';
+  ctx.fillText('Recuperación de Cálculo Diferencial', 60, 115);
+  ctx.strokeStyle='#d4d4d4'; ctx.lineWidth=4; ctx.strokeRect(20,160,W-40,H-190);
+  // Datos
+  ctx.fillStyle='#707070'; ctx.font='26px Arial, sans-serif';
+  ctx.fillText('Estudiante', 60, 225);
+  ctx.fillStyle='#1a1a1a'; ctx.font='bold 46px Arial, sans-serif';
+  wrapText(ctx, ESTADO.usuario.nombre||'(sin nombre)', 60, 275, W-120, 54);
+  ctx.fillStyle='#707070'; ctx.font='26px Arial, sans-serif';
+  ctx.fillText('Módulo '+m.num+': '+m.titulo, 60, 380);
+  // Nota
+  const nota=est.nota!==null?est.nota.toFixed(1):'—';
+  ctx.fillStyle='#707070'; ctx.font='26px Arial, sans-serif';
+  ctx.fillText('Nota', 60, 450);
+  ctx.fillStyle='#1a1a1a'; ctx.font='bold 120px Arial, sans-serif';
+  ctx.fillText(nota, 60, 580);
+  ctx.font='bold 40px Arial, sans-serif'; ctx.fillStyle='#707070';
+  const wNota=ctx.measureText(nota).width;
+  ctx.fillText(' / 10', 60+wNota+10, 580);
+  // Estado
+  const aprobado=est.dominado;
+  ctx.fillStyle=aprobado?'#e8e8e8':'#f2f2f2';
+  ctx.strokeStyle=aprobado?'#3a3a3a':'#6a6a6a';
+  roundRect(ctx, 640, 470, 480, 60, 14); ctx.fill(); ctx.stroke();
+  ctx.fillStyle='#1a1a1a'; ctx.font='bold 26px Arial, sans-serif';
+  ctx.fillText(aprobado?'APROBADO':'NO APROBADO', 670, 510);
+  // Detalle
+  const pct=est.totalActividades>0?Math.round((est.scoreActividades/est.totalActividades)*100):0;
+  ctx.fillStyle='#707070'; ctx.font='22px Arial, sans-serif';
+  ctx.fillText('Ejercicios correctos: '+est.scoreActividades+' / '+est.totalActividades+'  ·  Aciertos: '+pct+'%', 640, 580);
+  ctx.fillText('Consolidación: '+(est.consolidacionHecha?'completada':'pendiente'), 640, 615);
+  ctx.fillText('Fecha: '+(est.fechaFinal||'—'), 640, 650);
+  // Pie
+  ctx.fillStyle='#a0a0a0'; ctx.font='18px Arial, sans-serif';
+  ctx.fillText('Nota = 90% ejercicios + 10% consolidación · Curso-taller de recuperación', 60, H-60);
+  return cv;
+}
+function wrapText(ctx,text,x,y,maxW,lh){
+  const words=String(text).split(' ');
+  let line='', yy=y;
+  words.forEach(w=>{
+    const test=line?line+' '+w:w;
+    if(ctx.measureText(test).width>maxW && line){
+      ctx.fillText(line,x,yy); line=w; yy+=lh;
+    }else{ line=test; }
+  });
+  if(line) ctx.fillText(line,x,yy);
+}
+function roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);
+  ctx.arcTo(x,y,x+w,y,r);
+  ctx.closePath();
+}
+function descargarNotaPNG(modId){
+  const est=ESTADO.modulos[modId];
+  if(!est.finalizado){toast('Finaliza el módulo para descargar tu nota','info');return}
+  if(!ESTADO.usuario.nombre){toast('Escribe tu nombre en "Mis datos"','info');editarDatos();return}
+  const m=getModulo(modId);
+  const cv=dibujarNotaCanvas(modId);
+  const nombreArchivo=ESTADO.usuario.nombre.replace(/\s+/g,'_');
+  cv.toBlob(function(blob){
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url; a.download=`nota_${modId}_${nombreArchivo}.png`;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+    toast('Nota PNG descargada','success');
+  },'image/png');
+}
 
-/* ============================================================
-   DESCARGAS DE EVIDENCIAS
-   ============================================================ */
 function descargarTexto(filename,content,mime='text/plain'){
   const blob=new Blob([content],{type:mime+';charset=utf-8'});
   const url=URL.createObjectURL(blob);
@@ -2189,7 +2254,7 @@ Grupo: ${ESTADO.usuario.grupo||'(sin grupo)'}
 Fecha: ${ts}
 
 Módulo: ${m.num}. ${m.titulo} (ID: ${modId})
-Actividad #: ${idx+1}
+Ejercicio #: ${idx+1}
 
 Enunciado:
 ${String(enunciado).replace(/<[^>]+>/g,'')}
@@ -2206,7 +2271,7 @@ Generado automáticamente por el Curso-Taller de Recuperación de Cálculo Difer
   saveState();
 }
 
-/* Nota descargable: incluye nombre del estudiante y nota del módulo */
+/* Nota en HTML: incluye nombre del estudiante y nota del módulo */
 function descargarReporteModulo(modId){
   const m=getModulo(modId);
   const est=ESTADO.modulos[modId];
@@ -2236,13 +2301,13 @@ function descargarReporteModulo(modId){
   <p><span class="estado">${estado}</span></p>
   <table>
     <tr><th>Concepto</th><th>Valor</th></tr>
-    <tr><td>Actividades correctas</td><td>${est.scoreActividades} / ${est.totalActividades}</td></tr>
+    <tr><td>Ejercicios correctos (acumulado)</td><td>${est.scoreActividades} / ${est.totalActividades}</td></tr>
     <tr><td>Porcentaje de aciertos</td><td>${pct}%</td></tr>
     <tr><td>Consolidación</td><td>${est.consolidacionHecha?'Completada':'Pendiente'}</td></tr>
     <tr><td>Criterio de aprobación</td><td>${Math.round(m.criterioDominio*100)}% de aciertos + consolidación</td></tr>
-    <tr><td>Fórmula de la nota</td><td>90% aciertos en actividades + 10% consolidación</td></tr>
+    <tr><td>Fórmula de la nota</td><td>90% aciertos en ejercicios + 10% consolidación</td></tr>
   </table>
-  <h2>Detalle de actividades</h2>
+  <h2>Detalle de ejercicios</h2>
   <table>
   <tr><th>#</th><th>Intentos</th><th>Correcta</th></tr>`;
   m.actividades.forEach((a,i)=>{
@@ -2257,7 +2322,7 @@ function descargarReporteModulo(modId){
   descargarTexto(filename,html,'text/html');
   ESTADO.evidencias.push({tipo:'nota_modulo',modId,fecha:fechaHora(),filename});
   saveState();
-  toast('Nota del módulo descargada','success');
+  toast('Nota HTML descargada','success');
 }
 
 function descargarPortafolioCompleto(){
@@ -2306,7 +2371,7 @@ function descargarPortafolioCompleto(){
   <table>
   <tr><th>Métrica</th><th>Valor</th></tr>
   <tr><td>Módulos aprobados</td><td><strong>${totalDom} / ${mods.length}</strong></td></tr>
-  <tr><td>Actividades correctas</td><td>${totalCorrect} / ${totalAct}</td></tr>
+  <tr><td>Ejercicios correctos</td><td>${totalCorrect} / ${totalAct}</td></tr>
   <tr><td>Progreso global</td><td><strong>${globalPct}%</strong></td></tr>
   <tr><td>Diagnóstico inicial</td><td>${ESTADO.m0.completado?'Completado':'Pendiente'} (${ESTADO.m0.score}/${ESTADO.m0.max})</td></tr>
   <tr><td>Total de errores registrados</td><td>${ESTADO.errores.length}</td></tr>
@@ -2346,7 +2411,6 @@ function descargarPortafolioCompleto(){
   const filename=`portafolio_calculo_diferencial_${(ESTADO.usuario.nombre||'estudiante').replace(/\s+/g,'_')}.html`;
   descargarTexto(filename,html,'text/html');
 
-  // Also download JSON with raw data
   const jsonData={
     curso:'Recuperación de Cálculo Diferencial',
     estudiante:ESTADO.usuario,
@@ -2412,7 +2476,7 @@ function renderErroresList(){
   let html='';
   ESTADO.errores.slice(-15).reverse().forEach(e=>{
     html+=`<div class="err-item">
-      <div class="err-mod">Módulo ${e.mod} · Actividad ${e.idx+1}</div>
+      <div class="err-mod">Módulo ${e.mod} · Ejercicio ${e.idx+1}</div>
       <div class="err-q">${e.enunciado}</div>
       <div>Tu respuesta: <span style="color:#999">${e.respuestaDada}</span></div>
       <div>Correcta: <span style="color:#333;font-weight:bold">${e.respuestaCorrecta}</span></div>
@@ -2450,7 +2514,7 @@ function editarDatos(){
   setHTML(m,`
     <h3>👤 Mis datos</h3>
     <div class="field">
-      <label>Nombre completo (aparecerá en tu nota y portafolio)</label>
+      <label>Nombre completo (aparecerá en tu nota)</label>
       <input class="input-line" id="dat-nombre" value="${escapeHtml(ESTADO.usuario.nombre)}" placeholder="Tu nombre" style="width:100%">
     </div>
     <div class="field">
@@ -2482,54 +2546,14 @@ function cerrarModal(){
 }
 
 /* ============================================================
-   IMPORTAR / REINICIAR
+   REINICIAR
    ============================================================ */
-function importarEvidencias(){
-  const m=$('modal-content');
-  setHTML(m,`
-    <h3>📥 Importar evidencias previas</h3>
-    <p style="font-size:.9rem;margin-bottom:12px">Si descargaste anteriormente el archivo <code>portafolio_datos.json</code>, puedes importarlo aquí para restaurar tu progreso.</p>
-    <input type="file" id="import-file" accept=".json" style="margin-bottom:10px">
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="cerrarModal()">Cancelar</button>
-      <button class="btn btn-primary" onclick="procesarImport()">Importar</button>
-    </div>`);
-  $('modal-overlay').classList.add('show');
-}
-function procesarImport(){
-  const file=$('import-file').files[0];
-  if(!file){toast('Selecciona un archivo','error');return}
-  const reader=new FileReader();
-  reader.onload=e=>{
-    try{
-      const data=JSON.parse(e.target.result);
-      if(data.estudiante)ESTADO.usuario=data.estudiante;
-      if(data.modulos){
-        Object.keys(data.modulos).forEach(mid=>{
-          if(ESTADO.modulos[mid]){
-            Object.assign(ESTADO.modulos[mid],data.modulos[mid]);
-          }
-        });
-      }
-      if(data.errores)ESTADO.errores=data.errores;
-      if(data.diagnostico)ESTADO.m0=Object.assign(ESTADO.m0,data.diagnostico);
-      initModulosEstado();
-      saveState();
-      cerrarModal();
-      renderDashboard();
-      toast('Progreso importado correctamente','success');
-    }catch(err){
-      toast('Error: archivo inválido','error');
-    }
-  };
-  reader.readAsText(file);
-}
 function reiniciarProgreso(){
   const m=$('modal-content');
   setHTML(m,`
     <h3>🔄 Reiniciar progreso</h3>
     <p style="font-size:.9rem;margin-bottom:12px;color:var(--danger)">⚠️ Esto borrará TODO tu progreso, evidencias y errores. Esta acción no se puede deshacer.</p>
-    <p style="font-size:.88rem">Se recomienda descargar tu portafolio completo antes de reiniciar.</p>
+    <p style="font-size:.88rem">Se recomienda descargar tus notas (PNG/HTML) antes de reiniciar.</p>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="cerrarModal()">Cancelar</button>
       <button class="btn" style="background:var(--danger);color:#fff" onclick="confirmarReset()">Sí, reiniciar todo</button>
@@ -2540,7 +2564,7 @@ function confirmarReset(){
   localStorage.removeItem(STORAGE_KEY);
   ESTADO={
     usuario:{nombre:'',grupo:'',correo:'',fechaInicio:new Date().toISOString()},
-    m0:{completado:false,score:0,max:6,recomendaciones:[],intentos:[]},
+    m0:{completado:false,score:0,max:8,recomendaciones:[],intentos:[]},
     modulos:{},
     errores:[],
     evidencias:[],
@@ -2559,7 +2583,6 @@ function init(){
   loadState();
   initModulosEstado();
   renderDashboard();
-  // First-time welcome
   if(!ESTADO.usuario.nombre && !localStorage.getItem(STORAGE_KEY+'_welcomed')){
     setTimeout(()=>{
       editarDatos();
