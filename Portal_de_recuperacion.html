@@ -77,6 +77,7 @@ header.topbar{background:linear-gradient(135deg,var(--primary),var(--primary-dar
 .welcome h2{font-size:1.3rem;margin-bottom:8px;color:var(--primary-dark)}
 .welcome p{color:var(--text-muted);font-size:.95rem}
 .welcome .motiv{margin-top:10px;padding:10px 14px;background:var(--accent-light);border-left:4px solid var(--accent);border-radius:6px;color:var(--text);font-size:.9rem}
+.ahorro{margin-top:10px;font-size:.85rem;color:var(--text-muted)}
 
 .modules-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:16px}
 .module-card{background:var(--surface);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);border:2px solid var(--border);transition:all .2s;position:relative;overflow:hidden;cursor:pointer}
@@ -208,6 +209,24 @@ header.topbar{background:linear-gradient(135deg,var(--primary),var(--primary-dar
 .autoeval{margin-top:12px;background:var(--surface);padding:12px;border-radius:var(--radius-sm)}
 .autoeval label{display:flex;align-items:center;gap:6px;margin:4px 0;font-size:.9rem;cursor:pointer}
 
+/* Nota de módulo */
+.nota-card{background:var(--surface);border:2px solid var(--primary);border-radius:var(--radius);padding:18px;margin-bottom:16px;box-shadow:var(--shadow-lg)}
+.nota-card h3{color:var(--primary-dark);margin-bottom:10px}
+.nota-card .nota-valor{font-size:2.2rem;font-weight:800;color:var(--primary-dark);line-height:1.1}
+.nota-card .nota-valor small{font-size:1rem;color:var(--text-muted);font-weight:600}
+.nota-card table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.9rem}
+.nota-card td{padding:6px 8px;border-bottom:1px solid var(--border)}
+.nota-card td:last-child{text-align:right;font-weight:600}
+.nota-card .nota-estado{display:inline-block;padding:4px 10px;border-radius:12px;font-size:.82rem;font-weight:700;margin-top:6px}
+.nota-card .nota-estado.aprobado{background:var(--success-light);color:var(--text);border:1px solid var(--success)}
+.nota-card .nota-estado.pendiente{background:var(--danger-light);color:var(--text);border:1px solid var(--danger)}
+.nota-card .nota-acciones{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+
+/* Descargas (lista de notas) */
+.dl-table{width:100%;border-collapse:collapse;font-size:.88rem;margin:8px 0}
+.dl-table td{padding:8px 6px;border-bottom:1px solid var(--border);vertical-align:middle}
+.dl-table td:nth-child(2){text-align:center;font-weight:700}
+
 /* Insignia */
 .insignia{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:linear-gradient(135deg,var(--accent),var(--primary));color:var(--btn-text);border-radius:20px;font-weight:700;font-size:.85rem;box-shadow:0 4px 12px rgba(0,0,0,.25);animation:pop .4s}
 @keyframes pop{0%{transform:scale(0)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
@@ -215,7 +234,7 @@ header.topbar{background:linear-gradient(135deg,var(--primary),var(--primary-dar
 /* Modal */
 .modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.6);display:none;align-items:center;justify-content:center;z-index:200;padding:16px}
 .modal-overlay.show{display:flex}
-.modal{background:var(--surface);border-radius:var(--radius);padding:20px;max-width:500px;width:100%;max-height:80vh;overflow-y:auto;box-shadow:var(--shadow-lg)}
+.modal{background:var(--surface);border-radius:var(--radius);padding:20px;max-width:560px;width:100%;max-height:80vh;overflow-y:auto;box-shadow:var(--shadow-lg)}
 .modal h3{color:var(--primary-dark);margin-bottom:12px;font-size:1.2rem}
 .modal .field{margin-bottom:12px}
 .modal .field label{display:block;font-size:.85rem;font-weight:600;margin-bottom:4px;color:var(--text-muted)}
@@ -282,14 +301,15 @@ footer{padding:20px;text-align:center;color:var(--text-muted);font-size:.82rem}
 <div class="app">
   <header class="topbar">
     <div class="topbar-row">
-      <h1><span LPID</span> Recuperación de Cálculo Diferencial</h1>
+      <h1><span class="logo">📐</span> Recuperación de Cálculo Diferencial</h1>
       <div class="topbar-actions">
+        <button class="btn btn-ghost btn-sm" onclick="irDashboard()" title="Volver al Dashboard">🏠 <span class="btn-label">Dashboard</span></button>
         <button class="btn btn-ghost btn-sm" onclick="toggleDarkMode()" id="btn-dark-mode" title="Cambiar modo claro/oscuro">🌙 <span class="btn-label">Modo oscuro</span></button>
         <button class="btn btn-ghost btn-sm" onclick="openPanel('panel-formulas')" title="Tabla de fórmulas">📐 <span class="btn-label">Fórmulas</span></button>
         <button class="btn btn-ghost btn-sm" onclick="openPanel('panel-errores')" title="Mis errores frecuentes">⚠️ <span class="btn-label">Errores</span></button>
         <button class="btn btn-ghost btn-sm" onclick="openPanel('panel-progreso')" title="Mi progreso detallado">📊 <span class="btn-label">Progreso</span></button>
         <button class="btn btn-ghost btn-sm" onclick="editarDatos()" title="Editar mis datos">👤 <span class="btn-label">Mis datos</span></button>
-        <button class="btn btn-download btn-sm" onclick="descargarPortafolioCompleto()">📦 <span class="btn-label">Descargar avance</span></button>
+        <button class="btn btn-download btn-sm" onclick="abrirDescargas()">📦 <span class="btn-label">Descargar notas</span></button>
       </div>
     </div>
   </header>
@@ -299,7 +319,9 @@ footer{padding:20px;text-align:center;color:var(--text-muted);font-size:.82rem}
     <div class="welcome">
       <h2>Bienvenido de vuelta a tu recuperación 🎯</h2>
       <p>Esta plataforma-taller está diseñado para que retomes tu curso de Cálculo Diferencial a tu ritmo, en sesiones cortas, desde tu celular o computadora. No importa cuánto hayas perdido si te ausentaste: aquí empezamos de donde estás y avanzamos juntos, paso a paso.</p>
+      <p style="margin-top:8px"><strong>Los módulos son independientes:</strong> puedes estudiarlos en el orden que necesites. Cada módulo tiene su propio repaso opcional, práctica y consolidación. Al finalizar un módulo verás tu nota y podrás descargarla con tu nombre, en PNG o HTML.</p>
       <div class="motiv">💡 <strong>Regla de oro:</strong> equivocarse aquí en esta plataforma no te penaliza ni te califica con menos puntos. Cada error se registra para repaso y te ayuda a aprender. Lo único que importa es no rendirse, si se comete un error primero lo reconoces aprendes de él y después simplemente ya no caes en el mismo error, por el contrario avanzas con mayor seguridad.</div>
+      <div class="ahorro">💾 Tu avance se guarda automáticamente en este navegador, así que puedes resolver varios módulos en la misma sesión. Descarga tus notas antes de borrar los datos del navegador.</div>
     </div>
 
     <div class="progress-global">
@@ -315,13 +337,13 @@ footer{padding:20px;text-align:center;color:var(--text-muted);font-size:.82rem}
     <div class="section">
       <h3>🗂️ Diagnóstico inicial (Módulo 0)</h3>
       <p style="font-size:.92rem;color:var(--text-muted);margin-bottom:10px">Antes de empezar, contesta estas preguntas rápidas para identificar qué prerrequisitos necesitas reforzar. <strong>No bloquea ningún módulo</strong>, solo te da recomendaciones personalizadas.</p>
-      <button class="btn btn-primary" onclick="abrirModulo('m0')">Iniciar diagnóstico (6 preguntas)</button>
+      <button class="btn btn-primary" onclick="abrirModulo('m0')">Iniciar diagnóstico (8 preguntas)</button>
     </div>
 
     <div class="section">
       <h3>📂 Opciones</h3>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button class="btn" onclick="importarEvidencias()">📥 Importar evidencias previas</button>
+        <button class="btn" onclick="abrirDescargas()">📦 Descargar notas (PNG/HTML)</button>
         <button class="btn" onclick="reiniciarProgreso()">🔄 Reiniciar progreso</button>
         <button class="btn" onclick="editarDatos()">✏️ Editar mis datos</button>
       </div>
@@ -337,14 +359,14 @@ footer{padding:20px;text-align:center;color:var(--text-muted);font-size:.82rem}
     </div>
     <div id="module-content"></div>
     <div style="text-align:center;margin:20px 0">
-      <button class="btn btn-primary btn-lg" id="btn-dominar" onclick="marcarDominado()" disabled>🎓 Marcar módulo como dominado y descargar reporte</button>
+      <button class="btn btn-primary btn-lg" id="btn-dominar" onclick="finalizarModulo()" disabled>🎓 Finalizar módulo y ver mi nota</button>
       <div id="dominar-msg" style="margin-top:8px;font-size:.85rem;color:var(--text-muted)"></div>
     </div>
   </section>
 
   <footer>
     Curso-taller de recuperación · Cálculo Diferencial · Diseñado para aprendizaje autosuficiente<br>
-    Tus datos se guardan solo en este navegador (localStorage). Descarga tu portafolio para enviarlo al docente.
+    Tus datos se guardan solo en este navegador (localStorage). Descarga tus notas (PNG o HTML) para enviarlas al docente.
   </footer>
 </div>
 
@@ -386,19 +408,19 @@ const STORAGE_KEY = 'calc_diferencial_recuperacion_v1';
 
 let ESTADO = {
   usuario: { nombre: '', grupo: '', correo: '', fechaInicio: new Date().toISOString() },
-  m0: { completado: false, score: 0, max: 6, recomendaciones: [], intentos: [] },
+  m0: { completado: false, score: 0, max: 8, recomendaciones: [], intentos: [] },
   modulos: {},
   errores: [],
   evidencias: [],
   ultimoAcceso: new Date().toISOString()
 };
 
-// Inicializar estado de módulos
+// Inicializar estado de módulos (todos desbloqueados: los módulos son independientes)
 function initModulosEstado() {
   MODULES.forEach(m => {
     if (!ESTADO.modulos[m.id]) {
       ESTADO.modulos[m.id] = {
-        desbloqueado: m.id === 'm1',
+        desbloqueado: true,
         completado: false,
         dominado: false,
         actividades: {},
@@ -409,9 +431,14 @@ function initModulosEstado() {
         insignia: false,
         repasoHecho: false,
         primerAcceso: null,
-        ultimoAcceso: null
+        ultimoAcceso: null,
+        finalizado: false,
+        nota: null,
+        fechaFinal: null
       };
     }
+    // Los módulos son independientes: siempre disponibles
+    ESTADO.modulos[m.id].desbloqueado = true;
     // contar actividades
     ESTADO.modulos[m.id].totalActividades = m.actividades.length;
   });
@@ -430,7 +457,6 @@ function loadState() {
     if (raw) {
       const parsed = JSON.parse(raw);
       ESTADO = Object.assign(ESTADO, parsed);
-      // ensure modulos structure
       initModulosEstado();
     }
   } catch(e) { console.warn('No se pudo cargar:', e); }
@@ -748,7 +774,7 @@ const MODULES = [
     {tipo:"opcion_multiple", enunciado:"En un triángulo rectángulo, el cateto opuesto mide $6$ y la hipotenusa $10$. ¿Cuánto vale $\\operatorname{sen}\\,\\theta$?", opciones:["$\\frac{3}{5}$","$\\frac{6}{10}$","$\\frac{4}{5}$","$\\frac{5}{3}$"], correcta:0,
       feedback:{correcto:"$\\operatorname{sen}\\,\\theta=\\frac{6}{10}=\\frac{3}{5}$.",errores:{1:"Simplifica $\\frac{6}{10}=\\frac{3}{5}$.",2:"Ese sería el coseno.",3:"Es el recíproco."}}},
     {tipo:"completar_hueco", enunciado:"En un triángulo 3-4-5, si $\\theta$ está opuesto al cateto $4$, entonces $\\tan\\theta=\\frac{\\,\\underline{\\ \\ \\ }}{3}$ (escribe solo el numerador).", respuesta:["4"], feedbackCorrecto:"Sí: $\\tan\\theta=\\frac{\\text{opuesto}}{\\text{adyacente}}=\\frac{4}{3}$.", feedbackError:"$\\tan\\theta=\\frac{\\text{opuesto}}{\\text{adyacente}}=\\frac{4}{3}$."},
-    {tipo:"verdadero_falso", enunciad:"$180^{\\circ}=\\pi$ radianes.", correcta:true,
+    {tipo:"verdadero_falso", enunciado:"$180^{\\circ}=\\pi$ radianes.", correcta:true,
       feedback:{correcto:"Sí: esa es la equivalencia fundamental.",errores:{0:"$180^{\\circ}$ equivale exactamente a $\\pi$ radianes."}}},
     {tipo:"ordenar_pasos", enunciado:"Ordena la conversión de $45^{\\circ}$ a radianes:",
       pasos:[
@@ -963,7 +989,7 @@ const MODULES = [
         {texto:"Si coinciden, $f$ es continua en $x=a$", orden:4}
       ],
       feedback:{correcto:"Secuencia correcta.",errores:"Primero verificas que $f(a)$ existe, luego calculas el límite, comparas y concluyes."}},
-    {tipo:"completar_hueco", enunciado:"Si $f(x)=\\begin{cases}x^{2}, & x<1 \\\\ k, & x=1 \\\\ 2x, & x>1\\end{cases}$ es continua en $x=1$, entonces $k=\\,$<input class='input-line' id='ch10-7' placeholder='número'>.", respuesta:["1"], feedbackCorrecto:"Sí: $\\displaystyle\\lim_{x\\to 1^{-}} x^{2}=1$ y $\\displaystyle\\lim_{x\\to 1^{+}} 2x=2$. Como no coinciden, $f$ no puede ser continua. Pero si usamos $x^{2}$ en ambos lados: $k=1$.", feedbackError:"Los límites laterales deben coincidir. Si $f$ fuera $x^{2}$ para $x\\leq 1$ y $2x$ para $x>1$: $\\lim_{x\\to 1^{-}}=1$, $\\lim_{x\\to 1^{+}}=2$. No coinciden. Revisa el enunciado: si ambos lados son $x^{2}$, $k=1$."},
+    {tipo:"completar_hueco", enunciado:"Si $f(x)=\\begin{cases}x^{2}, & x<1 \\\\ k, & x=1 \\\\ 2x-1, & x>1\\end{cases}$ es continua en $x=1$, entonces $k=\\,$<input class='input-line' id='ch10-7' placeholder='número'>.", respuesta:["1"], feedbackCorrecto:"Sí: $\\displaystyle\\lim_{x\\to 1^{-}} x^{2}=1$ y $\\displaystyle\\lim_{x\\to 1^{+}}(2x-1)=1$. Los límites laterales coinciden, así que $k=1$.", feedbackError:"Calcula ambos límites laterales en $x=1$: $x^{2}\\to 1$ por la izquierda y $2x-1\\to 1$ por la derecha. Como coinciden, $k=1$."},
     {tipo:"numerica", enunciado:"Si $f(x)=\\begin{cases}\\frac{x^{2}-4}{x-2}, & x\\neq 2 \\\\ k, & x=2\\end{cases}$ es continua, ¿cuánto vale $k$?", respuesta:4, tolerancia:0.01, feedbackCorrecto:"Sí: $\\displaystyle\\lim_{x\\to 2}\\frac{(x-2)(x+2)}{x-2}=\\lim_{x\\to 2}(x+2)=4$, $k=4$.", feedbackError:"Factoriza: $\\frac{(x-2)(x+2)}{x-2}=x+2$. En $x=2$: $2+2=4$, $k=4$."}
   ],
   criterioDominio:0.8
@@ -1041,6 +1067,16 @@ const FORMULAS_REFERENCIA = [
 function $(id){return document.getElementById(id)}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 
+/* Fisher-Yates: mezcla uniforme */
+function barajar(arr){
+  const a=arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    const t=a[i];a[i]=a[j];a[j]=t;
+  }
+  return a;
+}
+
 /* Render LaTeX math in an element using KaTeX auto-render */
 function renderMath(el){
   if(typeof renderMathInElement==='function'){
@@ -1057,8 +1093,41 @@ function renderMath(el){
   }
 }
 /* Set innerHTML and render LaTeX math (data already has $...$ delimiters) */
+/* Raíces cuadradas "limpias": reescribe \sqrt{X} → √X o √(X) en tiempo de renderizado,
+   para eliminar la barra flotante del vínculo (que se ve como una barra de conjugado
+   complejo desconectada del símbolo radical). El símbolo √ se dibuja limpio, sin barra. */
+function reemplazarSqrt(texto){
+  if(texto.indexOf('\\sqrt')===-1)return texto;
+  let out='';
+  let i=0;
+  while(true){
+    const j=texto.indexOf('\\sqrt', i);
+    if(j===-1){ out+=texto.slice(i); break; }
+    out+=texto.slice(i, j);
+    let k=j+5;
+    if(texto[k]==='{'){
+      let depth=0, end=-1;
+      for(let p=k; p<texto.length; p++){
+        if(texto[p]==='{')depth++;
+        else if(texto[p]==='}'){ depth--; if(depth===0){ end=p; break; } }
+      }
+      if(end!==-1){
+        const radicando=texto.slice(k+1, end);
+        const inner=reemplazarSqrt(radicando); /* raíces anidadas */
+        /* radicando simple (solo letras/números) → √2, √x, √169; compuesto → √(x-3) */
+        out+=(/^[A-Za-z0-9]+$/.test(radicando)) ? ('√'+inner) : ('√('+inner+')');
+        i=end+1;
+        continue;
+      }
+    }
+    /* \sqrt sin llaves o malformado: se deja tal cual */
+    out+='\\sqrt';
+    i=k;
+  }
+  return out;
+}
 function setHTML(el,html){
-  el.innerHTML=html;
+  el.innerHTML=reemplazarSqrt(html);
   renderMath(el);
 }
 
@@ -1135,9 +1204,9 @@ function wrapInlineMath(text){
   while((m=supRe.exec(text))!==null) anchors.push([m.index,m.index+m[0].length]);
   var subRe=/_\{/g;
   while((m=subRe.exec(text))!==null) anchors.push([m.index,m.index+m[0].length]);
-  
+
   if(anchors.length===0) return text;
-  
+
   // Extend each anchor
   var segments=[];
   for(var a=0;a<anchors.length;a++){
@@ -1145,10 +1214,10 @@ function wrapInlineMath(text){
     var right=extendRightMath(text,anchors[a][1]);
     segments.push([left,right]);
   }
-  
+
   // Sort by start
   segments.sort(function(a,b){return a[0]-b[0]});
-  
+
   // Merge overlapping
   var merged=[];
   for(var s=0;s<segments.length;s++){
@@ -1158,7 +1227,7 @@ function wrapInlineMath(text){
       merged.push([segments[s][0],segments[s][1]]);
     }
   }
-  
+
   // Build result
   var result='';
   var lastEnd=0;
@@ -1181,22 +1250,22 @@ function convertMathToLatex(html){
     var latex=htmlToLatex(content).trim();
     return '<div class="formula-box">$$'+latex+'$$</div>';
   });
-  
+
   // 2. Protect $$...$$ blocks from double processing
   var mathBlocks=[];
   html=html.replace(/\$\$([\s\S]*?)\$\$/g,function(m,content){
     mathBlocks.push(content);
     return '\x00MATH'+(mathBlocks.length-1)+'\x00';
   });
-  
+
   // 3. Convert remaining math notation (outside $$ blocks)
   html=htmlToLatex(html);
-  
+
   // 4. Restore $$ blocks
   html=html.replace(/\x00MATH(\d+)\x00/g,function(m,idx){
     return '$$'+mathBlocks[parseInt(idx)]+'$$';
   });
-  
+
   // 5. Split by HTML tags and wrap inline math (skip $$ blocks)
   var parts=html.split(/(<[^>]+>)/);
   var result='';
@@ -1222,25 +1291,23 @@ function normalizeStr(s){
     .replace(/√/g,'sqrt').replace(/π/g,'pi');
 }
 function getModulo(id){return MODULES.find(m=>m.id===id)}
-function siguienteModulo(id){
-  const idx = MODULES.findIndex(m=>m.id===id);
-  if(idx<0||idx>=MODULES.length-1) return null;
-  // Skip m0
-  for(let i=idx+1;i<MODULES.length;i++){
-    if(MODULES[i].id!=='m0') return MODULES[i];
-  }
-  return null;
-}
 function toast(msg,type='info'){
   const t=$('toast');t.textContent=msg;t.className='toast '+type+' show';
   setTimeout(()=>t.classList.remove('show'),2800);
 }
-function hoy(){
-  const d=new Date();
-  return d.toLocaleDateString('es-MX',{year:'numeric',month:'long',day:'numeric'});
-}
 function fechaHora(){
   return new Date().toLocaleString('es-MX');
+}
+
+/* ============================================================
+   NOTA DEL MÓDULO
+   Nota (0–10) = 90% aciertos en actividades + 10% consolidación
+   ============================================================ */
+function calcularNota(modId){
+  const est=ESTADO.modulos[modId];
+  const pctAct=est.totalActividades>0 ? est.scoreActividades/est.totalActividades : 0;
+  const cons=est.consolidacionHecha?1:0;
+  return Math.round((pctAct*9 + cons*1)*10)/10;
 }
 
 /* ============================================================
@@ -1251,11 +1318,12 @@ function renderDashboard(){
   grid.innerHTML='';
   MODULES.filter(m=>m.id!=='m0').forEach(m=>{
     const est=ESTADO.modulos[m.id];
-    let estadoClase='locked',estadoTxt='🔒 Bloqueado',icono='🔒';
-    if(est.dominado){estadoClase='completed';estadoTxt='✅ Completado';icono=m.icono}
-    else if(est.completado){estadoClase='in-progress';estadoTxt='🎯 En curso';icono=m.icono}
-    else if(est.desbloqueado){estadoClase='available';estadoTxt='📖 Disponible';icono=m.icono}
+    let estadoClase='available',estadoTxt='📖 Disponible',icono=m.icono;
+    if(est.dominado){estadoClase='completed';estadoTxt='✅ Aprobado';}
+    else if(est.finalizado){estadoClase='in-progress';estadoTxt='🎯 Finalizado (no aprobado)';}
+    else if(est.completado){estadoClase='in-progress';estadoTxt='🎯 En curso';}
     const pct=Math.round((est.scoreActividades/est.totalActividades)*100);
+    const notaTxt=est.finalizado && est.nota!==null ? `<div style="font-size:.8rem;margin-top:4px"><strong>Nota: ${est.nota.toFixed(1)}/10</strong></div>` : '';
     const card=document.createElement('div');
     card.className='module-card '+estadoClase;
     setHTML(card,`
@@ -1263,13 +1331,12 @@ function renderDashboard(){
       <div class="m-num">Módulo ${m.num}</div>
       <div class="m-title">${m.titulo}</div>
       <div class="m-status ${estadoClase}">${estadoTxt}</div>
+      ${notaTxt}
       <div class="m-progress">
         <div style="font-size:.75rem;color:var(--text-muted)">Avance: ${pct}%</div>
         <div class="mini-bar"><div class="mini-bar-fill" style="width:${pct}%"></div></div>
       </div>`);
-    if(!card.classList.contains('locked')){
-      card.onclick=()=>abrirModulo(m.id);
-    }
+    card.onclick=()=>abrirModulo(m.id);
     grid.appendChild(card);
   });
   // Update global progress
@@ -1280,13 +1347,11 @@ function renderDashboard(){
     totalDone+=e.scoreActividades;
     totalAct+=e.totalActividades;
   });
-  // Add consolidation bonus
   let dominatedCount=mods.filter(m=>ESTADO.modulos[m.id].dominado).length;
   let pct=Math.round(((totalDone/totalAct)*0.7 + (dominatedCount/mods.length)*0.3)*100);
   if(isNaN(pct))pct=0;
   $('progress-pct').textContent=pct+'%';
   $('progress-fill').style.width=pct+'%';
-  // Render side panels
   renderFormulaRef();
   renderErroresList();
   renderProgresoDetallado();
@@ -1304,13 +1369,12 @@ function irDashboard(){
   renderDashboard();
   window.scrollTo(0,0);
 }
+
 /* ============================================================
-   SELECCIÓN DE ACTIVIDADES POR SESIÓN
+   SELECCIÓN DE ACTIVIDADES POR SESIÓN (siempre 3, numeradas 1–3)
    ============================================================ */
-// Semilla de sesión: cambia cada vez que se abre el archivo
 var SESSION_SEED = Math.floor(Math.random()*1000000);
 
-// Shuffle determinista con semilla (para que las 3 actividades no cambien al navegar dentro de la misma sesión)
 function shuffleWithSeed(arr,seed){
   var s=seed;
   for(var i=arr.length-1;i>0;i--){
@@ -1329,16 +1393,13 @@ function getActividadesVisibles(modId){
   var todas=m.actividades.map(function(a,i){return {idx:i,answered:est.actividades[i]&&est.actividades[i].correcta}});
   var sinResponder=todas.filter(function(t){return !t.answered});
   var respondidas=todas.filter(function(t){return t.answered});
-  // Barajar con la semilla de sesión + id del módulo
-  shuffleWithSeed(sinResponder,SESSION_SEED+modId.charCodeAt(1)*1000);
-  shuffleWithSeed(respondidas,SESSION_SEED+modId.charCodeAt(1)*1000+7);
-  // Priorizar sin responder, hasta 3
+  var numMod=parseInt(modId.slice(1),10);
+  shuffleWithSeed(sinResponder,SESSION_SEED+numMod*1000);
+  shuffleWithSeed(respondidas,SESSION_SEED+numMod*1000+7);
   var visibles=sinResponder.slice(0,3);
-  // Rellenar con respondidas si faltan
   if(visibles.length<3){
     visibles=visibles.concat(respondidas.slice(0,3-visibles.length));
   }
-  // Ordenar por índice original
   visibles.sort(function(a,b){return a.idx-b.idx});
   return visibles.map(function(v){return v.idx});
 }
@@ -1346,10 +1407,6 @@ function getActividadesVisibles(modId){
 function abrirModulo(id){
   const m=getModulo(id);
   if(!m)return;
-  if(id!=='m0' && !ESTADO.modulos[id].desbloqueado){
-    toast('Módulo bloqueado. Completa el anterior al 80%.','error');
-    return;
-  }
   moduloActual=id;
   const est=ESTADO.modulos[id];
   if(!est.primerAcceso)est.primerAcceso=fechaHora();
@@ -1364,7 +1421,6 @@ function abrirModulo(id){
 function renderModuloContenido(id){
   const m=getModulo(id);
   const cont=$('module-content');
-  const est=ESTADO.modulos[id];
   let html=`
     <div class="module-header">
       <h2><span style="font-size:1.6rem">${m.icono}</span> Módulo ${m.num}: ${m.titulo}</h2>
@@ -1374,27 +1430,30 @@ function renderModuloContenido(id){
   if(m.esDiagnostico){
     html+=`<div class="section"><h3>🧭 Preguntas de diagnóstico</h3>`;
     if(ESTADO.m0.completado){
-      html+=`<div class="diag-result ${ESTADO.m0.score>=5?'alto':ESTADO.m0.score>=3?'medio':'bajo'}">
+      html+=`<div class="diag-result ${ESTADO.m0.score>=6?'alto':ESTADO.m0.score>=4?'medio':'bajo'}">
         <strong>Resultado: ${ESTADO.m0.score}/${ESTADO.m0.max}</strong><br>
         ${ESTADO.m0.recomendaciones.map(r=>`<div class="diag-rec">• ${r}</div>`).join('')}
       </div>`;
       html+=`<button class="btn" onclick="repetirDiagnostico()">🔄 Repetir diagnóstico</button>`;
     }
-    m.actividades.forEach((a,i)=>html+=renderActividad(a,id,i));
+    m.actividades.forEach((a,i)=>html+=renderActividad(a,id,i,i+1));
     html+=`</div>`;
     setHTML(cont,html);
-    attachActividadHandlers(id);
+    $('btn-dominar').disabled=true;
+    $('dominar-msg').textContent='';
     return;
   }
-  // Repaso espaciado
-  if(m.repaso && m.repaso.length>0 && !est.repasoHecho){
-    html+=`<div class="section"><h3>🔁 Repaso espaciado <span class="badge">repaso</span></h3>
-      <p style="font-size:.88rem;color:var(--text-muted);margin-bottom:10px">Antes de empezar, repasamos conceptos de módulos anteriores.</p>`;
-    m.repaso.forEach((a,i)=>{
-      const rId='repaso-'+i;
-      html+=renderActividadSimple(a,id,rId);
-    });
-    html+=`<button class="btn btn-primary" onclick="marcarRepasoHecho('${id}')">✓ Repaso completado, continuar</button></div>`;
+  // Repaso OPCIONAL (no obligatorio)
+  if(m.repaso && m.repaso.length>0){
+    html+=`<div class="section">
+      <div class="accordion">
+        <div class="acc-head" onclick="toggleAcc(this)"><span>🔁 Repaso opcional de conceptos previos (no obligatorio)</span><span class="arrow">▶</span></div>
+        <div class="acc-body">
+          <p style="font-size:.88rem;color:var(--text-muted);margin-bottom:10px">Si lo necesitas, repasa estas preguntas de otros módulos. No afectan la nota de este módulo.</p>
+          ${m.repaso.map((a,i)=>renderActividadSimple(a,id,'repaso-'+i)).join('')}
+        </div>
+      </div>
+    </div>`;
   }
   // Teoría
   html+=`<div class="section">
@@ -1420,13 +1479,12 @@ function renderModuloContenido(id){
       <div class="gen-display" id="gen-display" style="display:none"></div>
     </div>`;
   }
-  // Actividades (3 por sesión, seleccionadas aleatoriamente)
+  // Ejercicios: siempre 3, numerados 1, 2 y 3
   var visibles=getActividadesVisibles(id);
-  var totalMod=m.actividades.length;
-  html+=`<div class="section"><h3>✏️ Actividades <span class="badge">${visibles.length} de ${totalMod}</span></h3>`;
-  html+=`<p style="font-size:.82rem;color:var(--text-muted);margin-bottom:12px">Esta sesión muestra ${visibles.length} actividades. Al reopening el archivo verás otras distintas. ¡Sigue practicando!</p>`;
-  visibles.forEach(function(idx){
-    html+=renderActividad(m.actividades[idx],id,idx);
+  html+=`<div class="section"><h3>✏️ Ejercicios <span class="badge">3</span></h3>`;
+  html+=`<p style="font-size:.82rem;color:var(--text-muted);margin-bottom:12px">Esta sesión incluye 3 ejercicios (del 1 al 3). Al volver a entrar al módulo recibirás otros 3 distintos. ¡Sigue practicando!</p>`;
+  visibles.forEach(function(idx,pos){
+    html+=renderActividad(m.actividades[idx],id,idx,pos+1);
   });
   html+=`</div>`;
   // Consolidación
@@ -1445,23 +1503,42 @@ function renderModuloContenido(id){
     </div>
     <div id="cons-feedback" style="margin-top:8px"></div>
   </div>`;
+  // Nota del módulo (aparece al finalizar)
+  html+=`<div id="nota-modulo"></div>`;
   setHTML(cont,html);
-  attachActividadHandlers(id);
   if(m.ejemplo && m.ejemplo.length>0)renderEjemplo(m.ejemplo,0);
   actualizarEstadoDominar(id);
+  renderNotaModulo(id);
 }
 
+/* Consolidaciones de Cálculo Diferencial (una por módulo).
+   Las consolidaciones originales (de Cálculo Integral, que no correspondían
+   a los temas de este curso) se conservan abajo como referencia:
+
+   ORIGINALES (Integral):
+   m1: Calcula la antiderivada general de f(x)=8x^3 y verifica derivando. Luego encuentra la antiderivada específica sabiendo que F(0)=5.
+   m2: Resuelve la integral de (4x^3-6x+2) dx mostrando cada paso.
+   m3: Calcula la integral de x^-4 dx y de x^(2/3) dx. Verifica ambos derivando.
+   m4: Calcula la integral de (5 sen x - 2 cos x) dx y verifica derivando.
+   m5: Calcula la integral de 6x/(3x^2+1) dx identificando f y f'.
+   m6: Calcula la suma izquierda de f(x)=2x en [0,4] con n=4. Muestra la tabla de subintervalos.
+   m7: Calcula el área entre y=x+3 e y=x^2 en el intervalo donde se intersecan.
+   m8: Resuelve la integral de 3x^2(x^3+2)^4 dx por sustitución, mostrando u, du y el regreso a x.
+*/
 function getConsolidacion(id){
   const consolidaciones={
-    m1:'Calcula la antiderivada general de $f(x)=8x^{3}$ y verifica derivando. Luego encuentra la antiderivada específica sabiendo que $F(0)=5$.',
-    m2:'Resuelve $\\int (4x^{3}-6x+2)\\,dx$ mostrando cada paso.',
-    m3:'Calcula $\\int x^{-4}\\,dx$ y $\\int x^{2/3}\\,dx$. Verifica ambos derivando.',
-    m4:'Calcula $\\int (5\\operatorname{sen}\\, x - 2\\cos x)\\,dx$ y verifica derivando.',
-    m5:'Calcula $\\int \\frac{6x}{3x^{2}+1}\\,dx$ identificando $f$ y $f\'$.',
-    m6:'Calcula la suma izquierda de $f(x)=2x$ en $[0,4]$ con $n=4$. Muestra la tabla de subintervalos.',
-    m7:'Calcula el área entre $y=x+3$ e $y=x^{2}$ en el intervalo donde se intersecan.',
-    m8:'Resuelve $\\int 3x^{2}(x^{3}+2)^{4}\\,dx$ por sustitución, mostrando $u$, $du$ y el regreso a $x$.'
-  }
+    m1:'Evalúa $f(x)=x^{3}-2x+5$ en $x=-1$ y $x=2$. Después determina si $y=x^{2}$ e $y=\\pm\\sqrt{x}$ son funciones, justificando con la prueba de la línea vertical.',
+    m2:'Determina el dominio y el rango de $f(x)=\\sqrt{x+4}$ y de $g(x)=\\dfrac{1}{x^{2}-9}$. Muestra cada restricción.',
+    m3:'Dadas $f(x)=2x-3$ y $g(x)=x^{2}+1$, calcula $(f+g)(x)$, $(f\\cdot g)(2)$ y $(g\\circ f)(x)$, mostrando cada paso.',
+    m4:'Resuelve $5^{x}=125$ y $\\log_{3}(x+1)=2$. Verifica tus soluciones sustituyendo en la ecuación original.',
+    m5:'Calcula $\\cos(120^{\\circ})$ y $\\tan\\!\\left(\\frac{\\pi}{6}\\right)$ usando el círculo unitario. Indica el cuadrante y el signo de cada resultado.',
+    m6:'Un triángulo rectángulo tiene catetos $8$ y $15$. Calcula la hipotenusa y $\\operatorname{sen}\\,\\theta$, $\\cos\\theta$, $\\tan\\theta$ para el ángulo $\\theta$ opuesto al cateto $8$. Convierte también $150^{\\circ}$ a radianes.',
+    m7:'Ubica en el círculo unitario los ángulos $\\frac{2\\pi}{3}$ y $\\frac{5\\pi}{4}$. Determina las coordenadas $(\\cos\\theta,\\operatorname{sen}\\,\\theta)$ de cada punto y el signo de $\\tan\\theta$ en cada caso.',
+    m8:'En un triángulo $ABC$ se conocen $a=7$, $b=5$ y $C=60^{\\circ}$. Calcula $c$ con la ley de cosenos. Después, usando la ley de senos, calcula el ángulo $A$.',
+    m9:'Calcula $\\displaystyle\\lim_{x\\to 2}\\frac{x^{2}-4}{x-2}$, $\\displaystyle\\lim_{x\\to\\infty}\\frac{3x^{2}-x}{5x^{2}+4}$ y $\\displaystyle\\lim_{x\\to 0}\\frac{\\operatorname{sen}\\,3x}{x}$ (sugerencia: multiplica y divide por $3$).',
+    m10:'Determina $k$ para que $f(x)=\\begin{cases}\\frac{x^{2}-1}{x-1}, & x\\neq 1 \\\\ k, & x=1\\end{cases}$ sea continua en $x=1$. Justifica las tres condiciones.',
+    m11:'Calcula $f\'(x)$ de $f(x)=\\dfrac{x^{2}+1}{x}$ y de $g(x)=\\sqrt{3x-2}$. Después encuentra la ecuación de la recta tangente a $f$ en $x=1$.'
+  };
   return consolidaciones[id]||'Resuelve el ejercicio final del módulo.';
 }
 
@@ -1492,17 +1569,17 @@ function renderEjemplo(pasos,idx){
     </div>`);
 }
 
+/* Se conserva por compatibilidad: el repaso ya es opcional y no bloquea nada */
 function marcarRepasoHecho(id){
   ESTADO.modulos[id].repasoHecho=true;
-  renderModuloContenido(id);
-  toast('Repaso completado. ¡A seguir!','success');
+  saveState();
+  toast('Repaso marcado como visto','success');
 }
 
 /* ============================================================
    RENDERIZADORES DE ACTIVIDADES
    ============================================================ */
 function renderActividadSimple(act,modId,rId){
-  // Simplified renderer for repaso (no tracking)
   if(act.tipo==='opcion_multiple'){
     let opts=act.opciones.map((o,i)=>`<div class="opcion" onclick="seleccionarSimple(this,'${rId}',${i},${act.correcta})"><div class="marker">${String.fromCharCode(65+i)}</div><div>${o}</div></div>`).join('');
     return `<div class="actividad" id="${rId}"><div class="act-enunciado">${act.enunciado}</div><div class="opciones">${opts}</div><div class="feedback" id="fb-${rId}"></div></div>`;
@@ -1526,16 +1603,18 @@ function seleccionarSimple(el,rId,sel,correcta){
   }
 }
 
-function renderActividad(act,modId,idx){
+/* num = número visible del ejercicio en la sesión (1, 2 o 3); idx = índice interno */
+function renderActividad(act,modId,idx,num){
   const aId=`act-${modId}-${idx}`;
   const est=ESTADO.modulos[modId];
   const estadoAct=est.actividades[idx]||{intentos:0,correcta:false,primerIntento:null};
+  const enunciadoSeguro = act.enunciado || '(Enunciado no disponible)';
+  const numVisible = num!==undefined ? num : idx+1;
   let html=`<div class="actividad ${estadoAct.correcta?'respondida-correcta':''}" id="${aId}" data-tipo="${act.tipo}" data-mod="${modId}" data-idx="${idx}">
-    <div class="act-enunciado"><span class="act-num">${idx+1}</span>${act.enunciado}</div>`;
+    <div class="act-enunciado"><span class="act-num">${numVisible}</span>${enunciadoSeguro}</div>`;
   switch(act.tipo){
     case 'opcion_multiple':
     case 'verdadero_falso':{
-      // For verdadero_falso: ensure opciones exist and convert boolean correcta to index
       const opciones = act.opciones || ['Verdadero','Falso'];
       const correctIdx = (act.tipo==='verdadero_falso') ? (act.correcta?0:1) : act.correcta;
       let opts=opciones.map((o,i)=>{
@@ -1552,10 +1631,16 @@ function renderActividad(act,modId,idx){
       html+=`<div class="opciones">${act.opciones.map((o,i)=>`<div class="opcion" onclick="toggleMulti('${aId}',${i})"><div class="marker">☐</div><div>${o}</div></div>`).join('')}</div>
         <div class="act-actions"><button class="btn btn-primary btn-sm" onclick="verificarMulti('${aId}')">Verificar</button></div>`;
       break;
-    case 'completar_hueco':
-      // enunciado already rendered above (contains the input)
+    case 'completar_hueco':{
+      /* CORRECCIÓN: si el enunciado no incluye un campo de respuesta embebido,
+         se agrega uno automáticamente para que el usuario pueda escribir su respuesta. */
+      const tieneInputEmbebido=/<input/i.test(enunciadoSeguro);
+      if(!tieneInputEmbebido){
+        html+=`<div class="numerica-input"><input class="input-line" id="in-${aId}" type="text" placeholder="Escribe tu respuesta aquí" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();verificarHueco('${aId}',${idx});}"></div>`;
+      }
       html+=`<div class="act-actions"><button class="btn btn-primary btn-sm" onclick="verificarHueco('${aId}',${idx})">Verificar</button></div>`;
       break;
+    }
     case 'ordenar_pasos':
       html+=`<div class="orden-list" id="orden-${aId}">${renderOrdenItems(act.pasos,aId)}</div>
         <div class="act-actions"><button class="btn btn-primary btn-sm" onclick="verificarOrden('${aId}',${idx})">Verificar orden</button></div>`;
@@ -1565,19 +1650,18 @@ function renderActividad(act,modId,idx){
       html+=`<div class="act-actions"><button class="btn btn-primary btn-sm" onclick="verificarEmparejar('${aId}',${idx})">Verificar emparejamientos</button></div>`;
       break;
     case 'numerica':
-      // enunciado already rendered above (contains the input)
-      html+=`<div class="act-actions"><button class="btn btn-primary btn-sm" onclick="verificarNumerica('${aId}',${idx})">Verificar</button></div>`;
+      /* CORRECCIÓN: se agrega el campo de respuesta numérica que faltaba
+         (antes solo aparecía el botón Verificar y el usuario no podía escribir). */
+      html+=`<div class="numerica-input"><input class="input-line" id="in-${aId}" type="text" inputmode="decimal" placeholder="Escribe tu respuesta (número)" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();verificarNumerica('${aId}',${idx});}"></div>
+        <div class="act-actions"><button class="btn btn-primary btn-sm" onclick="verificarNumerica('${aId}',${idx})">Verificar</button></div>`;
       break;
   }
-  // Hints (always show — generic hints generated if no explicit pistas)
-  {
-    html+=`<div class="hints">
+  html+=`<div class="hints">
       <button class="hint-btn" onclick="mostrarPista('${aId}',1)">💡 Pista 1</button>
       <button class="hint-btn" onclick="mostrarPista('${aId}',2)">💡 Pista 2</button>
       <button class="hint-btn" onclick="mostrarPista('${aId}',3)">💡 Pista 3 (pista fuerte)</button>
     </div>
     <div class="hint-content" id="hint-${aId}"></div>`;
-  }
   html+=`<div class="feedback" id="fb-${aId}"></div>`;
   if(estadoAct.intentos>0){
     html+=`<div class="act-stats">Intentos: ${estadoAct.intentos} ${estadoAct.correcta?'✓':'· Sigue intentando'}</div>`;
@@ -1587,8 +1671,7 @@ function renderActividad(act,modId,idx){
 }
 
 function renderOrdenItems(pasos,aId){
-  // Shuffle
-  let shuffled=[...pasos].sort(()=>Math.random()-0.5);
+  let shuffled=barajar(pasos);
   return shuffled.map((p,i)=>`<div class="orden-item" data-orden="${p.orden}">
     <span class="pos">${i+1}</span>
     <span class="txt">${p.texto}</span>
@@ -1602,12 +1685,11 @@ function moverOrden(aId,i,dir){
   const j=i+dir;
   if(j<0||j>=items.length)return;
   list.insertBefore(items[j],items[i]);
-  // Update pos numbers
   [...list.querySelectorAll('.orden-item')].forEach((it,k)=>it.querySelector('.pos').textContent=k+1);
 }
 function renderEmparejar(parejas,aId){
   let lefts=parejas.map((p,i)=>`<div class="emp-item" data-side="L" data-idx="${i}" onclick="selEmp('${aId}','L',${i})">${p.izq}</div>`).join('');
-  let rights=[...parejas].sort(()=>Math.random()-0.5).map(p=>`<div class="emp-item" data-side="R" data-val="${p.der}" onclick="selEmp('${aId}','R',this)">${p.der}</div>`).join('');
+  let rights=barajar(parejas).map(p=>`<div class="emp-item" data-side="R" data-val="${p.der}" onclick="selEmp('${aId}','R',this)">${p.der}</div>`).join('');
   return `<div class="emparejar-grid">
     <div class="emp-col">${lefts}</div>
     <div class="emp-col" id="emp-right-${aId}">${rights}</div>
@@ -1623,12 +1705,10 @@ function selEmp(aId,side,idx){
     empSel[aId].L=idx;
     cont.querySelectorAll(`.emp-item[data-side="L"]`)[idx].classList.add('selected');
   }else{
-    // idx is the element
     idx.classList.add('selected');
     empSel[aId].Relem=idx;
   }
   if(empSel[aId].L!==undefined && empSel[aId].Relem){
-    // Match
     const act=getActFromElem(aId);
     const pareja=act.parejas[empSel[aId].L];
     const rightVal=empSel[aId].Relem.getAttribute('data-val');
@@ -1669,7 +1749,6 @@ function seleccionarOpcion(aId,sel){
   cont.querySelectorAll('.opcion').forEach(o=>o.classList.remove('selected'));
   cont.querySelectorAll('.opcion')[sel].classList.add('selected');
   cont.dataset.sel=sel;
-  // Auto-verify on selection
   verificarOpcion(aId);
 }
 function attachActividadHandlers(modId){
@@ -1682,7 +1761,6 @@ function verificarOpcion(aId){
   const act=getModulo(modId).actividades[idx];
   const sel=parseInt(cont.dataset.sel);
   if(sel===undefined||isNaN(sel)){toast('Selecciona una opción','info');return}
-  // For verdadero_falso, correcta is boolean: convert to index
   const correctIdx=(act.tipo==='verdadero_falso')?(act.correcta?0:1):act.correcta;
   const opciones=act.opciones||['Verdadero','Falso'];
   const fb=$('fb-'+aId);
@@ -1693,7 +1771,7 @@ function verificarOpcion(aId){
     cont.querySelectorAll('.opcion')[sel].classList.add('correct');
     fb.className='feedback show ok';
     setHTML(fb,act.feedback.correcto);
-    descargarEvidenciaActividad(modId,idx,true,act.enunciado,opciones[sel]);
+    descargarEvidenciaActividad(modId,idx,true,act.enunciado||'',opciones[sel]);
   }else{
     cont.querySelectorAll('.opcion')[sel].classList.add('incorrect');
     cont.querySelectorAll('.opcion')[correctIdx].classList.add('correct');
@@ -1704,7 +1782,7 @@ function verificarOpcion(aId){
       errMsg=act.feedback.errores[errKey]||act.feedback.errores[sel]||'Respuesta incorrecta. Revisa la teoría.';
     }
     setHTML(fb,errMsg);
-    registrarError(modId,idx,act.enunciado,opciones[sel],opciones[correctIdx]);
+    registrarError(modId,idx,act.enunciado||'',opciones[sel],opciones[correctIdx]);
   }
   actualizarEstadoDominar(modId);
 }
@@ -1736,7 +1814,7 @@ function verificarMulti(aId){
     opts.forEach((o,i)=>{if(correctSet.has(i))o.classList.add('correct')});
     fb.className='feedback show ok';
     setHTML(fb,act.feedback.correcto);
-    descargarEvidenciaActividad(modId,idx,true,act.enunciado,selected.map(i=>act.opciones[i]).join(', '));
+    descargarEvidenciaActividad(modId,idx,true,act.enunciado||'',selected.map(i=>act.opciones[i]).join(', '));
   }else{
     opts.forEach((o,i)=>{
       if(correctSet.has(i)&&selSet.has(i))o.classList.add('correct');
@@ -1751,7 +1829,7 @@ function verificarMulti(aId){
       });
     }
     setHTML(fb,errTxt);
-    registrarError(modId,idx,act.enunciado,selected.map(i=>act.opciones[i]).join(','),act.correctas.map(i=>act.opciones[i]).join(','));
+    registrarError(modId,idx,act.enunciado||'',selected.map(i=>act.opciones[i]).join(','),act.correctas.map(i=>act.opciones[i]).join(','));
   }
   actualizarEstadoDominar(modId);
 }
@@ -1761,7 +1839,7 @@ function verificarHueco(aId,idx){
   const modId=cont.dataset.mod;
   const act=getModulo(modId).actividades[idx];
   const input=cont.querySelector('input.input-line');
-  if(!input)return;
+  if(!input){toast('No se encontró el campo de respuesta. Vuelve a abrir el módulo.','error');return}
   const val=input.value.trim();
   if(!val){toast('Escribe tu respuesta','info');return}
   const norm=normalizeStr(val);
@@ -1774,12 +1852,12 @@ function verificarHueco(aId,idx){
     input.style.borderColor='var(--success)';
     fb.className='feedback show ok';
     setHTML(fb,act.feedbackCorrecto);
-    descargarEvidenciaActividad(modId,idx,true,act.enunciado,val);
+    descargarEvidenciaActividad(modId,idx,true,act.enunciado||'',val);
   }else{
     input.style.borderColor='var(--danger)';
     fb.className='feedback show err';
     setHTML(fb,act.feedbackError);
-    registrarError(modId,idx,act.enunciado,val,act.respuesta[0]);
+    registrarError(modId,idx,act.enunciado||'',val,act.respuesta[0]);
   }
   actualizarEstadoDominar(modId);
 }
@@ -1800,11 +1878,11 @@ function verificarOrden(aId,idx){
     items.forEach(it=>it.style.borderColor='var(--success)');
     fb.className='feedback show ok';
     setHTML(fb,act.feedback.correcto);
-    descargarEvidenciaActividad(modId,idx,true,act.enunciado,'Orden correcto');
+    descargarEvidenciaActividad(modId,idx,true,act.enunciado||'','Orden correcto');
   }else{
     fb.className='feedback show err';
     setHTML(fb,act.feedback.errores||'El orden no es correcto. Revisa cuál paso debe ir primero.');
-    registrarError(modId,idx,act.enunciado,currentOrder.join(','),expectedOrder.join(','));
+    registrarError(modId,idx,act.enunciado||'',currentOrder.join(','),expectedOrder.join(','));
   }
   actualizarEstadoDominar(modId);
 }
@@ -1821,11 +1899,10 @@ function verificarEmparejar(aId,idx){
     cont.classList.add('respondida-correcta');
     fb.className='feedback show ok';
     setHTML(fb,act.feedback.correcto);
-    descargarEvidenciaActividad(modId,idx,true,act.enunciado,'Todos emparejados');
+    descargarEvidenciaActividad(modId,idx,true,act.enunciado||'','Todos emparejados');
   }else{
     fb.className='feedback show err';
     setHTML(fb,`Llevas ${matched}/${act.parejas.length} correctos. `+(act.feedback.errores||'Sigue intentando.'));
-    if(matched>0)registrarIntento(modId,idx,false);
   }
   actualizarEstadoDominar(modId);
 }
@@ -1835,7 +1912,7 @@ function verificarNumerica(aId,idx){
   const modId=cont.dataset.mod;
   const act=getModulo(modId).actividades[idx];
   const input=cont.querySelector('input.input-line');
-  if(!input)return;
+  if(!input){toast('No se encontró el campo de respuesta. Vuelve a abrir el módulo.','error');return}
   const val=parseFloat(input.value.replace(',','.'));
   if(isNaN(val)){toast('Escribe un número','info');return}
   const isCorrect=Math.abs(val-act.respuesta)<=act.tolerancia;
@@ -1846,12 +1923,12 @@ function verificarNumerica(aId,idx){
     input.style.borderColor='var(--success)';
     fb.className='feedback show ok';
     setHTML(fb,act.feedbackCorrecto);
-    descargarEvidenciaActividad(modId,idx,true,act.enunciado,val);
+    descargarEvidenciaActividad(modId,idx,true,act.enunciado||'',val);
   }else{
     input.style.borderColor='var(--danger)';
     fb.className='feedback show err';
     setHTML(fb,act.feedbackError);
-    registrarError(modId,idx,act.enunciado,val,act.respuesta);
+    registrarError(modId,idx,act.enunciado||'',val,act.respuesta);
   }
   actualizarEstadoDominar(modId);
 }
@@ -1868,7 +1945,6 @@ function mostrarPista(aId,nivel){
   if(act.pistas && act.pistas[nivel-1]){
     pista=act.pistas[nivel-1];
   }else{
-    // Generate generic hints based on activity type
     pista=generarPistaGenerica(act,nivel,modId);
   }
   if(!pista)return;
@@ -1877,8 +1953,6 @@ function mostrarPista(aId,nivel){
 }
 function generarPistaGenerica(act,nivel,modId){
   const tipo=act.tipo;
-  const mod=getModulo(modId);
-  // Get the correct answer's text as a hint source (handle verdadero_falso and missing opciones)
   let correctaTxt='';
   if(act.tipo==='verdadero_falso'){
     correctaTxt=act.correcta?'Verdadero':'Falso';
@@ -1887,23 +1961,27 @@ function generarPistaGenerica(act,nivel,modId){
   }else if(act.respuesta){
     correctaTxt=Array.isArray(act.respuesta)?act.respuesta[0]:act.respuesta;
   }
-  
+
   if(nivel===1){
     const reminders={
-      m1:'Piensa: ¿qué función, al derivarse, da el integrando? La antiderivada "deshace" la derivada.',
-      m2:'Aplica linealidad: separa término a término y usa las reglas básicas. No olvides +C.',
-      m3:'Regla de la potencia: sube el exponente en 1 (n→n+1) y divide entre el nuevo exponente. Cuidado con n=−1.',
-      m4:'∫sen x=−cos x (con signo menos); ∫cos x=sen x. Verifica derivando.',
-      m5:'Si el integrando es 1/x o f′/f, el resultado involucra ln|...|. Recuerda el valor absoluto.',
-      m6:'Para sumas de Riemann: calcula Δx=(b−a)/n, lista los puntos, evalúa f y multiplica por Δx.',
-      m7:'Para área entre curvas: encuentra intersecciones, decide qué va arriba, integra (superior−inferior).',
-      m8:'Elige u como la función interna. Calcula du. Si du aparece completo en el integrando, la sustitución funciona.'
+      m0:'Repasa las reglas de exponentes, álgebra y trigonometría básica.',
+      m1:'Recuerda: una función asigna a cada entrada exactamente una salida. Evalúa sustituyendo.',
+      m2:'Busca restricciones: denominador distinto de cero, radicando no negativo, argumento de logaritmo positivo.',
+      m3:'Para composición, evalúa primero la función interna $g$ y sustituye el resultado en $f$.',
+      m4:'Usa propiedades de exponentes y logaritmos: $\\log_{a}(b\\cdot c)=\\log_{a}b+\\log_{a}c$, $a^{m}\\cdot a^{n}=a^{m+n}$.',
+      m5:'Recuerda SOHCAHTOA y los valores notables de $30^{\\circ}$, $45^{\\circ}$ y $60^{\\circ}$.',
+      m6:'Convierte grados a radianes multiplicando por $\\frac{\\pi}{180^{\\circ}}$. En triángulos rectángulos, aplica SOHCAHTOA.',
+      m7:'Piensa en el círculo unitario: $\\theta$ da el punto $(\\cos\\theta,\\operatorname{sen}\\,\\theta)$. Ubica el cuadrante.',
+      m8:'Ley de senos para dos ángulos y un lado; ley de cosenos para tres lados o dos lados con ángulo incluido.',
+      m9:'Primero intenta sustitución directa. Si sale $\\frac{0}{0}$, factoriza o usa conjugado.',
+      m10:'Verifica las tres condiciones: $f(a)$ existe, el límite existe y ambos coinciden.',
+      m11:'Recuerda: $\\frac{d}{dx}(x^{n})=nx^{n-1}$, y para compuestas usa la regla de la cadena.'
     };
     return reminders[modId]||'Revisa la teoría del módulo y aplica la regla correspondiente.';
   }
   if(nivel===2){
     if(tipo==='opcion_multiple'||tipo==='verdadero_falso'){
-      return 'Analiza cada opción: ¿cuál al derivarse o aplicarse correctamente da el resultado esperado?';
+      return 'Analiza cada opción: ¿cuál al evaluarse o aplicarse correctamente da el resultado esperado?';
     }
     if(tipo==='completar_hueco'){
       return 'El término que falta es parte de la respuesta correcta. Identifica qué operación falta.';
@@ -1932,6 +2010,156 @@ function generarPistaGenerica(act,nivel,modId){
 }
 
 /* ============================================================
+   GENERADOR DE PRÁCTICA INFINITA
+   (Corrección: las funciones generarPractica / comprobarPractica /
+    mostrarSolucionGen eran referenciadas por los botones del panel
+    "🎲 Generador de práctica infinita" pero no estaban definidas.)
+   ============================================================ */
+let GEN={actual:null};
+function rndInt(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+/* Construye un término de polinomio: term(3,'x^{3}',true)='3x^{3}'; term(-3,'x^{2}',false)='-3x^{2}'; term(1,'x',false)='+x'; term(-2,'',false)='-2' */
+function term(c,s,first){
+  if(c===0)return '';
+  const sign=(c<0?'-':(first?'':'+'));
+  const abs=Math.abs(c);
+  return sign+((abs===1&&s)?s:abs+s);
+}
+
+/* Cada generador devuelve: {enunciado, solucion, tolerancia, solucionTxt, explicacion} */
+function generarEjercicioM3(){
+  if(Math.random()<0.5){
+    const dx=rndInt(1,3), m=rndInt(-4,4)||1, dy=m*dx;
+    const x1=rndInt(-5,3), y1=rndInt(-6,6);
+    const x2=x1+dx, y2=y1+dy;
+    return {enunciado:`¿Cuál es la pendiente de la recta que pasa por $(${x1},${y1})$ y $(${x2},${y2})$?`,
+      solucion:m, tolerancia:0.01,
+      solucionTxt:`$m=\\frac{${y2}-(${y1})}{${x2}-(${x1})}=\\frac{${dy}}{${dx}}=${m}$`,
+      explicacion:'La pendiente es el cambio en $y$ entre el cambio en $x$.'};
+  }
+  const a=rndInt(1,4), b=rndInt(-5,5), k=rndInt(1,4), sol=a*k*k+b;
+  const fxTxt='f(x)='+term(a,'x',true)+term(b,'',false);
+  return {enunciado:`Si $${fxTxt}$ y $g(x)=x^{2}$, ¿cuánto vale $(f\\circ g)(${k})$?`,
+    solucion:sol, tolerancia:0.01,
+    solucionTxt:`$g(${k})=${k*k}$ y luego $f(${k*k})=${sol}$`,
+    explicacion:'Primero evalúa $g$ y después aplica $f$ al resultado.'};
+}
+function generarEjercicioM4(){
+  const v=rndInt(0,2);
+  if(v===0){
+    const k=rndInt(1,6), sol=Math.pow(2,k);
+    return {enunciado:`Calcula $2^{${k}}$.`, solucion:sol, tolerancia:0.01,
+      solucionTxt:`$2^{${k}}=${sol}$`,
+      explicacion:'Multiplica $2$ por sí mismo tantas veces como indica el exponente.'};
+  }
+  if(v===1){
+    const a=rndInt(1,4), b=rndInt(1,4), sol=a+b;
+    return {enunciado:`Calcula $\\log_{2}\\!\\left(2^{${a}}\\cdot 2^{${b}}\\right)$.`, solucion:sol, tolerancia:0.01,
+      solucionTxt:`$2^{${a}}\\cdot 2^{${b}}=2^{${a+b}}$, así que $\\log_{2}(2^{${a+b}})=${sol}$`,
+      explicacion:'Al multiplicar potencias de igual base se suman los exponentes.'};
+  }
+  const k=rndInt(1,4);
+  return {enunciado:`Resuelve $3^{x}=3^{${k}}$.`, solucion:k, tolerancia:0.01,
+    solucionTxt:`$x=${k}$`,
+    explicacion:'Si las bases son iguales, los exponentes son iguales.'};
+}
+function generarEjercicioM5(){
+  const vals=[
+    {e:'\\operatorname{sen}(30^{\\circ})',v:0.5,txt:'$\\frac{1}{2}=0.5$'},
+    {e:'\\cos(60^{\\circ})',v:0.5,txt:'$\\frac{1}{2}=0.5$'},
+    {e:'\\operatorname{sen}(45^{\\circ})',v:0.7071,txt:'$\\frac{\\sqrt{2}}{2}\\approx 0.71$'},
+    {e:'\\cos(45^{\\circ})',v:0.7071,txt:'$\\frac{\\sqrt{2}}{2}\\approx 0.71$'},
+    {e:'\\operatorname{sen}(60^{\\circ})',v:0.8660,txt:'$\\frac{\\sqrt{3}}{2}\\approx 0.87$'},
+    {e:'\\cos(30^{\\circ})',v:0.8660,txt:'$\\frac{\\sqrt{3}}{2}\\approx 0.87$'},
+    {e:'\\tan(45^{\\circ})',v:1,txt:'$1$'},
+    {e:'\\tan(30^{\\circ})',v:0.5774,txt:'$\\frac{\\sqrt{3}}{3}\\approx 0.58$'},
+    {e:'\\tan(60^{\\circ})',v:1.7321,txt:'$\\sqrt{3}\\approx 1.73$'},
+    {e:'\\operatorname{sen}(90^{\\circ})',v:1,txt:'$1$'}
+  ];
+  const p=vals[rndInt(0,vals.length-1)];
+  return {enunciado:`Calcula (redondea a $2$ decimales si es necesario): $${p.e}=\\,?$`,
+    solucion:p.v, tolerancia:0.02, solucionTxt:p.txt,
+    explicacion:'Usa los valores notables del círculo unitario.'};
+}
+function generarEjercicioM9(){
+  const v=rndInt(0,2);
+  if(v===0){
+    const a=rndInt(2,9);
+    return {enunciado:`Calcula $\\displaystyle\\lim_{x\\to ${a}}\\frac{x^{2}-${a*a}}{x-${a}}$.`,
+      solucion:2*a, tolerancia:0.01,
+      solucionTxt:`Factoriza: $\\frac{(x-${a})(x+${a})}{x-${a}}=x+${a}$, y al evaluar da $${2*a}$`,
+      explicacion:'Factoriza la diferencia de cuadrados y cancela el factor que se anula.'};
+  }
+  if(v===1){
+    const k=rndInt(1,5);
+    return {enunciado:`Calcula $\\displaystyle\\lim_{x\\to 0}\\frac{\\operatorname{sen}\\, ${k}x}{x}$.`,
+      solucion:k, tolerancia:0.01,
+      solucionTxt:`$${k}$`,
+      explicacion:'Es un límite notable: multiplica y divide entre $'+k+'$ y usa $\\lim_{u\\to 0}\\frac{\\operatorname{sen}\\, u}{u}=1$.'};
+  }
+  const a=rndInt(1,6), c=[1,2,4,5][rndInt(0,3)], b=rndInt(-5,5), d=rndInt(1,9);
+  const numTxt=term(a,'x^{2}',true)+term(b,'x',false);
+  return {enunciado:`Calcula $\\displaystyle\\lim_{x\\to\\infty}\\frac{${numTxt}}{${c}x^{2}+${d}}$.`,
+    solucion:a/c, tolerancia:0.01,
+    solucionTxt:`$\\frac{${a}}{${c}}\\approx ${(a/c).toFixed(2)}$ (grados iguales: divide los coeficientes principales)`,
+    explicacion:'Cuando los grados son iguales, el límite es la razón de los coeficientes líderes.'};
+}
+function generarEjercicioM11(){
+  const a=rndInt(1,4), b=rndInt(-4,4), c=rndInt(-6,6), d=rndInt(-5,5), k=rndInt(1,3);
+  const sol=3*a*k*k+2*b*k+c;
+  const fxTxt=term(a,'x^{3}',true)+term(b,'x^{2}',false)+term(c,'x',false)+term(d,'',false);
+  const dfxTxt=term(3*a,'x^{2}',true)+term(2*b,'x',false)+term(c,'',false);
+  return {enunciado:`Si $${fxTxt}$, ¿cuánto vale $f'(${k})$?`,
+    solucion:sol, tolerancia:0.01,
+    solucionTxt:`$f'(x)=${dfxTxt}$, entonces $f'(${k})=${sol}$`,
+    explicacion:'Deriva término a término con $\\frac{d}{dx}(x^{n})=nx^{n-1}$ y evalúa en $x='+k+'$.'};
+}
+function generarPractica(modId){
+  const gens={m3:generarEjercicioM3,m4:generarEjercicioM4,m5:generarEjercicioM5,m9:generarEjercicioM9,m11:generarEjercicioM11};
+  const gen=gens[modId];
+  if(!gen){toast('Generador no disponible para este módulo','info');return}
+  GEN.actual=gen();
+  GEN.actual.mod=modId;
+  const disp=$('gen-display');
+  if(!disp){toast('No se encontró el panel de práctica','error');return}
+  disp.style.display='block';
+  setHTML(disp,`
+    <div class="gen-problem">${GEN.actual.enunciado}</div>
+    <div class="numerica-input" style="justify-content:center">
+      <input class="input-line" id="gen-input" type="text" inputmode="decimal" placeholder="Escribe tu respuesta (número)" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();comprobarPractica();}">
+    </div>
+    <div style="text-align:center;margin-top:10px">
+      <button class="btn btn-primary btn-sm" onclick="comprobarPractica()">Verificar</button>
+    </div>
+    <div class="feedback" id="gen-fb"></div>`);
+  const inp=$('gen-input');
+  if(inp)inp.focus();
+  toast('Nuevo ejercicio generado','success');
+}
+function comprobarPractica(){
+  if(!GEN.actual){toast('Primero genera un ejercicio','info');return}
+  const inp=$('gen-input');
+  if(!inp){toast('No se encontró el campo de respuesta','error');return}
+  const val=parseFloat(inp.value.replace(',','.'));
+  if(isNaN(val)){toast('Escribe un número','info');return}
+  const fb=$('gen-fb');
+  const ok=Math.abs(val-GEN.actual.solucion)<=GEN.actual.tolerancia;
+  if(ok){
+    fb.className='feedback show ok';
+    setHTML(fb,'✓ ¡Correcto! '+GEN.actual.explicacion+' Pulsa "🔄 Generar otro ejercicio" para seguir practicando.');
+  }else{
+    fb.className='feedback show err';
+    setHTML(fb,'Aún no es correcto. Revisa tu procedimiento y vuelve a intentarlo, o usa "💡 Ver solución".');
+  }
+}
+function mostrarSolucionGen(){
+  if(!GEN.actual){toast('Primero genera un ejercicio','info');return}
+  const fb=$('gen-fb');
+  if(!fb){toast('Genera primero un ejercicio','error');return}
+  fb.className='feedback show ok';
+  setHTML(fb,'💡 Solución: '+GEN.actual.solucionTxt+'. '+GEN.actual.explicacion);
+}
+
+/* ============================================================
    REGISTRO DE INTENTOS Y ERRORES
    ============================================================ */
 function registrarIntento(modId,idx,correcto){
@@ -1957,7 +2185,7 @@ function registrarIntento(modId,idx,correcto){
 }
 function registrarError(modId,idx,enunciado,dada,correcta){
   ESTADO.errores.push({
-    mod:modId, idx:idx, enunciado:enunciado.substring(0,100),
+    mod:modId, idx:idx, enunciado:String(enunciado).substring(0,100),
     respuestaDada:String(dada).substring(0,80),
     respuestaCorrecta:String(correcta).substring(0,80),
     fecha:fechaHora()
@@ -1969,8 +2197,7 @@ function registrarError(modId,idx,enunciado,dada,correcta){
 function evalDiagnostico(){
   const m0=ESTADO.m0;
   m0.max=getModulo('m0').actividades.length;
-  m0.completado=m0.intentos.filter((_,i)=>typeof m0.intentos[i+'_ok']!=='undefined').length>=m0.max || Object.keys(m0.intentos).filter(k=>k.endsWith('_ok')).length>=m0.max;
-  // Generate recommendations based on categories
+  m0.completado=Object.keys(m0.intentos).filter(k=>k.endsWith('_ok')).length>=m0.max;
   const cats={derivadas:0,exponentes:0,sigma:0,algebra:0};
   const acts=getModulo('m0').actividades;
   Object.keys(m0.intentos).filter(k=>k.endsWith('_ok')).forEach(k=>{
@@ -1986,52 +2213,85 @@ function evalDiagnostico(){
   saveState();
 }
 function repetirDiagnostico(){
-  ESTADO.m0={completado:false,score:0,max:6,recomendaciones:[],intentos:[]};
+  ESTADO.m0={completado:false,score:0,max:8,recomendaciones:[],intentos:[]};
   saveState();
   abrirModulo('m0');
 }
 
 /* ============================================================
-   ESTADO DOMINAR Y DESBLOQUEO
+   ESTADO FINALIZAR, NOTA Y DESCARGAS
    ============================================================ */
 function actualizarEstadoDominar(modId){
   if(modId==='m0')return;
   const est=ESTADO.modulos[modId];
-  const m=getModulo(modId);
-  const pct=est.scoreActividades/est.totalActividades;
-  const cumpleConsolidacion=est.consolidacionHecha;
   const btn=$('btn-dominar');
   const msg=$('dominar-msg');
   if(!btn)return;
-  const cumplePct=pct>=m.criterioDominio;
-  if(cumplePct&&cumpleConsolidacion){
+  const pct=est.totalActividades>0 ? est.scoreActividades/est.totalActividades : 0;
+  if(est.consolidacionHecha){
     btn.disabled=false;
-    msg.textContent='¡Listo! Has alcanzado el criterio de dominio ('+Math.round(pct*100)+'% + consolidación).';
+    msg.textContent='Puedes finalizar el módulo. Avance actual en ejercicios: '+Math.round(pct*100)+'%.';
   }else{
     btn.disabled=true;
-    let faltan=[];
-    if(!cumplePct)faltan.push(`alcanzar ${Math.round(m.criterioDominio*100)}% de aciertos (vas ${est.scoreActividades}/${est.totalActividades} = ${Math.round(pct*100)}%)`);
-    if(!cumpleConsolidacion)faltan.push('completar la consolidación');
-    msg.textContent='Para marcar como dominado te falta: '+faltan.join(' y ')+'.';
+    msg.textContent='Para finalizar el módulo, completa la consolidación (sección inferior). Tu nota se calcula con 90% de ejercicios y 10% de consolidación.';
   }
 }
-function marcarDominado(){
+
+function finalizarModulo(){
   if(!moduloActual||moduloActual==='m0')return;
-  const est=ESTADO.modulos[moduloActual];
-  est.dominado=true;
-  est.insignia=true;
-  // Unlock next
-  const next=siguienteModulo(moduloActual);
-  if(next){
-    ESTADO.modulos[next.id].desbloqueado=true;
-    toast(`¡Módulo dominado! Insignia obtenida 🏅. Desbloqueado: ${next.titulo}`,'success');
-  }else{
-    toast('¡Módulo dominado! Has completado el curso. 🎉','success');
+  if(!ESTADO.usuario.nombre){
+    toast('Escribe tu nombre en "Mis datos" para generar tu nota','info');
+    editarDatos();
+    return;
   }
-  descargarReporteModulo(moduloActual);
+  const est=ESTADO.modulos[moduloActual];
+  const m=getModulo(moduloActual);
+  const pct=est.totalActividades>0 ? est.scoreActividades/est.totalActividades : 0;
+  est.nota=calcularNota(moduloActual);
+  est.dominado=pct>=m.criterioDominio && est.consolidacionHecha;
+  est.insignia=est.dominado;
+  est.finalizado=true;
+  est.fechaFinal=fechaHora();
   saveState();
-  setTimeout(()=>irDashboard(),500);
+  renderNotaModulo(moduloActual);
+  toast(`Módulo finalizado. Nota: ${est.nota.toFixed(1)}/10`, est.dominado?'success':'info');
 }
+
+function renderNotaModulo(modId){
+  const el=$('nota-modulo');
+  if(!el)return;
+  const est=ESTADO.modulos[modId];
+  const m=getModulo(modId);
+  if(!est || !est.finalizado){el.innerHTML='';return;}
+  const pct=est.totalActividades>0 ? Math.round((est.scoreActividades/est.totalActividades)*100) : 0;
+  const aprobado=est.dominado;
+  const nombre=escapeHtml(ESTADO.usuario.nombre||'(sin nombre)');
+  setHTML(el,`
+    <div class="nota-card">
+      <h3>📝 Nota del módulo ${m.num}: ${escapeHtml(m.titulo)}</h3>
+      <p style="font-size:.9rem;color:var(--text-muted)">Estudiante: <strong style="color:var(--text)">${nombre}</strong></p>
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:8px">
+        <div class="nota-valor">${est.nota.toFixed(1)}<small> / 10</small></div>
+        <div>
+          <span class="nota-estado ${aprobado?'aprobado':'pendiente'}">${aprobado?'✅ Aprobado':'🔁 No aprobado: repite los ejercicios para subir tu nota'}</span>
+        </div>
+      </div>
+      <table>
+        <tr><td>Ejercicios correctos (acumulado)</td><td>${est.scoreActividades} / ${est.totalActividades}</td></tr>
+        <tr><td>Porcentaje de aciertos</td><td>${pct}%</td></tr>
+        <tr><td>Consolidación</td><td>${est.consolidacionHecha?'Completada':'Pendiente'}</td></tr>
+        <tr><td>Criterio de aprobación</td><td>${Math.round(m.criterioDominio*100)}% de aciertos + consolidación</td></tr>
+        <tr><td>Fecha de finalización</td><td>${escapeHtml(est.fechaFinal||'—')}</td></tr>
+      </table>
+      <p style="font-size:.8rem;color:var(--text-muted)">Fórmula de la nota: 90% aciertos en ejercicios + 10% consolidación.</p>
+      <div class="nota-acciones">
+        <button class="btn btn-download" onclick="descargarNotaPNG('${modId}')">🖼️ Descargar nota en PNG</button>
+        <button class="btn" onclick="descargarReporteModulo('${modId}')">⬇️ Descargar nota en HTML</button>
+        <button class="btn" onclick="irDashboard()">Volver al panel</button>
+      </div>
+    </div>`);
+}
+
 function guardarConsolidacion(modId){
   const checks=['auto-1','auto-2','auto-3','auto-4'].map(id=>$(id)&&$(id).checked);
   const allOk=checks.every(c=>c);
@@ -2040,7 +2300,7 @@ function guardarConsolidacion(modId){
   const fb=$('cons-feedback');
   if(fb){
     if(allOk){
-      setHTML(fb,'<div class="feedback show ok">¡Excelente autoevaluación! Marcaste todos los criterios. Ya puedes marcar el módulo como dominado.</div>');
+      setHTML(fb,'<div class="feedback show ok">¡Excelente autoevaluación! Marcaste todos los criterios. Ya puedes finalizar el módulo.</div>');
     }else{
       setHTML(fb,'<div class="feedback show err">Revisa los criterios sin marcar. La consolidación se registra, pero asegúrate de entender cada paso.</div>');
     }
@@ -2050,28 +2310,124 @@ function guardarConsolidacion(modId){
   toast('Consolidación registrada','success');
 }
 
-/* ============================================================
-   GENERADORES DE PRÁCTICA
-   ============================================================ */
-let practicaActual=null;
-function generarPractica(modId){
-  var gen={m3:genOperaciones,m4:genExpLog,m5:genTrig,m9:genLimites,m11:genDerivadas}[modId];
-  if(!gen){toast('No hay generador','info');return}
-  practicaActual=gen();var disp=$('gen-display');disp.style.display='block';
-  setHTML(disp,'<div class="gen-problem">'+practicaActual.problema+'</div><div class="numerica-input"><input class="input-line" id="gen-input" placeholder="Tu respuesta"><button class="btn btn-primary btn-sm" onclick="verificarPractica()">Verificar</button></div><div class="feedback" id="gen-feedback"></div>');
+/* ----- Descargas de notas (individuales) ----- */
+function abrirDescargas(){
+  const m=$('modal-content');
+  const mods=MODULES.filter(x=>x.id!=='m0');
+  let filas='';
+  mods.forEach(x=>{
+    const e=ESTADO.modulos[x.id];
+    const notaTxt=e.finalizado&&e.nota!==null ? e.nota.toFixed(1)+' / 10' : 'Pendiente';
+    const disabled=e.finalizado?'':'disabled';
+    filas+=`<tr>
+      <td>M${x.num}. ${escapeHtml(x.titulo)}</td>
+      <td>${notaTxt}</td>
+      <td style="white-space:nowrap">
+        <button class="btn btn-sm btn-download" ${disabled} onclick="descargarNotaPNG('${x.id}')">PNG</button>
+        <button class="btn btn-sm" ${disabled} onclick="descargarReporteModulo('${x.id}')">HTML</button>
+      </td>
+    </tr>`;
+  });
+  setHTML(m,`
+    <h3>📦 Descargar notas</h3>
+    <p style="font-size:.88rem;color:var(--text-muted);margin-bottom:6px">Cada módulo se descarga por separado. Una nota aparece aquí cuando finalizas ese módulo.</p>
+    <p style="font-size:.85rem;margin-bottom:6px">Estudiante: <strong>${escapeHtml(ESTADO.usuario.nombre||'(sin nombre: escríbelo en Mis datos)')}</strong></p>
+    <table class="dl-table">${filas}</table>
+    <div class="modal-actions">
+      <button class="btn" onclick="descargarPortafolioCompleto()">Portafolio completo (HTML + JSON)</button>
+      <button class="btn btn-ghost" onclick="cerrarModal()">Cerrar</button>
+    </div>`);
+  $('modal-overlay').classList.add('show');
 }
-function mostrarSolucionGen(){if(!practicaActual){toast('Genera primero','info');return}var fb=$('gen-feedback');fb.className='feedback show ok';setHTML(fb,'<strong>Solución:</strong> '+practicaActual.solucion);}
-function verificarPractica(){if(!practicaActual)return;var input=$('gen-input'),val=input.value.trim();if(!val){toast('Escribe','info');return}var isCorrect;if(practicaActual.tipo==='numerica'){var num=parseFloat(val.replace(',','.'));isCorrect=!isNaN(num)&&Math.abs(num-practicaActual.respuesta)<=practicaActual.tolerancia;}else{var norm=normalizeStr(val);isCorrect=practicaActual.acepta.some(function(r){return normalizeStr(r)===norm});}var fb=$('gen-feedback');if(isCorrect){fb.className='feedback show ok';setHTML(fb,'Correcto! '+practicaActual.explicacion);input.style.borderColor='var(--success)';}else{fb.className='feedback show err';setHTML(fb,'Revisa. '+practicaActual.pista);input.style.borderColor='var(--danger)';}}
 
-function genOperaciones(){var t=Math.floor(Math.random()*3);if(t===0){var c=1+Math.floor(Math.random()*5),x=1+Math.floor(Math.random()*4),gx=x+c,fx=gx*gx;return{tipo:'numerica',problema:'Sean $f(x)=x^{2}$ y $g(x)=x+'+c+'$. Calcula $(f\\circ g)('+x+')$.',solucion:'$'+fx+'$',acepta:[],respuesta:fx,tolerancia:0.01,pista:'Primero $g('+x+')$.',explicacion:'$'+fx+'$'};}if(t===1){var a=1+Math.floor(Math.random()*4),b=1+Math.floor(Math.random()*4),co=a+1;return{tipo:'simbolica',problema:'$f(x)='+a+'x$, $g(x)=x+'+b+'$. Calcula $(f+g)(x)$.',solucion:'$'+co+'x+'+b+'$',acepta:[co+'x+'+b],pista:'Suma.',explicacion:'$'+co+'x+'+b+'$'};}var x1=Math.floor(Math.random()*4)+1,y1=Math.floor(Math.random()*5)+1,x2=x1+1+Math.floor(Math.random()*3),y2=y1+1+Math.floor(Math.random()*4),m=(y2-y1)/(x2-x1);return{tipo:'numerica',problema:'Pendiente por $('+x1+','+y1+')$ y $('+x2+','+y2+')$.',solucion:'$'+m+'$',acepta:[],respuesta:m,tolerancia:0.01,pista:'$m=\\frac{\\Delta y}{\\Delta x}$',explicacion:'$'+m+'$'};}
-function genExpLog(){var t=Math.floor(Math.random()*3);if(t===0){var bs=[2,3,10],b=bs[Math.floor(Math.random()*3)],e=2+Math.floor(Math.random()*3),v=Math.pow(b,e);return{tipo:'numerica',problema:'$\\log_{'+b+'}('+v+')$',solucion:'$'+e+'$',acepta:[],respuesta:e,tolerancia:0.01,pista:'$'+b+'^{?}='+v+'$',explicacion:'$'+e+'$'};}if(t===1){var m=2+Math.floor(Math.random()*3),n=2+Math.floor(Math.random()*3),b=2+Math.floor(Math.random()*3),s=m+n,v=Math.pow(b,s);return{tipo:'simbolica',problema:'Simplifica $'+b+'^{'+m+'}\\cdot '+b+'^{'+n+'}$',solucion:'$'+b+'^{'+s+'}='+v+'$',acepta:[b+'^'+s,String(v)],pista:'Suma exponentes.',explicacion:'$'+v+'$'};}var b=2+Math.floor(Math.random()*3),x=2+Math.floor(Math.random()*3),v=Math.pow(b,x);return{tipo:'numerica',problema:'Resuelve $'+b+'^{x}='+v+'$',solucion:'$x='+x+'$',acepta:[],respuesta:x,tolerancia:0.01,pista:'Potencia de '+b+'.',explicacion:'$x='+x+'$'};}
-function genTrig(){var a=[{d:0,s:'0',c:'1'},{d:30,s:'\\frac{1}{2}',c:'\\frac{\\sqrt{3}}{2}'},{d:45,s:'\\frac{\\sqrt{2}}{2}',c:'\\frac{\\sqrt{2}}{2}'},{d:60,s:'\\frac{\\sqrt{3}}{2}',c:'\\frac{1}{2}'},{d:90,s:'1',c:'0'}];var p=a[Math.floor(Math.random()*a.length)],isS=Math.random()<0.5,f=isS?'\\operatorname{sen}':'\\cos',v=isS?p.s:p.c;return{tipo:'simbolica',problema:'$'+f+'('+p.d+'^{\\circ})$',solucion:'$'+v+'$',acepta:[v],pista:'Valores notables.',explicacion:'$'+v+'$'};}
-function genLimites(){var t=Math.floor(Math.random()*3);if(t===0){var a=2+Math.floor(Math.random()*4),a2=a*a,r=2*a;return{tipo:'numerica',problema:'$\\lim_{x\\to '+a+'}\\frac{x^{2}-'+a2+'}{x-'+a+'}$',solucion:'$'+r+'$',acepta:[],respuesta:r,tolerancia:0.01,pista:'Factoriza.',explicacion:'$'+r+'$'};}if(t===1){var n=2+Math.floor(Math.random()*2),a=1+Math.floor(Math.random()*4),b=1+Math.floor(Math.random()*4);return{tipo:'numerica',problema:'$\\lim_{x\\to\\infty}\\frac{'+a+'x^{'+n+'}+3x}{'+b+'x^{'+n+'}-2}$',solucion:'$\\frac{'+a+'}{'+b+'}$',acepta:[],respuesta:a/b,tolerancia:0.001,pista:'Coeficientes principales.',explicacion:'$\\frac{'+a+'}{'+b+'}$'};}var a=2+Math.floor(Math.random()*5),c=1+Math.floor(Math.random()*4),r=c*a+2;return{tipo:'numerica',problema:'$\\lim_{x\\to '+a+'}('+c+'x+2)$',solucion:'$'+r+'$',acepta:[],respuesta:r,tolerancia:0.01,pista:'Sustitución directa.',explicacion:'$'+r+'$'};}
-function genDerivadas(){var t=Math.floor(Math.random()*4);if(t===0){var n=2+Math.floor(Math.random()*5);return{tipo:'simbolica',problema:'$\\frac{d}{dx}[x^{'+n+'}]$',solucion:'$'+n+'x^{'+(n-1)+'}$',acepta:[n+'x^'+(n-1)],pista:'Baja exponente.',explicacion:'$'+n+'x^{'+(n-1)+'}$'};}if(t===1){var a=1+Math.floor(Math.random()*3),b=1+Math.floor(Math.random()*4),c=Math.floor(Math.random()*3),co=2*a;return{tipo:'simbolica',problema:'$\\frac{d}{dx}['+a+'x^{2}+'+b+'x+'+c+']$',solucion:'$'+co+'x+'+b+'$',acepta:[co+'x+'+b],pista:'Término a término.',explicacion:'$'+co+'x+'+b+'$'};}if(t===2){var n=2+Math.floor(Math.random()*3),a=2+Math.floor(Math.random()*3),tc=n*Math.pow(a,n);return{tipo:'simbolica',problema:'$\\frac{d}{dx}[('+a+'x)^{'+n+'}]$',solucion:'$'+tc+'x^{'+(n-1)+'}$',acepta:[tc+'x^'+(n-1)],pista:'Regla de la cadena.',explicacion:'$'+tc+'x^{'+(n-1)+'}$'};}var a=1+Math.floor(Math.random()*4),x0=1+Math.floor(Math.random()*3),d=2*a*x0-1;return{tipo:'numerica',problema:'Si $f(x)='+a+'x^{2}-x$, calcula $f\'('+x0+')$.',solucion:'$'+d+'$',acepta:[],respuesta:d,tolerancia:0.01,pista:'Primero $f\'(x)$.',explicacion:'$'+d+'$'};}
+/* Dibuja la nota en un canvas y la descarga como PNG (sin librerías externas) */
+function dibujarNotaCanvas(modId){
+  const est=ESTADO.modulos[modId];
+  const m=getModulo(modId);
+  const W=1200, H=720;
+  const cv=document.createElement('canvas');
+  cv.width=W; cv.height=H;
+  const ctx=cv.getContext('2d');
+  // Fondo y marco
+  ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='#2a2a2a'; ctx.fillRect(0,0,W,140);
+  ctx.fillStyle='#ffffff';
+  ctx.font='bold 44px Arial, sans-serif';
+  ctx.fillText('Constancia de nota', 60, 75);
+  ctx.font='24px Arial, sans-serif';
+  ctx.fillText('Recuperación de Cálculo Diferencial', 60, 115);
+  ctx.strokeStyle='#d4d4d4'; ctx.lineWidth=4; ctx.strokeRect(20,160,W-40,H-190);
+  // Datos
+  ctx.fillStyle='#707070'; ctx.font='26px Arial, sans-serif';
+  ctx.fillText('Estudiante', 60, 225);
+  ctx.fillStyle='#1a1a1a'; ctx.font='bold 46px Arial, sans-serif';
+  wrapText(ctx, ESTADO.usuario.nombre||'(sin nombre)', 60, 275, W-120, 54);
+  ctx.fillStyle='#707070'; ctx.font='26px Arial, sans-serif';
+  ctx.fillText('Módulo '+m.num+': '+m.titulo, 60, 380);
+  // Nota
+  const nota=est.nota!==null?est.nota.toFixed(1):'—';
+  ctx.fillStyle='#707070'; ctx.font='26px Arial, sans-serif';
+  ctx.fillText('Nota', 60, 450);
+  ctx.fillStyle='#1a1a1a'; ctx.font='bold 120px Arial, sans-serif';
+  ctx.fillText(nota, 60, 580);
+  ctx.font='bold 40px Arial, sans-serif'; ctx.fillStyle='#707070';
+  const wNota=ctx.measureText(nota).width;
+  ctx.fillText(' / 10', 60+wNota+10, 580);
+  // Estado
+  const aprobado=est.dominado;
+  ctx.fillStyle=aprobado?'#e8e8e8':'#f2f2f2';
+  ctx.strokeStyle=aprobado?'#3a3a3a':'#6a6a6a';
+  roundRect(ctx, 640, 470, 480, 60, 14); ctx.fill(); ctx.stroke();
+  ctx.fillStyle='#1a1a1a'; ctx.font='bold 26px Arial, sans-serif';
+  ctx.fillText(aprobado?'APROBADO':'NO APROBADO', 670, 510);
+  // Detalle
+  const pct=est.totalActividades>0?Math.round((est.scoreActividades/est.totalActividades)*100):0;
+  ctx.fillStyle='#707070'; ctx.font='22px Arial, sans-serif';
+  ctx.fillText('Ejercicios correctos: '+est.scoreActividades+' / '+est.totalActividades+'  ·  Aciertos: '+pct+'%', 640, 580);
+  ctx.fillText('Consolidación: '+(est.consolidacionHecha?'completada':'pendiente'), 640, 615);
+  ctx.fillText('Fecha: '+(est.fechaFinal||'—'), 640, 650);
+  // Pie
+  ctx.fillStyle='#a0a0a0'; ctx.font='18px Arial, sans-serif';
+  ctx.fillText('Nota = 90% ejercicios + 10% consolidación · Curso-taller de recuperación', 60, H-60);
+  return cv;
+}
+function wrapText(ctx,text,x,y,maxW,lh){
+  const words=String(text).split(' ');
+  let line='', yy=y;
+  words.forEach(w=>{
+    const test=line?line+' '+w:w;
+    if(ctx.measureText(test).width>maxW && line){
+      ctx.fillText(line,x,yy); line=w; yy+=lh;
+    }else{ line=test; }
+  });
+  if(line) ctx.fillText(line,x,yy);
+}
+function roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);
+  ctx.arcTo(x,y,x+w,y,r);
+  ctx.closePath();
+}
+function descargarNotaPNG(modId){
+  const est=ESTADO.modulos[modId];
+  if(!est.finalizado){toast('Finaliza el módulo para descargar tu nota','info');return}
+  if(!ESTADO.usuario.nombre){toast('Escribe tu nombre en "Mis datos"','info');editarDatos();return}
+  const m=getModulo(modId);
+  const cv=dibujarNotaCanvas(modId);
+  const nombreArchivo=ESTADO.usuario.nombre.replace(/\s+/g,'_');
+  cv.toBlob(function(blob){
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url; a.download=`nota_${modId}_${nombreArchivo}.png`;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+    toast('Nota PNG descargada','success');
+  },'image/png');
+}
 
-/* ============================================================
-   DESCARGAS DE EVIDENCIAS
-   ============================================================ */
 function descargarTexto(filename,content,mime='text/plain'){
   const blob=new Blob([content],{type:mime+';charset=utf-8'});
   const url=URL.createObjectURL(blob);
@@ -2091,10 +2447,10 @@ Grupo: ${ESTADO.usuario.grupo||'(sin grupo)'}
 Fecha: ${ts}
 
 Módulo: ${m.num}. ${m.titulo} (ID: ${modId})
-Actividad #: ${idx+1}
+Ejercicio #: ${idx+1}
 
 Enunciado:
-${enunciado.replace(/<[^>]+>/g,'')}
+${String(enunciado).replace(/<[^>]+>/g,'')}
 
 Respuesta del estudiante: ${String(respuesta).replace(/<[^>]+>/g,'')}
 ¿Correcta?: ${correcta?'SÍ':'NO'}
@@ -2107,50 +2463,59 @@ Generado automáticamente por el Curso-Taller de Recuperación de Cálculo Difer
   ESTADO.evidencias.push({tipo:'actividad',modId,idx,correcta,fecha:ts,filename});
   saveState();
 }
+
+/* Nota en HTML: incluye nombre del estudiante y nota del módulo */
 function descargarReporteModulo(modId){
   const m=getModulo(modId);
   const est=ESTADO.modulos[modId];
-  const ts=fechaHora();
+  if(!est.finalizado){toast('Finaliza el módulo para descargar tu nota','info');return}
+  const ts=est.fechaFinal||fechaHora();
+  const nombreRaw=ESTADO.usuario.nombre||'Estudiante';
+  const nombre=escapeHtml(nombreRaw);
   const pct=Math.round((est.scoreActividades/est.totalActividades)*100);
-  let html=`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Reporte ${m.titulo}</title>
+  const nota=est.nota.toFixed(1);
+  const estado=est.dominado?'Aprobado':'No aprobado';
+  let html=`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Nota ${escapeHtml(m.titulo)} - ${nombre}</title>
   <style>body{font-family:Arial,sans-serif;max-width:700px;margin:20px auto;padding:20px;color:#333;background:#fff}
-  h1{color:#333}table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:8px}
-  .ok{color:#333;font-weight:bold}.err{color:#999}</style></head><body>
-  <h1>Reporte de módulo: ${m.titulo}</h1>
-  <p><strong>Estudiante:</strong> ${ESTADO.usuario.nombre||'(sin nombre)'}<br>
-  <strong>Grupo:</strong> ${ESTADO.usuario.grupo||'(sin grupo)'}<br>
-  <strong>Correo:</strong> ${ESTADO.usuario.correo||'—'}<br>
-  <strong>Fecha:</strong> ${ts}</p>
-  <h2>Resumen</h2>
+  h1{color:#333;border-bottom:3px solid #666;padding-bottom:8px}
+  .nombre{font-size:1.3rem;font-weight:bold;margin:10px 0}
+  .nota{font-size:2.6rem;font-weight:bold;color:#222;margin:8px 0}
+  table{border-collapse:collapse;width:100%;margin-top:10px}td,th{border:1px solid #ddd;padding:8px;text-align:left}
+  th{background:#e0e0e0}
+  .estado{display:inline-block;padding:4px 12px;border-radius:12px;border:1px solid #666;font-weight:bold}
+  </style></head><body>
+  <h1>Nota de módulo: ${escapeHtml(m.titulo)}</h1>
+  <p class="nombre">Estudiante: ${nombre}</p>
+  <p><strong>Grupo:</strong> ${escapeHtml(ESTADO.usuario.grupo||'(sin grupo)')}<br>
+  <strong>Correo:</strong> ${escapeHtml(ESTADO.usuario.correo||'—')}<br>
+  <strong>Módulo:</strong> ${m.num}. ${escapeHtml(m.titulo)}<br>
+  <strong>Fecha:</strong> ${escapeHtml(ts)}</p>
+  <div class="nota">Nota: ${nota} / 10</div>
+  <p><span class="estado">${estado}</span></p>
   <table>
-  <tr><th>Métrica</th><th>Valor</th></tr>
-  <tr><td>Actividades totales</td><td>${est.totalActividades}</td></tr>
-  <tr><td>Actividades correctas</td><td>${est.scoreActividades}</td></tr>
-  <tr><td>Porcentaje de aciertos</td><td>${pct}%</td></tr>
-  <tr><td>Consolidación completada</td><td>${est.consolidacionHecha?'Sí':'No'}</td></tr>
-  <tr><td>Módulo dominado</td><td>${est.dominado?'Sí ✓':'No'}</td></tr>
-  <tr><td>Insignia obtenida</td><td>${est.insignia?'Sí 🏅':'No'}</td></tr>
-  <tr><td>Primer acceso</td><td>${est.primerAcceso||'—'}</td></tr>
-  <tr><td>Último acceso</td><td>${est.ultimoAcceso||'—'}</td></tr>
+    <tr><th>Concepto</th><th>Valor</th></tr>
+    <tr><td>Ejercicios correctos (acumulado)</td><td>${est.scoreActividades} / ${est.totalActividades}</td></tr>
+    <tr><td>Porcentaje de aciertos</td><td>${pct}%</td></tr>
+    <tr><td>Consolidación</td><td>${est.consolidacionHecha?'Completada':'Pendiente'}</td></tr>
+    <tr><td>Criterio de aprobación</td><td>${Math.round(m.criterioDominio*100)}% de aciertos + consolidación</td></tr>
+    <tr><td>Fórmula de la nota</td><td>90% aciertos en ejercicios + 10% consolidación</td></tr>
   </table>
-  <h2>Detalle de actividades</h2>
+  <h2>Detalle de ejercicios</h2>
   <table>
   <tr><th>#</th><th>Intentos</th><th>Correcta</th></tr>`;
   m.actividades.forEach((a,i)=>{
     const aEst=est.actividades[i]||{intentos:0,correcta:false};
-    html+=`<tr><td>${i+1}</td><td>${aEst.intentos||0}</td><td class="${aEst.correcta?'ok':'err'}">${aEst.correcta?'✓':'—'}</td></tr>`;
+    html+=`<tr><td>${i+1}</td><td>${aEst.intentos||0}</td><td>${aEst.correcta?'✓':'—'}</td></tr>`;
   });
   html+=`</table>
-  <h2>Objetivo del módulo</h2>
-  <p>${m.objetivo}</p>
   <hr>
-  <p style="font-size:.8rem;color:#666">Generado por Curso-Taller de Recuperación de Cálculo Diferencial · ${ts}</p>
+  <p style="font-size:.8rem;color:#666">Generado por Curso-Taller de Recuperación de Cálculo Diferencial · ${escapeHtml(fechaHora())}</p>
   </body></html>`;
-  const filename=`reporte_${modId}_${(ESTADO.usuario.nombre||'estudiante').replace(/\s+/g,'_')}.html`;
+  const filename=`nota_${modId}_${nombreRaw.replace(/\s+/g,'_')}.html`;
   descargarTexto(filename,html,'text/html');
-  ESTADO.evidencias.push({tipo:'reporte_modulo',modId,fecha:ts,filename});
+  ESTADO.evidencias.push({tipo:'nota_modulo',modId,fecha:fechaHora(),filename});
   saveState();
-  toast('Reporte del módulo descargado','success');
+  toast('Nota HTML descargada','success');
 }
 
 function descargarPortafolioCompleto(){
@@ -2166,7 +2531,7 @@ function descargarPortafolioCompleto(){
     totalCorrect+=e.scoreActividades;
     htmlModulos+=`<tr>
       <td>M${m.num}: ${m.titulo}</td>
-      <td>${e.desbloqueado?'Sí':'No'}</td>
+      <td>${e.finalizado&&e.nota!==null?e.nota.toFixed(1)+'/10':'—'}</td>
       <td>${e.scoreActividades}/${e.totalActividades}</td>
       <td>${pct}%</td>
       <td>${e.consolidacionHecha?'✓':'—'}</td>
@@ -2188,18 +2553,18 @@ function descargarPortafolioCompleto(){
   </style></head><body>
   <h1>📚 Portafolio de Avance</h1>
   <p><strong>Curso:</strong> Recuperación de Cálculo Diferencial<br>
-  <strong>Estudiante:</strong> ${ESTADO.usuario.nombre||'(sin nombre)'}<br>
-  <strong>Grupo:</strong> ${ESTADO.usuario.grupo||'(sin grupo)'}<br>
-  <strong>Correo:</strong> ${ESTADO.usuario.correo||'—'}<br>
+  <strong>Estudiante:</strong> ${escapeHtml(ESTADO.usuario.nombre||'(sin nombre)')}<br>
+  <strong>Grupo:</strong> ${escapeHtml(ESTADO.usuario.grupo||'(sin grupo)')}<br>
+  <strong>Correo:</strong> ${escapeHtml(ESTADO.usuario.correo||'—')}<br>
   <strong>Fecha de inicio:</strong> ${new Date(ESTADO.usuario.fechaInicio).toLocaleDateString('es-MX')}<br>
-  <strong>Fecha de generación:</strong> ${ts}</p>
-  
+  <strong>Fecha de generación:</strong> ${escapeHtml(ts)}</p>
+
   <div class="resumen">
   <h2>Resumen global</h2>
   <table>
   <tr><th>Métrica</th><th>Valor</th></tr>
-  <tr><td>Módulos dominados</td><td><strong>${totalDom} / ${mods.length}</strong></td></tr>
-  <tr><td>Actividades correctas</td><td>${totalCorrect} / ${totalAct}</td></tr>
+  <tr><td>Módulos aprobados</td><td><strong>${totalDom} / ${mods.length}</strong></td></tr>
+  <tr><td>Ejercicios correctos</td><td>${totalCorrect} / ${totalAct}</td></tr>
   <tr><td>Progreso global</td><td><strong>${globalPct}%</strong></td></tr>
   <tr><td>Diagnóstico inicial</td><td>${ESTADO.m0.completado?'Completado':'Pendiente'} (${ESTADO.m0.score}/${ESTADO.m0.max})</td></tr>
   <tr><td>Total de errores registrados</td><td>${ESTADO.errores.length}</td></tr>
@@ -2210,13 +2575,13 @@ function descargarPortafolioCompleto(){
 
   <h2>Detalle por módulo</h2>
   <table>
-  <tr><th>Módulo</th><th>Desbloqueado</th><th>Aciertos</th><th>%</th><th>Consolid.</th><th>Dominado</th></tr>
+  <tr><th>Módulo</th><th>Nota</th><th>Aciertos</th><th>%</th><th>Consolid.</th><th>Aprobado</th></tr>
   ${htmlModulos}
   </table>
 
   ${ESTADO.errores.length>0?`<h2>Errores frecuentes (para repaso)</h2>
   <table>
-  <tr><th>Módulo</th><th>Pregunta</th><td>Tu respuesta</th><th>Correcta</th><th>Fecha</th></tr>
+  <tr><th>Módulo</th><th>Pregunta</th><th>Tu respuesta</th><th>Correcta</th><th>Fecha</th></tr>
   ${ESTADO.errores.slice(-20).map(e=>`<tr>
     <td>${e.mod}</td><td>${e.enunciado}</td>
     <td class="err">${e.respuestaDada}</td>
@@ -2232,14 +2597,13 @@ function descargarPortafolioCompleto(){
   <p style="font-size:.85rem;color:#666">
   Este portafolio se genera automáticamente a partir de tu actividad en el curso-taller interactivo.<br>
   Envíalo a tu docente como evidencia de tu proceso de recuperación.<br>
-  Generado: ${ts}
+  Generado: ${escapeHtml(ts)}
   </p>
   </body></html>`;
-  
-  const filename=`portafolio_calculo_integral_${(ESTADO.usuario.nombre||'estudiante').replace(/\s+/g,'_')}.html`;
+
+  const filename=`portafolio_calculo_diferencial_${(ESTADO.usuario.nombre||'estudiante').replace(/\s+/g,'_')}.html`;
   descargarTexto(filename,html,'text/html');
-  
-  // Also download JSON with raw data
+
   const jsonData={
     curso:'Recuperación de Cálculo Diferencial',
     estudiante:ESTADO.usuario,
@@ -2256,6 +2620,8 @@ function descargarPortafolioCompleto(){
       objetivo:m.objetivo,
       desbloqueado:e.desbloqueado,
       completado:e.completado,
+      finalizado:e.finalizado,
+      nota:e.nota,
       dominado:e.dominado,
       insignia:e.insignia,
       scoreActividades:e.scoreActividades,
@@ -2267,7 +2633,7 @@ function descargarPortafolioCompleto(){
     };
   });
   descargarTexto('portafolio_datos.json',JSON.stringify(jsonData,null,2),'application/json');
-  
+
   toast('Portafolio completo descargado (HTML + JSON)','success');
 }
 
@@ -2303,7 +2669,7 @@ function renderErroresList(){
   let html='';
   ESTADO.errores.slice(-15).reverse().forEach(e=>{
     html+=`<div class="err-item">
-      <div class="err-mod">Módulo ${e.mod} · Actividad ${e.idx+1}</div>
+      <div class="err-mod">Módulo ${e.mod} · Ejercicio ${e.idx+1}</div>
       <div class="err-q">${e.enunciado}</div>
       <div>Tu respuesta: <span style="color:#999">${e.respuestaDada}</span></div>
       <div>Correcta: <span style="color:#333;font-weight:bold">${e.respuestaCorrecta}</span></div>
@@ -2316,12 +2682,13 @@ function renderProgresoDetallado(){
   const c=$('progreso-detallado');
   if(!c)return;
   const mods=MODULES.filter(m=>m.id!=='m0');
-  let html='<table style="width:100%;font-size:.85rem"><tr><th>Módulo</th><th>Aciertos</th><th>%</th><th>Estado</th></tr>';
+  let html='<table style="width:100%;font-size:.85rem"><tr><th>Módulo</th><th>Aciertos</th><th>%</th><th>Nota</th><th>Estado</th></tr>';
   mods.forEach(m=>{
     const e=ESTADO.modulos[m.id];
     const pct=Math.round((e.scoreActividades/e.totalActividades)*100);
-    const estado=e.dominado?'✅':e.desbloqueado?'📖':'🔒';
-    html+=`<tr><td>${estado} M${m.num}</td><td>${e.scoreActividades}/${e.totalActividades}</td><td>${pct}%</td><td>${e.dominado?'Dominado':e.desbloqueado?'Disponible':'Bloqueado'}</td></tr>`;
+    const estado=e.dominado?'✅':e.finalizado?'🔁':'📖';
+    const nota=e.finalizado&&e.nota!==null?e.nota.toFixed(1):'—';
+    html+=`<tr><td>${estado} M${m.num}</td><td>${e.scoreActividades}/${e.totalActividades}</td><td>${pct}%</td><td>${nota}</td><td>${e.dominado?'Aprobado':e.finalizado?'No aprobado':'En curso'}</td></tr>`;
   });
   html+='</table>';
   html+=`<div style="margin-top:14px;padding:10px;background:var(--surface-2);border-radius:8px;font-size:.85rem">
@@ -2340,7 +2707,7 @@ function editarDatos(){
   setHTML(m,`
     <h3>👤 Mis datos</h3>
     <div class="field">
-      <label>Nombre completo</label>
+      <label>Nombre completo (aparecerá en tu nota)</label>
       <input class="input-line" id="dat-nombre" value="${escapeHtml(ESTADO.usuario.nombre)}" placeholder="Tu nombre" style="width:100%">
     </div>
     <div class="field">
@@ -2365,59 +2732,21 @@ function guardarDatos(){
   cerrarModal();
   toast('Datos guardados','success');
   renderDashboard();
+  if(moduloActual && moduloActual!=='m0') renderNotaModulo(moduloActual);
 }
 function cerrarModal(){
   $('modal-overlay').classList.remove('show');
 }
 
 /* ============================================================
-   IMPORTAR / REINICIAR
+   REINICIAR
    ============================================================ */
-function importarEvidencias(){
-  const m=$('modal-content');
-  setHTML(m,`
-    <h3>📥 Importar evidencias previas</h3>
-    <p style="font-size:.9rem;margin-bottom:12px">Si descargaste anteriormente el archivo <code>portafolio_datos.json</code>, puedes importarlo aquí para restaurar tu progreso.</p>
-    <input type="file" id="import-file" accept=".json" style="margin-bottom:10px">
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="cerrarModal()">Cancelar</button>
-      <button class="btn btn-primary" onclick="procesarImport()">Importar</button>
-    </div>`);
-  $('modal-overlay').classList.add('show');
-}
-function procesarImport(){
-  const file=$('import-file').files[0];
-  if(!file){toast('Selecciona un archivo','error');return}
-  const reader=new FileReader();
-  reader.onload=e=>{
-    try{
-      const data=JSON.parse(e.target.result);
-      if(data.estudiante)ESTADO.usuario=data.estudiante;
-      if(data.modulos){
-        Object.keys(data.modulos).forEach(mid=>{
-          if(ESTADO.modulos[mid]){
-            Object.assign(ESTADO.modulos[mid],data.modulos[mid]);
-          }
-        });
-      }
-      if(data.errores)ESTADO.errores=data.errores;
-      if(data.diagnostico)ESTADO.m0=Object.assign(ESTADO.m0,data.diagnostico);
-      saveState();
-      cerrarModal();
-      renderDashboard();
-      toast('Progreso importado correctamente','success');
-    }catch(err){
-      toast('Error: archivo inválido','error');
-    }
-  };
-  reader.readAsText(file);
-}
 function reiniciarProgreso(){
   const m=$('modal-content');
   setHTML(m,`
     <h3>🔄 Reiniciar progreso</h3>
     <p style="font-size:.9rem;margin-bottom:12px;color:var(--danger)">⚠️ Esto borrará TODO tu progreso, evidencias y errores. Esta acción no se puede deshacer.</p>
-    <p style="font-size:.88rem">Se recomienda descargar tu portafolio completo antes de reiniciar.</p>
+    <p style="font-size:.88rem">Se recomienda descargar tus notas (PNG/HTML) antes de reiniciar.</p>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="cerrarModal()">Cancelar</button>
       <button class="btn" style="background:var(--danger);color:#fff" onclick="confirmarReset()">Sí, reiniciar todo</button>
@@ -2428,7 +2757,7 @@ function confirmarReset(){
   localStorage.removeItem(STORAGE_KEY);
   ESTADO={
     usuario:{nombre:'',grupo:'',correo:'',fechaInicio:new Date().toISOString()},
-    m0:{completado:false,score:0,max:6,recomendaciones:[],intentos:[]},
+    m0:{completado:false,score:0,max:8,recomendaciones:[],intentos:[]},
     modulos:{},
     errores:[],
     evidencias:[],
@@ -2446,9 +2775,7 @@ function confirmarReset(){
 function init(){
   loadState();
   initModulosEstado();
-  // Ensure m0 is always accessible
   renderDashboard();
-  // First-time welcome
   if(!ESTADO.usuario.nombre && !localStorage.getItem(STORAGE_KEY+'_welcomed')){
     setTimeout(()=>{
       editarDatos();
