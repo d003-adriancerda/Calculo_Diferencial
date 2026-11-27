@@ -318,7 +318,7 @@ footer{padding:20px;text-align:center;color:var(--text-muted);font-size:.82rem}
   <section id="view-dashboard" class="view active">
     <div class="welcome">
       <h2>Bienvenido de vuelta a tu recuperación 🎯</h2>
-      <p>Esta plataforma-taller está diseñado para que retomes tu curso de Cálculo Diferencial a tu ritmo, en sesiones cortas, desde tu celular o computadora. No importa cuánto hayas perdido si te ausentaste: aquí empezamos de donde estás y avanzamos juntos, paso a paso.</p>
+      <p>Esta plataforma-taller está diseñada para que retomes tu curso de Cálculo Diferencial a tu ritmo, en sesiones cortas, desde tu celular o computadora. No importa cuánto hayas perdido si te ausentaste: aquí empezamos de donde estás y avanzamos juntos, paso a paso.</p>
       <p style="margin-top:8px"><strong>Los módulos son independientes:</strong> puedes estudiarlos en el orden que necesites. Cada módulo tiene su propio repaso opcional, práctica y consolidación. Al finalizar un módulo verás tu nota y podrás descargarla con tu nombre, en PNG o HTML.</p>
       <div class="motiv">💡 <strong>Regla de oro:</strong> equivocarse aquí en esta plataforma no te penaliza ni te califica con menos puntos. Cada error se registra para repaso y te ayuda a aprender. Lo único que importa es no rendirse, si se comete un error primero lo reconoces aprendes de él y después simplemente ya no caes en el mismo error, por el contrario avanzas con mayor seguridad.</div>
       <div class="ahorro">💾 Tu avance se guarda automáticamente en este navegador, así que puedes resolver varios módulos en la misma sesión. Descarga tus notas antes de borrar los datos del navegador.</div>
@@ -802,7 +802,7 @@ const MODULES = [
     <p>Es una circunferencia de radio $1$ centrada en el origen. Para cada ángulo $\\theta$ medido desde el eje $x$ positivo, el punto en la circunferencia tiene coordenadas:</p>
     <div class="formula-box">$$(\\cos\\theta,\\; \\operatorname{sen}\\,\\theta)$$</div>
     <p>Es decir: el $\\cos\\theta$ es la coordenada $x$ y el $\\operatorname{sen}\\,\\theta$ es la coordenada $y$ del punto en el círculo unitario.</p>
-    <h4>Ángulos notales en radianes</h4>
+    <h4>Ángulos notables en radianes</h4>
     <p>$0$, $\\frac{\\pi}{6}$ ($30^{\\circ}$), $\\frac{\\pi}{4}$ ($45^{\\circ}$), $\\frac{\\pi}{3}$ ($60^{\\circ}$), $\\frac{\\pi}{2}$ ($90^{\\circ}$), $\\pi$ ($180^{\\circ}$), $\\frac{3\\pi}{2}$ ($270^{\\circ}$), $2\\pi$ ($360^{\\circ}$).</p>
     <h4>Signos por cuadrante</h4>
     <ul>
@@ -979,7 +979,7 @@ const MODULES = [
       feedback:{correcto:"Sí: la derivabilidad implica continuidad (pero no al revés).",errores:{0:"La derivabilidad SÍ implica continuidad. Lo contrario no siempre es cierto."}}},
     {tipo:"opcion_multiple", enunciado:"Si $f(x)=\\begin{cases}\\frac{x^{2}-9}{x-3}, & x\\neq 3 \\\\ k, & x=3\\end{cases}$ es continua en $x=3$, ¿cuánto vale $k$?", opciones:["$k=6$","$k=0$","$k=3$","$k=9$"], correcta:0,
       feedback:{correcto:"Sí: $\\displaystyle\\lim_{x\\to 3}\\frac{(x-3)(x+3)}{x-3}=\\lim_{x\\to 3}(x+3)=6$, así que $k=6$.",errores:{1:"No es $0$: la indeterminación se resuelve.",2:"No es $3$.",3:"No es $9$."}}},
-    {tipo:"opcion_multiple", enunciado:"$f(x)=|x-2|$ tiene una discontinuidad en $x=2$. ¿De qué tipo?", opciones:["No tiene discontinuidad; es continua pero no derivable","Removable","Salto","Infinita"], correcta:0,
+    {tipo:"opcion_multiple", enunciado:"Sobre $f(x)=|x-2|$ en $x=2$, ¿cuál afirmación es correcta?", opciones:["Es continua en $x=2$, pero no es derivable allí","Tiene una discontinuidad removable en $x=2$","Tiene una discontinuidad de salto en $x=2$","Tiene una discontinuidad infinita en $x=2$"], correcta:0,
       feedback:{correcto:"Correcto: $|x-2|$ es continua en $x=2$ (no hay salto ni agujero), pero NO es derivable allí.",errores:{1:"No es removable: no hay agujero.",2:"No es salto: la función es continua.",3:"No tiende a infinito."}}},
     {tipo:"ordenar_pasos", enunciado:"Ordena la verificación de continuidad de $f$ en $x=a$:",
       pasos:[
@@ -1689,7 +1689,7 @@ function moverOrden(aId,i,dir){
 }
 function renderEmparejar(parejas,aId){
   let lefts=parejas.map((p,i)=>`<div class="emp-item" data-side="L" data-idx="${i}" onclick="selEmp('${aId}','L',${i})">${p.izq}</div>`).join('');
-  let rights=barajar(parejas).map(p=>`<div class="emp-item" data-side="R" data-val="${p.der}" onclick="selEmp('${aId}','R',this)">${p.der}</div>`).join('');
+  let rights=barajar(parejas.map((p,i)=>({der:p.der,pair:i}))).map(p=>`<div class="emp-item" data-side="R" data-pair="${p.pair}" onclick="selEmp('${aId}','R',this)">${p.der}</div>`).join('');
   return `<div class="emparejar-grid">
     <div class="emp-col">${lefts}</div>
     <div class="emp-col" id="emp-right-${aId}">${rights}</div>
@@ -1709,10 +1709,8 @@ function selEmp(aId,side,idx){
     empSel[aId].Relem=idx;
   }
   if(empSel[aId].L!==undefined && empSel[aId].Relem){
-    const act=getActFromElem(aId);
-    const pareja=act.parejas[empSel[aId].L];
-    const rightVal=empSel[aId].Relem.getAttribute('data-val');
-    if(pareja.der===rightVal){
+    const rightPair=Number(empSel[aId].Relem.getAttribute('data-pair'));
+    if(rightPair===empSel[aId].L){
       const leftElem=cont.querySelectorAll('.emp-item[data-side="L"]')[empSel[aId].L];
       leftElem.classList.add('correct','matched');
       leftElem.classList.remove('selected');
@@ -1720,6 +1718,7 @@ function selEmp(aId,side,idx){
       empSel[aId].Relem.classList.remove('selected');
       empSel[aId]={};
       const matched=cont.querySelectorAll('.emp-item.matched').length;
+      const act=getActFromElem(aId);
       $('emp-status-'+aId).textContent=`${matched}/${act.parejas.length} emparejados`;
     }else{
       const leftElem=cont.querySelectorAll('.emp-item[data-side="L"]')[empSel[aId].L];
@@ -2198,17 +2197,18 @@ function evalDiagnostico(){
   const m0=ESTADO.m0;
   m0.max=getModulo('m0').actividades.length;
   m0.completado=Object.keys(m0.intentos).filter(k=>k.endsWith('_ok')).length>=m0.max;
-  const cats={derivadas:0,exponentes:0,sigma:0,algebra:0};
+  const cats={exponentes:0,algebra:0,lineales:0,trigonometria:0,logaritmos:0};
   const acts=getModulo('m0').actividades;
   Object.keys(m0.intentos).filter(k=>k.endsWith('_ok')).forEach(k=>{
     const i=parseInt(k);
     if(acts[i]&&acts[i].cat)cats[acts[i].cat]++;
   });
   m0.recomendaciones=[];
-  if(cats.derivadas<2)m0.recomendaciones.push('Refuerza derivadas básicas (x^n, sen, cos, ln) — las necesitas en todos los módulos.');
-  if(cats.exponentes<2)m0.recomendaciones.push('Refuerza leyes de exponentes y radicales antes del módulo 3 (regla de la potencia).');
-  if(cats.sigma<1)m0.recomendaciones.push('Repasa la notación sigma antes del módulo 6 (sumas de Riemann).');
-  if(cats.algebra<2)m0.recomendaciones.push('Refuerza álgebra de fracciones — la usarás en sustitución y área entre curvas.');
+  if(cats.exponentes<2)m0.recomendaciones.push('Refuerza leyes de exponentes: las usarás en el módulo 4 y en la regla de la potencia (módulo 11).');
+  if(cats.algebra<2)m0.recomendaciones.push('Refuerza álgebra básica y factorización: la usarás en los módulos 1 a 3 y en límites (módulo 9).');
+  if(cats.lineales<1)m0.recomendaciones.push('Repasa pendiente e intercepto de rectas: se usan en el módulo 3 y en rectas tangentes (módulo 11).');
+  if(cats.trigonometria<2)m0.recomendaciones.push('Refuerza valores notables de seno y coseno y la conversión de grados a radianes: se usan en los módulos 5 a 8.');
+  if(cats.logaritmos<1)m0.recomendaciones.push('Repasa logaritmos y sus propiedades: se usan en el módulo 4.');
   if(m0.recomendaciones.length===0)m0.recomendaciones.push('¡Excelente base! Puedes avanzar con confianza por todos los módulos.');
   saveState();
 }
