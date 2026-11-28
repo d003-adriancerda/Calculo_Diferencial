@@ -1043,6 +1043,31 @@ const MODULES = [
 }
 ];
 
+/* Baraja (una sola vez, con semilla fija) las opciones de cada reactivo y remapea
+   correcta / correctas / claves de errores, para que la respuesta correcta no quede siempre en A. */
+(function barajarOpcionesFijas(){
+  let semilla=20260101;
+  const rnd=()=>{semilla=(semilla*9301+49297)%233280;return semilla/233280};
+  MODULES.forEach(m=>(m.actividades||[]).forEach(a=>{
+    if(!Array.isArray(a.opciones)||a.opciones.length<2)return;
+    const n=a.opciones.length;
+    const perm=[...Array(n).keys()];
+    for(let i=n-1;i>0;i--){const j=Math.floor(rnd()*(i+1));[perm[i],perm[j]]=[perm[j],perm[i]];}
+    const inv=[];perm.forEach((orig,k)=>{inv[orig]=k});
+    a.opciones=perm.map(o=>a.opciones[o]);
+    if(a.tipo==='opcion_multiple'&&typeof a.correcta==='number')a.correcta=inv[a.correcta];
+    if(a.tipo==='seleccion_multiple'&&Array.isArray(a.correctas))a.correctas=a.correctas.map(c=>inv[c]).sort((x,y)=>x-y);
+    if(a.feedback&&a.feedback.errores&&typeof a.feedback.errores==='object'){
+      const nuevo={};
+      Object.keys(a.feedback.errores).forEach(k=>{
+        const kk=Number(k);
+        nuevo[(Number.isInteger(kk)&&kk>=0&&kk<n)?inv[kk]:k]=a.feedback.errores[k];
+      });
+      a.feedback.errores=nuevo;
+    }
+  }));
+})();
+
 const FORMULAS_REFERENCIA = [
   {f:"$f(x)=mx+b$", r:"Función lineal, $m$=pendiente"},
   {f:"$m=\\frac{\\Delta y}{\\Delta x}$", r:"Fórmula de pendiente"},
