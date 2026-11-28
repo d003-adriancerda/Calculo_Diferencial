@@ -1303,10 +1303,30 @@ function fechaHora(){
    NOTA DEL MÓDULO
    Nota (0–10) = 90% aciertos en actividades + 10% consolidación
    ============================================================ */
-function calcularNota(modId){
+function iniciarSesion(modId,visibles){
   const est=ESTADO.modulos[modId];
-  const pctAct=est.totalActividades>0 ? est.scoreActividades/est.totalActividades : 0;
-  const cons=est.consolidacionHecha?1:0;
+  est.sesion={ids:visibles.slice(),respondidas:{},correctas:{}};
+  visibles.forEach(idx=>{
+    if(est.actividades[idx]&&est.actividades[idx].correcta){
+      est.sesion.correctas[idx]=true;
+      est.sesion.respondidas[idx]=true;
+    }
+  });
+  saveState();
+}
+function resultadoSesion(modId){
+  const est=ESTADO.modulos[modId];
+  const s=est.sesion||{ids:[],respondidas:{},correctas:{}};
+  const total=s.ids.length||3;
+  const correctas=s.ids.filter(i=>s.correctas[i]).length;
+  const respondidas=s.ids.filter(i=>s.respondidas[i]).length;
+  return {total,correctas,respondidas,completa:s.ids.length>0 && respondidas===s.ids.length};
+}
+/* Nota (0–10) = 90% aciertos de los 3 ejercicios de la sesión + 10% consolidación */
+function calcularNota(modId){
+  const r=resultadoSesion(modId);
+  const pctAct=r.total>0 ? r.correctas/r.total : 0;
+  const cons=ESTADO.modulos[modId].consolidacionHecha?1:0;
   return Math.round((pctAct*9 + cons*1)*10)/10;
 }
 
@@ -1481,6 +1501,7 @@ function renderModuloContenido(id){
   }
   // Ejercicios: siempre 3, numerados 1, 2 y 3
   var visibles=getActividadesVisibles(id);
+  iniciarSesion(id,visibles);
   html+=`<div class="section"><h3>✏️ Ejercicios <span class="badge">3</span></h3>`;
   html+=`<p style="font-size:.82rem;color:var(--text-muted);margin-bottom:12px">Esta sesión incluye 3 ejercicios (del 1 al 3). Al volver a entrar al módulo recibirás otros 3 distintos. ¡Sigue practicando!</p>`;
   visibles.forEach(function(idx,pos){
@@ -1770,7 +1791,6 @@ function verificarOpcion(aId){
     cont.querySelectorAll('.opcion')[sel].classList.add('correct');
     fb.className='feedback show ok';
     setHTML(fb,act.feedback.correcto);
-    descargarEvidenciaActividad(modId,idx,true,act.enunciado||'',opciones[sel]);
   }else{
     cont.querySelectorAll('.opcion')[sel].classList.add('incorrect');
     cont.querySelectorAll('.opcion')[correctIdx].classList.add('correct');
@@ -1813,7 +1833,6 @@ function verificarMulti(aId){
     opts.forEach((o,i)=>{if(correctSet.has(i))o.classList.add('correct')});
     fb.className='feedback show ok';
     setHTML(fb,act.feedback.correcto);
-    descargarEvidenciaActividad(modId,idx,true,act.enunciado||'',selected.map(i=>act.opciones[i]).join(', '));
   }else{
     opts.forEach((o,i)=>{
       if(correctSet.has(i)&&selSet.has(i))o.classList.add('correct');
@@ -1851,7 +1870,6 @@ function verificarHueco(aId,idx){
     input.style.borderColor='var(--success)';
     fb.className='feedback show ok';
     setHTML(fb,act.feedbackCorrecto);
-    descargarEvidenciaActividad(modId,idx,true,act.enunciado||'',val);
   }else{
     input.style.borderColor='var(--danger)';
     fb.className='feedback show err';
@@ -1877,7 +1895,6 @@ function verificarOrden(aId,idx){
     items.forEach(it=>it.style.borderColor='var(--success)');
     fb.className='feedback show ok';
     setHTML(fb,act.feedback.correcto);
-    descargarEvidenciaActividad(modId,idx,true,act.enunciado||'','Orden correcto');
   }else{
     fb.className='feedback show err';
     setHTML(fb,act.feedback.errores||'El orden no es correcto. Revisa cuál paso debe ir primero.');
@@ -1898,7 +1915,6 @@ function verificarEmparejar(aId,idx){
     cont.classList.add('respondida-correcta');
     fb.className='feedback show ok';
     setHTML(fb,act.feedback.correcto);
-    descargarEvidenciaActividad(modId,idx,true,act.enunciado||'','Todos emparejados');
   }else{
     fb.className='feedback show err';
     setHTML(fb,`Llevas ${matched}/${act.parejas.length} correctos. `+(act.feedback.errores||'Sigue intentando.'));
@@ -1922,7 +1938,6 @@ function verificarNumerica(aId,idx){
     input.style.borderColor='var(--success)';
     fb.className='feedback show ok';
     setHTML(fb,act.feedbackCorrecto);
-    descargarEvidenciaActividad(modId,idx,true,act.enunciado||'',val);
   }else{
     input.style.borderColor='var(--danger)';
     fb.className='feedback show err';
@@ -2179,6 +2194,10 @@ function registrarIntento(modId,idx,correcto){
     est.actividades[idx].correcta=true;
     est.scoreActividades++;
   }
+  if(est.sesion){
+    est.sesion.respondidas[idx]=true;
+    if(correcto) est.sesion.correctas[idx]=true;
+  }
   est.completado=est.scoreActividades>=Math.ceil(est.totalActividades*0.5);
   saveState();
 }
@@ -2227,18 +2246,21 @@ function actualizarEstadoDominar(modId){
   const btn=$('btn-dominar');
   const msg=$('dominar-msg');
   if(!btn)return;
-  const pct=est.totalActividades>0 ? est.scoreActividades/est.totalActividades : 0;
-  if(est.consolidacionHecha){
+  const r=resultadoSesion(modId);
+  if(est.consolidacionHecha && r.completa){
     btn.disabled=false;
-    msg.textContent='Puedes finalizar el módulo. Avance actual en ejercicios: '+Math.round(pct*100)+'%.';
+    msg.textContent='Puedes finalizar el módulo. Correctos en esta sesión: '+r.correctas+' de '+r.total+'.';
   }else{
     btn.disabled=true;
-    msg.textContent='Para finalizar el módulo, completa la consolidación (sección inferior). Tu nota se calcula con 90% de ejercicios y 10% de consolidación.';
+    msg.textContent = !r.completa
+      ? 'Responde los 3 ejercicios de esta sesión para poder finalizar.'
+      : 'Para finalizar el módulo, completa la consolidación (sección inferior).';
   }
 }
 
 function finalizarModulo(){
   if(!moduloActual||moduloActual==='m0')return;
+  if(!resultadoSesion(moduloActual).completa){toast('Responde los 3 ejercicios de la sesión antes de finalizar','info');return}
   if(!ESTADO.usuario.nombre){
     toast('Escribe tu nombre en "Mis datos" para generar tu nota','info');
     editarDatos();
@@ -2246,9 +2268,10 @@ function finalizarModulo(){
   }
   const est=ESTADO.modulos[moduloActual];
   const m=getModulo(moduloActual);
-  const pct=est.totalActividades>0 ? est.scoreActividades/est.totalActividades : 0;
+  const r=resultadoSesion(moduloActual);
+  const pct=r.total>0 ? r.correctas/r.total : 0;
   est.nota=calcularNota(moduloActual);
-  est.dominado=pct>=m.criterioDominio && est.consolidacionHecha;
+  est.dominado=pct>=m.criterioDominio && est.consolidacionHecha && r.completa;
   est.insignia=est.dominado;
   est.finalizado=true;
   est.fechaFinal=fechaHora();
@@ -2263,7 +2286,8 @@ function renderNotaModulo(modId){
   const est=ESTADO.modulos[modId];
   const m=getModulo(modId);
   if(!est || !est.finalizado){el.innerHTML='';return;}
-  const pct=est.totalActividades>0 ? Math.round((est.scoreActividades/est.totalActividades)*100) : 0;
+  const rs=resultadoSesion(modId);
+  const pct=rs.total>0 ? Math.round((rs.correctas/rs.total)*100) : 0;
   const aprobado=est.dominado;
   const nombre=escapeHtml(ESTADO.usuario.nombre||'(sin nombre)');
   setHTML(el,`
@@ -2277,7 +2301,7 @@ function renderNotaModulo(modId){
         </div>
       </div>
       <table>
-        <tr><td>Ejercicios correctos (acumulado)</td><td>${est.scoreActividades} / ${est.totalActividades}</td></tr>
+        <tr><td>Ejercicios correctos (esta sesión)</td><td>${resultadoSesion(modId).correctas} / ${resultadoSesion(modId).total}</td></tr>
         <tr><td>Porcentaje de aciertos</td><td>${pct}%</td></tr>
         <tr><td>Consolidación</td><td>${est.consolidacionHecha?'Completada':'Pendiente'}</td></tr>
         <tr><td>Criterio de aprobación</td><td>${Math.round(m.criterioDominio*100)}% de aciertos + consolidación</td></tr>
@@ -2285,6 +2309,7 @@ function renderNotaModulo(modId){
       </table>
       <p style="font-size:.8rem;color:var(--text-muted)">Fórmula de la nota: 90% aciertos en ejercicios + 10% consolidación.</p>
       <div class="nota-acciones">
+        <button class="btn" onclick="descargarEvidenciaSesion('${modId}')">📄 Descargar evidencia de ejercicios (opcional)</button>
         <button class="btn btn-download" onclick="descargarNotaPNG('${modId}')">🖼️ Descargar nota en PNG</button>
         <button class="btn" onclick="descargarReporteModulo('${modId}')">⬇️ Descargar nota en HTML</button>
         <button class="btn" onclick="irDashboard()">Volver al panel</button>
@@ -2381,9 +2406,10 @@ function dibujarNotaCanvas(modId){
   ctx.fillStyle='#1a1a1a'; ctx.font='bold 26px Arial, sans-serif';
   ctx.fillText(aprobado?'APROBADO':'NO APROBADO', 670, 510);
   // Detalle
-  const pct=est.totalActividades>0?Math.round((est.scoreActividades/est.totalActividades)*100):0;
+  const rs=resultadoSesion(modId);
+  const pct=rs.total>0?Math.round((rs.correctas/rs.total)*100):0;
   ctx.fillStyle='#707070'; ctx.font='22px Arial, sans-serif';
-  ctx.fillText('Ejercicios correctos: '+est.scoreActividades+' / '+est.totalActividades+'  ·  Aciertos: '+pct+'%', 640, 580);
+  ctx.fillText('Ejercicios correctos: '+rs.correctas+' / '+rs.total+'  ·  Aciertos: '+pct+'%', 640, 580);
   ctx.fillText('Consolidación: '+(est.consolidacionHecha?'completada':'pendiente'), 640, 615);
   ctx.fillText('Fecha: '+(est.fechaFinal||'—'), 640, 650);
   // Pie
@@ -2464,6 +2490,40 @@ Generado automáticamente por el Curso-Taller de Recuperación de Cálculo Difer
   saveState();
 }
 
+/* Evidencia opcional: la descarga el estudiante al terminar la sesión */
+function descargarEvidenciaSesion(modId){
+  const est=ESTADO.modulos[modId], m=getModulo(modId), s=est.sesion;
+  if(!s||!s.ids.length){toast('No hay ejercicios registrados en esta sesión','info');return}
+  const ts=fechaHora();
+  let txt=`EVIDENCIA DE EJERCICIOS
+======================
+Estudiante: ${ESTADO.usuario.nombre||'(sin nombre)'}
+Grupo: ${ESTADO.usuario.grupo||'(sin grupo)'}
+Fecha: ${ts}
+
+Módulo: ${m.num}. ${m.titulo}
+
+`;
+  s.ids.forEach((idx,n)=>{
+    const a=m.actividades[idx];
+    const ok=!!s.correctas[idx];
+    const intentos=(est.actividades[idx]&&est.actividades[idx].intentos)||0;
+    txt+=`Ejercicio ${n+1}: ${String(a.enunciado).replace(/<[^>]+>/g,'')}
+Resultado: ${ok?'CORRECTO':'INCORRECTO / NO RESUELTO'}
+Intentos: ${intentos}
+
+`;
+  });
+  txt+=`Resultado de la sesión: ${resultadoSesion(modId).correctas} de ${s.ids.length} correctos.
+
+---
+Generado por el Curso-Taller de Recuperación de Cálculo Diferencial.
+`;
+  descargarTexto(`evidencia_${modId}_${Date.now()}.txt`,txt);
+  ESTADO.evidencias.push({tipo:'evidencia_sesion',modId,fecha:ts});
+  saveState();
+}
+
 /* Nota en HTML: incluye nombre del estudiante y nota del módulo */
 function descargarReporteModulo(modId){
   const m=getModulo(modId);
@@ -2472,7 +2532,8 @@ function descargarReporteModulo(modId){
   const ts=est.fechaFinal||fechaHora();
   const nombreRaw=ESTADO.usuario.nombre||'Estudiante';
   const nombre=escapeHtml(nombreRaw);
-  const pct=Math.round((est.scoreActividades/est.totalActividades)*100);
+  const rs=resultadoSesion(modId);
+  const pct=Math.round((rs.correctas/rs.total)*100);
   const nota=est.nota.toFixed(1);
   const estado=est.dominado?'Aprobado':'No aprobado';
   let html=`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Nota ${escapeHtml(m.titulo)} - ${nombre}</title>
@@ -2494,7 +2555,7 @@ function descargarReporteModulo(modId){
   <p><span class="estado">${estado}</span></p>
   <table>
     <tr><th>Concepto</th><th>Valor</th></tr>
-    <tr><td>Ejercicios correctos (acumulado)</td><td>${est.scoreActividades} / ${est.totalActividades}</td></tr>
+    <tr><td>Ejercicios correctos (esta sesión)</td><td>${resultadoSesion(modId).correctas} / ${resultadoSesion(modId).total}</td></tr>
     <tr><td>Porcentaje de aciertos</td><td>${pct}%</td></tr>
     <tr><td>Consolidación</td><td>${est.consolidacionHecha?'Completada':'Pendiente'}</td></tr>
     <tr><td>Criterio de aprobación</td><td>${Math.round(m.criterioDominio*100)}% de aciertos + consolidación</td></tr>
@@ -2503,9 +2564,9 @@ function descargarReporteModulo(modId){
   <h2>Detalle de ejercicios</h2>
   <table>
   <tr><th>#</th><th>Intentos</th><th>Correcta</th></tr>`;
-  m.actividades.forEach((a,i)=>{
+  (est.sesion?est.sesion.ids:[]).forEach((i,n)=>{
     const aEst=est.actividades[i]||{intentos:0,correcta:false};
-    html+=`<tr><td>${i+1}</td><td>${aEst.intentos||0}</td><td>${aEst.correcta?'✓':'—'}</td></tr>`;
+    html+=`<tr><td>${n+1}</td><td>${aEst.intentos||0}</td><td>${est.sesion.correctas[i]?'✓':'—'}</td></tr>`;
   });
   html+=`</table>
   <hr>
